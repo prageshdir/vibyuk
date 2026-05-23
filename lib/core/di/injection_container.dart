@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:vibyuk/core/cache/hive/hive_service.dart';
 import 'package:vibyuk/core/di/modules/api_module.dart';
+import 'package:vibyuk/core/di/modules/auth_module.dart';
 import 'package:vibyuk/core/di/modules/cache_module.dart';
 import 'package:vibyuk/core/di/modules/core_module.dart';
 import 'package:vibyuk/core/logging/app_logger.dart';
@@ -19,8 +20,8 @@ Future<void> configureDependencies() async {
   await registerCacheModule(sl);
   registerApiModule(sl);
 
-  // Feature modules registered here as they are built:
-  // registerAuthModule(sl);
+  // Feature modules
+  registerAuthModule(sl);
   // registerCreatorModule(sl);
   // registerEventModule(sl);
 

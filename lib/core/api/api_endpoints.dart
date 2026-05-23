@@ -8,6 +8,11 @@ abstract final class ApiEndpoints {
   static const String resetPassword = '/auth/reset-password';
   static const String verifyEmail = '/auth/verify-email';
   static const String resendVerification = '/auth/resend-verification';
+  static const String googleSignIn = '/auth/google';
+  static const String sendPhoneOtp = '/auth/phone/send-otp';
+  static const String verifyPhoneOtp = '/auth/phone/verify-otp';
+  static const String selectRole = '/auth/role';
+  static const String registerBiometric = '/auth/biometric/register';
 
   // User / Profile
   static const String me = '/users/me';

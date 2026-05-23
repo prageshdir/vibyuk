@@ -14,6 +14,8 @@ class AppConfig {
   static const String accessTokenKey = 'vibyuk_access_token';
   static const String refreshTokenKey = 'vibyuk_refresh_token';
   static const String userDataKey = 'vibyuk_user_data';
+  static const String biometricEnabledKey = 'vibyuk_biometric_enabled';
+  static const String roleSelectedKey = 'vibyuk_role_selected';
 
   // Cache config
   static const Duration defaultCacheDuration = Duration(hours: 1);

@@ -11,6 +11,8 @@ abstract final class RouteNames {
   static const String forgotPassword = '/auth/forgot-password';
   static const String resetPassword = '/auth/reset-password';
   static const String verifyEmail = '/auth/verify-email';
+  static const String phoneOtp = '/auth/phone-otp';
+  static const String roleSelection = '/auth/role-selection';
 
   // Home (tab shell)
   static const String home = '/home';

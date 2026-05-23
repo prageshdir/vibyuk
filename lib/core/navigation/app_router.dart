@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibyuk/core/navigation/guards/auth_guard.dart';
 import 'package:vibyuk/core/navigation/route_names.dart';
+import 'package:vibyuk/features/auth/presentation/screens/forgot_password_screen.dart';
+import 'package:vibyuk/features/auth/presentation/screens/login_screen.dart';
+import 'package:vibyuk/features/auth/presentation/screens/phone_otp_screen.dart';
+import 'package:vibyuk/features/auth/presentation/screens/register_screen.dart';
+import 'package:vibyuk/features/auth/presentation/screens/reset_password_screen.dart';
+import 'package:vibyuk/features/auth/presentation/screens/role_selection_screen.dart';
+import 'package:vibyuk/features/auth/presentation/screens/splash_screen.dart';
+import 'package:vibyuk/features/auth/presentation/screens/verify_email_screen.dart';
 
-// Placeholder screens — replaced by feature modules as they are built
 class _PlaceholderScreen extends StatelessWidget {
   final String title;
   const _PlaceholderScreen({required this.title});
@@ -50,7 +57,7 @@ class AppRouter {
       GoRoute(
         path: RouteNames.splash,
         name: 'splash',
-        builder: (_, __) => const _PlaceholderScreen(title: 'Splash'),
+        builder: (_, __) => const SplashScreen(),
       ),
 
       // Onboarding
@@ -64,29 +71,43 @@ class AppRouter {
       GoRoute(
         path: RouteNames.login,
         name: 'login',
-        builder: (_, __) => const _PlaceholderScreen(title: 'Login'),
-        routes: [
-          GoRoute(
-            path: 'forgot-password',
-            name: 'forgot-password',
-            builder: (_, __) => const _PlaceholderScreen(title: 'Forgot Password'),
-          ),
-        ],
+        builder: (_, __) => const LoginScreen(),
       ),
       GoRoute(
         path: RouteNames.register,
         name: 'register',
-        builder: (_, __) => const _PlaceholderScreen(title: 'Register'),
+        builder: (_, __) => const RegisterScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.forgotPassword,
+        name: 'forgot-password',
+        builder: (_, __) => const ForgotPasswordScreen(),
       ),
       GoRoute(
         path: RouteNames.resetPassword,
         name: 'reset-password',
-        builder: (_, __) => const _PlaceholderScreen(title: 'Reset Password'),
+        builder: (_, state) {
+          final token = state.uri.queryParameters['token'] ?? '';
+          return ResetPasswordScreen(token: token);
+        },
       ),
       GoRoute(
         path: RouteNames.verifyEmail,
         name: 'verify-email',
-        builder: (_, __) => const _PlaceholderScreen(title: 'Verify Email'),
+        builder: (_, state) {
+          final email = state.uri.queryParameters['email'] ?? '';
+          return VerifyEmailScreen(email: email);
+        },
+      ),
+      GoRoute(
+        path: RouteNames.phoneOtp,
+        name: 'phone-otp',
+        builder: (_, __) => const PhoneOtpScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.roleSelection,
+        name: 'role-selection',
+        builder: (_, __) => const RoleSelectionScreen(),
       ),
 
       // Main shell with bottom navigation
@@ -170,7 +191,7 @@ class AppRouter {
         ],
       ),
 
-      // Global overlays (push above shell)
+      // Global overlays
       GoRoute(
         path: RouteNames.search,
         name: 'search',

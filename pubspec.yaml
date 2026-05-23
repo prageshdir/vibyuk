@@ -80,6 +80,12 @@ dependencies:
   shimmer: ^3.0.0
   gap: ^3.0.1
 
+  # Biometric Authentication
+  local_auth: ^2.3.0
+
+  # Social Auth
+  google_sign_in: ^6.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -14,6 +14,10 @@ class AuthInterceptor extends Interceptor {
     '/auth/register',
     '/auth/forgot-password',
     '/auth/reset-password',
+    '/auth/google',
+    '/auth/phone/send-otp',
+    '/auth/phone/verify-otp',
+    '/auth/refresh',
   };
 
   @override
