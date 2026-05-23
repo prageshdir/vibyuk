@@ -86,6 +86,9 @@ dependencies:
   # Social Auth
   google_sign_in: ^6.2.1
 
+  # Image Picker (avatar upload)
+  image_picker: ^1.1.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

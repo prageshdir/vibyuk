@@ -10,6 +10,9 @@ import 'package:vibyuk/features/auth/presentation/screens/reset_password_screen.
 import 'package:vibyuk/features/auth/presentation/screens/role_selection_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/splash_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/verify_email_screen.dart';
+import 'package:vibyuk/features/profile/presentation/screens/edit_profile_screen.dart';
+import 'package:vibyuk/features/profile/presentation/screens/profile_screen.dart';
+import 'package:vibyuk/features/profile/presentation/screens/settings_screen.dart';
 
 class _PlaceholderScreen extends StatelessWidget {
   final String title;
@@ -173,17 +176,12 @@ class AppRouter {
             GoRoute(
               path: RouteNames.profile,
               name: 'profile',
-              builder: (_, __) => const _PlaceholderScreen(title: 'Profile'),
+              builder: (_, __) => const ProfileScreen(),
               routes: [
                 GoRoute(
                   path: 'edit',
                   name: 'edit-profile',
-                  builder: (_, __) => const _PlaceholderScreen(title: 'Edit Profile'),
-                ),
-                GoRoute(
-                  path: 'settings',
-                  name: 'settings',
-                  builder: (_, __) => const _PlaceholderScreen(title: 'Settings'),
+                  builder: (_, __) => const EditProfileScreen(),
                 ),
               ],
             ),
@@ -192,6 +190,11 @@ class AppRouter {
       ),
 
       // Global overlays
+      GoRoute(
+        path: RouteNames.settings,
+        name: 'settings',
+        builder: (_, __) => const SettingsScreen(),
+      ),
       GoRoute(
         path: RouteNames.search,
         name: 'search',

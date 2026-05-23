@@ -20,6 +20,8 @@ abstract final class ApiEndpoints {
   static const String changePassword = '/users/me/password';
   static const String uploadAvatar = '/users/me/avatar';
   static const String deleteAccount = '/users/me';
+  static const String notificationSettings = '/users/me/notification-settings';
+  static String userProfile(String id) => '/users/$id';
 
   // Creators
   static const String creators = '/creators';
