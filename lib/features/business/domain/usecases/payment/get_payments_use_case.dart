@@ -13,15 +13,20 @@ class GetPaymentsUseCase
 
   @override
   Future<Either<Failure, PaginatedResult<PaymentEntity>>> call(GetPaymentsParams params) {
-    return _repository.getPayments(page: params.page, pageSize: params.pageSize);
+    return _repository.getPayments(
+      page: params.page,
+      pageSize: params.pageSize,
+      status: params.status,
+    );
   }
 }
 
 class GetPaymentsParams extends Equatable {
-  const GetPaymentsParams({this.page = 1, this.pageSize = 20});
+  const GetPaymentsParams({this.page = 1, this.pageSize = 20, this.status});
   final int page;
   final int pageSize;
+  final PaymentStatus? status;
 
   @override
-  List<Object?> get props => [page, pageSize];
+  List<Object?> get props => [page, pageSize, status];
 }

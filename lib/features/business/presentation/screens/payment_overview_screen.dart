@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:vibyuk/core/navigation/route_names.dart';
 import 'package:vibyuk/core/theme/app_colors.dart';
 import 'package:vibyuk/core/widgets/loaders/app_loader.dart';
+import 'package:vibyuk/features/business/domain/entities/payment_entity.dart';
 import 'package:vibyuk/features/business/presentation/blocs/payment/payment_bloc.dart';
 import 'package:vibyuk/features/business/presentation/widgets/business_empty_state.dart';
 import 'package:vibyuk/features/business/presentation/widgets/payment_tile.dart';
@@ -15,6 +18,7 @@ class PaymentOverviewScreen extends StatefulWidget {
 
 class _PaymentOverviewScreenState extends State<PaymentOverviewScreen> {
   final _scrollController = ScrollController();
+  PaymentStatus? _statusFilter;
 
   @override
   void initState() {
@@ -38,12 +42,33 @@ class _PaymentOverviewScreenState extends State<PaymentOverviewScreen> {
     }
   }
 
+  void _applyFilter(PaymentStatus? status) {
+    setState(() => _statusFilter = status);
+    context
+        .read<PaymentBloc>()
+        .add(FilterPaymentsByStatusEvent(status));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Payments',
             style: TextStyle(fontWeight: FontWeight.w700)),
+        actions: [
+          IconButton(
+            onPressed: () => context.push(RouteNames.transactionHistory),
+            icon: const Icon(Icons.receipt_long_outlined),
+            tooltip: 'Transaction History',
+          ),
+        ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(52),
+          child: _StatusFilterBar(
+            selected: _statusFilter,
+            onSelected: _applyFilter,
+          ),
+        ),
       ),
       body: BlocBuilder<PaymentBloc, PaymentState>(
         builder: (context, state) => switch (state) {
@@ -68,23 +93,64 @@ class _PaymentOverviewScreenState extends State<PaymentOverviewScreen> {
                                 child: Center(child: AppLoader(size: 24)),
                               );
                             }
-                            return PaymentTile(payment: payments[index]);
+                            return PaymentTile(
+                              payment: payments[index],
+                              onTap: () => context.push(
+                                RouteNames.paymentDetail,
+                                extra: payments[index],
+                              ),
+                            );
                           },
                         ),
                       ),
                     ],
                   ),
-          PaymentErrorState(:final failure) =>
-            BusinessEmptyState(
+          PaymentErrorState(:final failure) => BusinessEmptyState(
               title: 'Failed to load payments',
               description: failure.message,
               icon: Icons.payments_rounded,
               actionLabel: 'Retry',
               onAction: () => context
                   .read<PaymentBloc>()
-                  .add(const LoadPaymentsEvent()),
+                  .add(const RefreshPaymentsEvent()),
             ),
           _ => const SizedBox.shrink(),
+        },
+      ),
+    );
+  }
+}
+
+class _StatusFilterBar extends StatelessWidget {
+  const _StatusFilterBar({required this.selected, required this.onSelected});
+  final PaymentStatus? selected;
+  final void Function(PaymentStatus?) onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final statuses = [null, ...PaymentStatus.values];
+    return SizedBox(
+      height: 52,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        itemCount: statuses.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        itemBuilder: (context, i) {
+          final status = statuses[i];
+          final label = status?.label ?? 'All';
+          final isSelected = selected == status;
+          return FilterChip(
+            label: Text(label),
+            selected: isSelected,
+            onSelected: (_) => onSelected(status),
+            selectedColor: AppColors.primaryContainer,
+            checkmarkColor: AppColors.primary,
+            labelStyle: TextStyle(
+              color: isSelected ? AppColors.primary : AppColors.textSecondary,
+              fontSize: 12,
+            ),
+          );
         },
       ),
     );

@@ -28,7 +28,11 @@ import 'package:vibyuk/features/business/presentation/screens/campaigns/create_c
 import 'package:vibyuk/features/business/presentation/screens/creator_detail_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/discover_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/notification_center_screen.dart';
+import 'package:vibyuk/features/business/domain/entities/payment_entity.dart';
+import 'package:vibyuk/features/business/presentation/screens/invoice_screen.dart' as biz_invoice;
+import 'package:vibyuk/features/business/presentation/screens/payment_detail_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/payment_overview_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/transaction_history_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/saved_creators_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/team_screen.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/availability/availability_bloc.dart';
@@ -380,6 +384,27 @@ class AppRouter {
           create: (_) => sl<PaymentBloc>(),
           child: const PaymentOverviewScreen(),
         ),
+      ),
+      GoRoute(
+        path: RouteNames.paymentDetail,
+        name: 'payment-detail',
+        builder: (context, state) {
+          final payment = state.extra as PaymentEntity;
+          return PaymentDetailScreen(payment: payment);
+        },
+      ),
+      GoRoute(
+        path: RouteNames.transactionHistory,
+        name: 'transaction-history',
+        builder: (context, _) => const TransactionHistoryScreen(),
+      ),
+      GoRoute(
+        path: '/payments/invoice/:bookingId',
+        name: 'biz-invoice-screen',
+        builder: (context, state) {
+          final bookingId = state.pathParameters['bookingId']!;
+          return biz_invoice.InvoiceScreen(bookingId: bookingId);
+        },
       ),
 
       // Creator — Dashboard

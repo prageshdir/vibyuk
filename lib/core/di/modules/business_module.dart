@@ -42,7 +42,15 @@ import 'package:vibyuk/features/business/domain/usecases/discovery/unsave_creato
 import 'package:vibyuk/features/business/domain/usecases/notifications/get_notifications_use_case.dart';
 import 'package:vibyuk/features/business/domain/usecases/notifications/mark_all_notifications_read_use_case.dart';
 import 'package:vibyuk/features/business/domain/usecases/notifications/mark_notification_read_use_case.dart';
+import 'package:vibyuk/features/business/domain/usecases/payment/get_escrow_details_use_case.dart';
+import 'package:vibyuk/features/business/domain/usecases/payment/get_invoice_use_case.dart';
+import 'package:vibyuk/features/business/domain/usecases/payment/get_payment_detail_use_case.dart';
 import 'package:vibyuk/features/business/domain/usecases/payment/get_payments_use_case.dart';
+import 'package:vibyuk/features/business/domain/usecases/payment/get_transactions_use_case.dart';
+import 'package:vibyuk/features/business/domain/usecases/payment/initiate_payment_use_case.dart';
+import 'package:vibyuk/features/business/domain/usecases/payment/release_escrow_use_case.dart';
+import 'package:vibyuk/features/business/domain/usecases/payment/request_refund_use_case.dart';
+import 'package:vibyuk/features/business/domain/usecases/payment/verify_payment_use_case.dart';
 import 'package:vibyuk/features/business/domain/usecases/team/get_team_use_case.dart';
 import 'package:vibyuk/features/business/domain/usecases/team/invite_team_member_use_case.dart';
 import 'package:vibyuk/features/business/domain/usecases/team/remove_team_member_use_case.dart';
@@ -52,8 +60,11 @@ import 'package:vibyuk/features/business/presentation/blocs/booking/booking_bloc
 import 'package:vibyuk/features/business/presentation/blocs/campaign/campaign_bloc.dart';
 import 'package:vibyuk/features/business/presentation/blocs/discovery/discovery_bloc.dart';
 import 'package:vibyuk/features/business/presentation/blocs/notifications/notifications_bloc.dart';
+import 'package:vibyuk/features/business/presentation/blocs/escrow/escrow_bloc.dart';
+import 'package:vibyuk/features/business/presentation/blocs/invoice/invoice_bloc.dart';
 import 'package:vibyuk/features/business/presentation/blocs/payment/payment_bloc.dart';
 import 'package:vibyuk/features/business/presentation/blocs/team/team_bloc.dart';
+import 'package:vibyuk/features/business/presentation/blocs/transaction/transaction_bloc.dart';
 
 void registerBusinessModule(GetIt sl) {
   // ── Data Sources ──────────────────────────────────────────────────────────
@@ -132,6 +143,15 @@ void registerBusinessModule(GetIt sl) {
   // ── Analytics & Payment & Notifications Use Cases ─────────────────────────
   sl.registerLazySingleton(() => GetAnalyticsDashboardUseCase(sl()));
   sl.registerLazySingleton(() => GetPaymentsUseCase(sl()));
+  sl.registerLazySingleton(() => GetPaymentDetailUseCase(sl()));
+  sl.registerLazySingleton(() => InitiatePaymentUseCase(sl()));
+  sl.registerLazySingleton(() => VerifyPaymentUseCase(sl()));
+  sl.registerLazySingleton(() => GetEscrowDetailsUseCase(sl()));
+  sl.registerLazySingleton(() => ReleaseEscrowUseCase(sl()));
+  sl.registerLazySingleton(() => RequestRefundUseCase(sl()));
+  sl.registerLazySingleton(() => GetTransactionsUseCase(sl()));
+  sl.registerLazySingleton(() => GetInvoiceUseCase(sl()));
+  sl.registerLazySingleton(() => GetInvoicePdfUrlUseCase(sl()));
   sl.registerLazySingleton(() => GetNotificationsUseCase(sl()));
   sl.registerLazySingleton(() => MarkNotificationReadUseCase(sl()));
   sl.registerLazySingleton(() => MarkAllNotificationsReadUseCase(sl()));
@@ -178,7 +198,27 @@ void registerBusinessModule(GetIt sl) {
     () => AnalyticsBloc(getAnalyticsDashboard: sl()),
   );
   sl.registerFactory<PaymentBloc>(
-    () => PaymentBloc(getPayments: sl()),
+    () => PaymentBloc(
+      getPayments: sl(),
+      initiatePayment: sl(),
+      verifyPayment: sl(),
+    ),
+  );
+  sl.registerFactory<EscrowBloc>(
+    () => EscrowBloc(
+      getEscrowDetails: sl(),
+      releaseEscrow: sl(),
+      requestRefund: sl(),
+    ),
+  );
+  sl.registerFactory<TransactionBloc>(
+    () => TransactionBloc(getTransactions: sl()),
+  );
+  sl.registerFactory<InvoiceBloc>(
+    () => InvoiceBloc(
+      getInvoice: sl(),
+      getInvoicePdfUrl: sl(),
+    ),
   );
   sl.registerFactory<NotificationsBloc>(
     () => NotificationsBloc(
