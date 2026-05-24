@@ -102,4 +102,59 @@ abstract final class ApiEndpoints {
 
   // Creator — KYC
   static const String creatorKyc = '/creator/me/kyc';
+
+  // Booking Engine — Bookings
+  static const String bookingEngineBookings = '/booking-engine/bookings';
+  static String bookingEngineBooking(String id) =>
+      '/booking-engine/bookings/$id';
+  static String bookingEngineConfirm(String id) =>
+      '/booking-engine/bookings/$id/confirm';
+  static String bookingEngineCancel(String id) =>
+      '/booking-engine/bookings/$id/cancel';
+  static const String bookingEngineHistory = '/booking-engine/bookings/history';
+
+  // Booking Engine — Milestones
+  static String bookingEngineMilestones(String bookingId) =>
+      '/booking-engine/bookings/$bookingId/milestones';
+  static String bookingEngineMilestone(String bookingId, String milestoneId) =>
+      '/booking-engine/bookings/$bookingId/milestones/$milestoneId';
+  static String bookingEngineMilestoneSubmit(
+          String bookingId, String milestoneId) =>
+      '/booking-engine/bookings/$bookingId/milestones/$milestoneId/submit';
+  static String bookingEngineMilestoneApprove(
+          String bookingId, String milestoneId) =>
+      '/booking-engine/bookings/$bookingId/milestones/$milestoneId/approve';
+  static String bookingEngineMilestoneReject(
+          String bookingId, String milestoneId) =>
+      '/booking-engine/bookings/$bookingId/milestones/$milestoneId/reject';
+
+  // Booking Engine — Contract
+  static String bookingEngineContract(String bookingId) =>
+      '/booking-engine/bookings/$bookingId/contract';
+  static String bookingEngineContractSign(String bookingId) =>
+      '/booking-engine/bookings/$bookingId/contract/sign';
+
+  // Booking Engine — Negotiation
+  static String bookingEngineNegotiation(String bookingId) =>
+      '/booking-engine/bookings/$bookingId/negotiation';
+
+  // Booking Engine — Timeline
+  static String bookingEngineTimeline(String bookingId) =>
+      '/booking-engine/bookings/$bookingId/timeline';
+
+  // Booking Engine — Dispute
+  static String bookingEngineDispute(String bookingId) =>
+      '/booking-engine/bookings/$bookingId/dispute';
+  static String bookingEngineDisputeRespond(String disputeId) =>
+      '/booking-engine/disputes/$disputeId/respond';
+
+  // Booking Engine — Reschedule
+  static String bookingEngineReschedule(String bookingId) =>
+      '/booking-engine/bookings/$bookingId/reschedule';
+  static String bookingEngineRescheduleRespond(String rescheduleId) =>
+      '/booking-engine/reschedules/$rescheduleId/respond';
+
+  // Booking Engine — Invoice
+  static String bookingEngineInvoice(String bookingId) =>
+      '/booking-engine/bookings/$bookingId/invoice';
 }

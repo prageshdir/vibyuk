@@ -58,6 +58,28 @@ import 'package:vibyuk/features/creator/domain/entities/pricing_package_entity.d
 import 'package:vibyuk/features/creator/presentation/screens/pricing/add_edit_pricing_package_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/pricing/pricing_packages_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/reviews_screen.dart';
+import 'package:vibyuk/features/booking_engine/domain/entities/booking_entity.dart' as be_entity;
+import 'package:vibyuk/features/booking_engine/domain/entities/booking_reschedule_entity.dart' as be_reschedule_entity;
+import 'package:vibyuk/features/booking_engine/presentation/blocs/booking_detail/booking_detail_bloc.dart' as be_detail_bloc;
+import 'package:vibyuk/features/booking_engine/presentation/blocs/booking_engine/booking_engine_bloc.dart' as be_bloc;
+import 'package:vibyuk/features/booking_engine/presentation/blocs/contract/contract_bloc.dart' as be_contract_bloc;
+import 'package:vibyuk/features/booking_engine/presentation/blocs/dispute/dispute_bloc.dart' as be_dispute_bloc;
+import 'package:vibyuk/features/booking_engine/presentation/blocs/invoice/invoice_bloc.dart' as be_invoice_bloc;
+import 'package:vibyuk/features/booking_engine/presentation/blocs/milestone/milestone_bloc.dart' as be_milestone_bloc;
+import 'package:vibyuk/features/booking_engine/presentation/blocs/negotiation/negotiation_bloc.dart' as be_negotiation_bloc;
+import 'package:vibyuk/features/booking_engine/presentation/blocs/reschedule/reschedule_bloc.dart' as be_reschedule_bloc;
+import 'package:vibyuk/features/booking_engine/presentation/blocs/timeline/timeline_bloc.dart' as be_timeline_bloc;
+import 'package:vibyuk/features/booking_engine/presentation/screens/booking_detail_screen.dart' as be_booking_detail;
+import 'package:vibyuk/features/booking_engine/presentation/screens/booking_list_screen.dart' as be_booking_list;
+import 'package:vibyuk/features/booking_engine/presentation/screens/confirmation/booking_confirmation_screen.dart';
+import 'package:vibyuk/features/booking_engine/presentation/screens/contract/contract_screen.dart';
+import 'package:vibyuk/features/booking_engine/presentation/screens/dispute/dispute_screen.dart';
+import 'package:vibyuk/features/booking_engine/presentation/screens/history/booking_history_screen.dart';
+import 'package:vibyuk/features/booking_engine/presentation/screens/invoice/invoice_screen.dart';
+import 'package:vibyuk/features/booking_engine/presentation/screens/milestones/milestones_screen.dart';
+import 'package:vibyuk/features/booking_engine/presentation/screens/negotiation/negotiation_screen.dart';
+import 'package:vibyuk/features/booking_engine/presentation/screens/reschedule/reschedule_screen.dart';
+import 'package:vibyuk/features/booking_engine/presentation/screens/timeline/timeline_screen.dart';
 import 'package:vibyuk/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:vibyuk/features/profile/presentation/screens/profile_screen.dart';
 import 'package:vibyuk/features/profile/presentation/screens/settings_screen.dart';
@@ -535,6 +557,151 @@ class AppRouter {
             child: CreatorPublicProfileScreen(creatorId: id),
           );
         },
+      ),
+
+      // ── Booking Engine ─────────────────────────────────────────────────────
+
+      // Booking list
+      GoRoute(
+        path: RouteNames.bookingEngineList,
+        name: 'booking-engine-list',
+        builder: (context, state) => BlocProvider(
+          create: (_) => sl<be_bloc.BookingEngineBloc>(),
+          child: const be_booking_list.BookingListScreen(),
+        ),
+      ),
+
+      // Booking history
+      GoRoute(
+        path: RouteNames.bookingEngineHistory,
+        name: 'booking-engine-history',
+        builder: (context, state) => BlocProvider(
+          create: (_) => sl<be_bloc.BookingEngineBloc>(),
+          child: const BookingHistoryScreen(),
+        ),
+      ),
+
+      // Booking detail + sub-screens
+      GoRoute(
+        path: '/booking-engine/bookings/:id',
+        name: 'booking-engine-detail',
+        builder: (context, state) {
+          final id = state.pathParameters['id']!;
+          return BlocProvider(
+            create: (_) => sl<be_detail_bloc.BookingDetailBloc>(),
+            child: be_booking_detail.BookingDetailScreen(bookingId: id),
+          );
+        },
+        routes: [
+          GoRoute(
+            path: 'confirmation',
+            name: 'booking-engine-confirmation',
+            builder: (context, state) {
+              final booking = state.extra! as be_entity.BookingEntity;
+              return BookingConfirmationScreen(booking: booking);
+            },
+          ),
+          GoRoute(
+            path: 'negotiation',
+            name: 'booking-engine-negotiation',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              final currentUserId =
+                  state.uri.queryParameters['userId'] ?? '';
+              return BlocProvider(
+                create: (_) => sl<be_negotiation_bloc.NegotiationBloc>(),
+                child: NegotiationScreen(
+                  bookingId: id,
+                  currentUserId: currentUserId,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: 'contract',
+            name: 'booking-engine-contract',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return BlocProvider(
+                create: (_) => sl<be_contract_bloc.ContractBloc>(),
+                child: ContractScreen(bookingId: id),
+              );
+            },
+          ),
+          GoRoute(
+            path: 'milestones',
+            name: 'booking-engine-milestones',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              final isCreator =
+                  state.uri.queryParameters['isCreator'] == 'true';
+              return BlocProvider(
+                create: (_) => sl<be_milestone_bloc.MilestoneBloc>(),
+                child: MilestonesScreen(
+                  bookingId: id,
+                  isCreator: isCreator,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: 'timeline',
+            name: 'booking-engine-timeline',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return BlocProvider(
+                create: (_) => sl<be_timeline_bloc.TimelineBloc>(),
+                child: TimelineScreen(bookingId: id),
+              );
+            },
+          ),
+          GoRoute(
+            path: 'dispute',
+            name: 'booking-engine-dispute',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              final currentUserId =
+                  state.uri.queryParameters['userId'] ?? '';
+              return BlocProvider(
+                create: (_) => sl<be_dispute_bloc.DisputeBloc>(),
+                child: DisputeScreen(
+                  bookingId: id,
+                  currentUserId: currentUserId,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: 'reschedule',
+            name: 'booking-engine-reschedule',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              final currentUserId =
+                  state.uri.queryParameters['userId'] ?? '';
+              final reschedule =
+                  state.extra as be_reschedule_entity.BookingRescheduleEntity?;
+              return BlocProvider(
+                create: (_) => sl<be_reschedule_bloc.RescheduleBloc>(),
+                child: RescheduleScreen(
+                  bookingId: id,
+                  currentUserId: currentUserId,
+                  existingReschedule: reschedule,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: 'invoice',
+            name: 'booking-engine-invoice',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return BlocProvider(
+                create: (_) => sl<be_invoice_bloc.InvoiceBloc>(),
+                child: InvoiceScreen(bookingId: id),
+              );
+            },
+          ),
+        ],
       ),
     ],
   );

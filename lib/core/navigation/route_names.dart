@@ -23,7 +23,7 @@ abstract final class RouteNames {
 
   // Creators
   static const String creatorDetail = '/creators/:id';
-  static const String creatorPortfolio = '/creators/:id/portfolio';
+  static const String publicCreatorPortfolio = '/creators/:id/portfolio';
 
   // Events
   static const String eventDetail = '/events/:id';
@@ -95,6 +95,30 @@ abstract final class RouteNames {
 
   // Creator — Public Profile
   static String creatorPublicProfile(String id) => '/creators/$id/preview';
+
+  // Booking Engine — List & History
+  static const String bookingEngineList = '/booking-engine/bookings';
+  static const String bookingEngineHistory = '/booking-engine/history';
+
+  // Booking Engine — Detail & Sub-screens
+  static String bookingEngineDetail(String id) =>
+      '/booking-engine/bookings/$id';
+  static String bookingEngineConfirmation(String id) =>
+      '/booking-engine/bookings/$id/confirmation';
+  static String bookingEngineNegotiation(String id) =>
+      '/booking-engine/bookings/$id/negotiation';
+  static String bookingEngineContract(String id) =>
+      '/booking-engine/bookings/$id/contract';
+  static String bookingEngineMilestones(String id) =>
+      '/booking-engine/bookings/$id/milestones';
+  static String bookingEngineTimeline(String id) =>
+      '/booking-engine/bookings/$id/timeline';
+  static String bookingEngineDispute(String id) =>
+      '/booking-engine/bookings/$id/dispute';
+  static String bookingEngineReschedule(String id) =>
+      '/booking-engine/bookings/$id/reschedule';
+  static String bookingEngineInvoice(String id) =>
+      '/booking-engine/bookings/$id/invoice';
 
   RouteNames._();
 }

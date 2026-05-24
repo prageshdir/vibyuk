@@ -3,6 +3,7 @@ import 'package:vibyuk/core/cache/hive/hive_service.dart';
 import 'package:vibyuk/core/di/modules/api_module.dart';
 import 'package:vibyuk/core/di/modules/auth_module.dart';
 import 'package:vibyuk/core/di/modules/business_module.dart';
+import 'package:vibyuk/core/di/modules/booking_engine_module.dart';
 import 'package:vibyuk/core/di/modules/creator_module.dart';
 import 'package:vibyuk/core/di/modules/cache_module.dart';
 import 'package:vibyuk/core/di/modules/profile_module.dart';
@@ -28,6 +29,7 @@ Future<void> configureDependencies() async {
   registerProfileModule(sl);
   registerBusinessModule(sl);
   registerCreatorModule(sl);
+  registerBookingEngineModule(sl);
 
   // Bootstrap connectivity watcher
   await sl<ConnectivityHelper>().initialize();
