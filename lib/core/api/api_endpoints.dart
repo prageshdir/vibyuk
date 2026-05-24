@@ -164,4 +164,25 @@ abstract final class ApiEndpoints {
       '/chat/conversations/$conversationId/messages';
   static String chatConversationRead(String conversationId) =>
       '/chat/conversations/$conversationId/read';
+
+  // Payments
+  static const String payments = '/payments';
+  static String payment(String id) => '/payments/$id';
+  static const String paymentInitiate = '/payments/initiate';
+  static String paymentVerify(String paymentId) =>
+      '/payments/$paymentId/verify';
+
+  // Escrow
+  static String escrowByBooking(String bookingId) =>
+      '/booking-engine/bookings/$bookingId/escrow';
+  static String escrowRelease(String escrowId) => '/escrow/$escrowId/release';
+  static String escrowRefund(String escrowId) => '/escrow/$escrowId/refund';
+
+  // Transactions
+  static const String transactions = '/transactions';
+
+  // Invoices
+  static String invoiceByBooking(String bookingId) =>
+      '/booking-engine/bookings/$bookingId/invoice-gst';
+  static String invoicePdf(String invoiceId) => '/invoices/$invoiceId/pdf';
 }
