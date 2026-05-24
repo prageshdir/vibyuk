@@ -12,6 +12,7 @@ class ChatMessageModel {
     this.mediaUrl,
     this.fileName,
     this.fileSize,
+    this.durationSeconds,
     this.bookingId,
     required this.status,
     required this.isMe,
@@ -29,6 +30,7 @@ class ChatMessageModel {
   final String? mediaUrl;
   final String? fileName;
   final int? fileSize;
+  final int? durationSeconds;
   final String? bookingId;
   final MessageStatus status;
   final bool isMe;
@@ -50,6 +52,7 @@ class ChatMessageModel {
         mediaUrl: j['media_url'] as String?,
         fileName: j['file_name'] as String?,
         fileSize: j['file_size'] as int?,
+        durationSeconds: j['duration_seconds'] as int?,
         bookingId: j['booking_id'] as String?,
         status: MessageStatus.values.firstWhere(
           (s) => s.name == j['status'],
@@ -73,6 +76,7 @@ class ChatMessageModel {
         mediaUrl: mediaUrl,
         fileName: fileName,
         fileSize: fileSize,
+        durationSeconds: durationSeconds,
         bookingId: bookingId,
         status: status,
         isMe: isMe,

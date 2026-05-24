@@ -2,50 +2,79 @@ part of 'chat_bloc.dart';
 
 abstract class ChatState extends Equatable {
   const ChatState();
-  @override
-  List<Object?> get props => [];
 }
 
 class ChatInitialState extends ChatState {
   const ChatInitialState();
+  @override
+  List<Object?> get props => [];
 }
 
 class ChatLoadingState extends ChatState {
   const ChatLoadingState();
+  @override
+  List<Object?> get props => [];
 }
 
 class ChatLoadedState extends ChatState {
   const ChatLoadedState({
     required this.messages,
     required this.conversationId,
-    this.hasMore = false,
-    this.isLoadingMore = false,
-    this.isSending = false,
+    required this.otherUserId,
+    this.isOtherUserTyping = false,
+    this.isOtherUserOnline = false,
+    this.otherUserLastSeen,
+    this.uploadProgress,
+    this.hasMore = true,
+    this.currentPage = 1,
   });
 
   final List<ChatMessageEntity> messages;
   final String conversationId;
+  final String otherUserId;
+  final bool isOtherUserTyping;
+  final bool isOtherUserOnline;
+  final DateTime? otherUserLastSeen;
+  final double? uploadProgress;
   final bool hasMore;
-  final bool isLoadingMore;
-  final bool isSending;
+  final int currentPage;
 
   ChatLoadedState copyWith({
     List<ChatMessageEntity>? messages,
+    bool? isOtherUserTyping,
+    bool? isOtherUserOnline,
+    DateTime? otherUserLastSeen,
+    double? uploadProgress,
+    bool clearUploadProgress = false,
     bool? hasMore,
-    bool? isLoadingMore,
-    bool? isSending,
-  }) =>
-      ChatLoadedState(
-        messages: messages ?? this.messages,
-        conversationId: conversationId,
-        hasMore: hasMore ?? this.hasMore,
-        isLoadingMore: isLoadingMore ?? this.isLoadingMore,
-        isSending: isSending ?? this.isSending,
-      );
+    int? currentPage,
+  }) {
+    return ChatLoadedState(
+      messages: messages ?? this.messages,
+      conversationId: conversationId,
+      otherUserId: otherUserId,
+      isOtherUserTyping: isOtherUserTyping ?? this.isOtherUserTyping,
+      isOtherUserOnline: isOtherUserOnline ?? this.isOtherUserOnline,
+      otherUserLastSeen: otherUserLastSeen ?? this.otherUserLastSeen,
+      uploadProgress:
+          clearUploadProgress ? null : (uploadProgress ?? this.uploadProgress),
+      hasMore: hasMore ?? this.hasMore,
+      currentPage: currentPage ?? this.currentPage,
+    );
+  }
 
   @override
-  List<Object?> get props =>
-      [messages, conversationId, hasMore, isLoadingMore, isSending];
+  List<Object?> get props => [
+        messages,
+        conversationId,
+        otherUserId,
+        isOtherUserTyping,
+        isOtherUserOnline,
+        otherUserLastSeen,
+        uploadProgress,
+        hasMore,
+        currentPage,
+      ];
 }
 
 class ChatErrorState extends ChatState {
@@ -53,15 +82,4 @@ class ChatErrorState extends ChatState {
   final Failure failure;
   @override
   List<Object?> get props => [failure];
-}
-
-class ChatSendFailureState extends ChatLoadedState {
-  const ChatSendFailureState({
-    required super.messages,
-    required super.conversationId,
-    required this.failure,
-  });
-  final Failure failure;
-  @override
-  List<Object?> get props => [...super.props, failure];
 }

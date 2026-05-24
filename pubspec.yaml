@@ -90,6 +90,12 @@ dependencies:
   # Image Picker (avatar upload)
   image_picker: ^1.1.2
 
+  # Real-time / Chat
+  socket_io_client: ^2.0.3+1
+  file_picker: ^8.1.2
+  record: ^5.1.2
+  just_audio: ^0.9.38
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

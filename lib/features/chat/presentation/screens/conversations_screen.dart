@@ -1,123 +1,128 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibyuk/core/di/injection_container.dart';
+import 'package:vibyuk/core/navigation/route_names.dart';
 import 'package:vibyuk/core/theme/app_colors.dart';
-import 'package:vibyuk/core/widgets/empty/empty_view.dart';
-import 'package:vibyuk/core/widgets/error/error_view.dart';
-import 'package:vibyuk/core/widgets/loaders/skeleton_loader.dart';
 import 'package:vibyuk/features/chat/presentation/blocs/conversations/conversations_bloc.dart';
 import 'package:vibyuk/features/chat/presentation/widgets/conversation_tile.dart';
 
-class ConversationsScreen extends StatefulWidget {
+class ConversationsScreen extends StatelessWidget {
   const ConversationsScreen({super.key});
 
   @override
-  State<ConversationsScreen> createState() => _ConversationsScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) =>
+          sl<ConversationsBloc>()..add(const LoadConversationsEvent()),
+      child: const _ConversationsView(),
+    );
+  }
 }
 
-class _ConversationsScreenState extends State<ConversationsScreen> {
-  @override
-  void initState() {
-    super.initState();
-    context
-        .read<ConversationsBloc>()
-        .add(const LoadConversationsEvent());
-  }
+class _ConversationsView extends StatelessWidget {
+  const _ConversationsView();
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Messages'),
+        backgroundColor: AppColors.surface,
+        title: const Text(
+          'Messages',
+          style: TextStyle(
+            color: AppColors.textPrimary,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit_square_outlined),
-            tooltip: 'New message',
-            onPressed: () {},
+            icon: const Icon(Icons.refresh, color: AppColors.textSecondary),
+            onPressed: () => context
+                .read<ConversationsBloc>()
+                .add(const RefreshConversationsEvent()),
           ),
         ],
       ),
       body: BlocBuilder<ConversationsBloc, ConversationsState>(
         builder: (context, state) {
           if (state is ConversationsLoadingState) {
-            return _buildSkeleton();
+            return const Center(
+                child: CircularProgressIndicator(color: AppColors.primary));
           }
           if (state is ConversationsErrorState) {
-            return ErrorView(
-              message: state.failure.message,
-              onRetry: () => context
-                  .read<ConversationsBloc>()
-                  .add(const LoadConversationsEvent()),
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.error_outline,
+                      color: AppColors.error, size: 48),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Failed to load conversations',
+                    style: TextStyle(color: AppColors.textSecondary),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary),
+                    onPressed: () => context
+                        .read<ConversationsBloc>()
+                        .add(const RefreshConversationsEvent()),
+                    child: const Text('Retry',
+                        style: TextStyle(color: AppColors.onPrimary)),
+                  ),
+                ],
+              ),
             );
           }
           if (state is ConversationsLoadedState) {
             if (state.conversations.isEmpty) {
-              return const EmptyView(
-                icon: Icons.chat_bubble_outline_rounded,
-                title: 'No conversations yet',
-                subtitle:
-                    'Start a conversation by visiting a creator or business profile.',
+              return const Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.chat_bubble_outline,
+                        size: 64, color: AppColors.outlineVariant),
+                    SizedBox(height: 16),
+                    Text(
+                      'No conversations yet',
+                      style: TextStyle(
+                          color: AppColors.textSecondary, fontSize: 16),
+                    ),
+                  ],
+                ),
               );
             }
-            return RefreshIndicator(
-              onRefresh: () async => context
-                  .read<ConversationsBloc>()
-                  .add(const RefreshConversationsEvent()),
-              child: ListView.separated(
-                itemCount: state.conversations.length,
-                separatorBuilder: (_, __) => const Divider(
-                    height: 1, indent: 70, endIndent: 16),
-                itemBuilder: (context, i) {
-                  final conv = state.conversations[i];
-                  return ConversationTile(
-                    conversation: conv,
-                    onTap: () {
-                      context
-                          .read<ConversationsBloc>()
-                          .add(ConversationReadEvent(conv.id));
-                      context.push('/messages/${conv.id}',
-                          extra: conv);
-                    },
-                  );
-                },
-              ),
+            return ListView.separated(
+              itemCount: state.conversations.length,
+              separatorBuilder: (_, __) =>
+                  const Divider(height: 1, color: AppColors.divider),
+              itemBuilder: (context, index) {
+                final conv = state.conversations[index];
+                return ConversationTile(
+                  conversation: conv,
+                  onTap: () {
+                    context
+                        .read<ConversationsBloc>()
+                        .add(ConversationReadEvent(conv.id));
+                    context.push(
+                      RouteNames.chatConversation(conv.id),
+                      extra: {
+                        'conversationId': conv.id,
+                        'otherUserId': conv.otherUserId,
+                        'otherUserName': conv.otherUserName,
+                        'otherUserAvatarUrl': conv.otherUserAvatarUrl,
+                      },
+                    );
+                  },
+                );
+              },
             );
           }
           return const SizedBox.shrink();
         },
-      ),
-    );
-  }
-
-  Widget _buildSkeleton() {
-    return ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: 8,
-      separatorBuilder: (_, __) =>
-          const Divider(height: 1, indent: 70, endIndent: 16),
-      itemBuilder: (_, __) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: Row(
-          children: [
-            const SkeletonLoader(width: 52, height: 52, radius: 26),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SkeletonLoader(width: 140, height: 14, radius: 7),
-                  const SizedBox(height: 6),
-                  SkeletonLoader(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      height: 12,
-                      radius: 6),
-                ],
-              ),
-            ),
-            const SkeletonLoader(width: 36, height: 12, radius: 6),
-          ],
-        ),
       ),
     );
   }

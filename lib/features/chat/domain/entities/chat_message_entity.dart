@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum MessageType { text, image, file, booking, system }
+enum MessageType { text, image, file, audio, booking, system }
 enum MessageStatus { sending, sent, delivered, read, failed }
 
 class ChatMessageEntity extends Equatable {
@@ -14,6 +14,7 @@ class ChatMessageEntity extends Equatable {
   final String? mediaUrl;
   final String? fileName;
   final int? fileSize;
+  final int? durationSeconds;
   final String? bookingId;
   final MessageStatus status;
   final bool isMe;
@@ -31,6 +32,7 @@ class ChatMessageEntity extends Equatable {
     this.mediaUrl,
     this.fileName,
     this.fileSize,
+    this.durationSeconds,
     this.bookingId,
     required this.status,
     required this.isMe,
@@ -41,7 +43,7 @@ class ChatMessageEntity extends Equatable {
   @override
   List<Object?> get props => [
         id, conversationId, senderId, senderName, senderAvatarUrl, type,
-        text, mediaUrl, fileName, fileSize, bookingId, status, isMe,
+        text, mediaUrl, fileName, fileSize, durationSeconds, bookingId, status, isMe,
         createdAt, editedAt,
       ];
 }

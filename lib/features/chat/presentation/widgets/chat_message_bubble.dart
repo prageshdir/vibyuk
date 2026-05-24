@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vibyuk/core/theme/app_colors.dart';
 import 'package:vibyuk/features/chat/domain/entities/chat_message_entity.dart';
+import 'package:vibyuk/features/chat/presentation/widgets/audio_message_bubble.dart';
+import 'package:vibyuk/features/chat/presentation/widgets/file_message_bubble.dart';
+import 'package:vibyuk/features/chat/presentation/widgets/image_message_bubble.dart';
 
 class ChatMessageBubble extends StatelessWidget {
   const ChatMessageBubble({
@@ -14,63 +17,89 @@ class ChatMessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    if (message.isMe) return _buildMyBubble(context, theme);
-    return _buildTheirBubble(context, theme);
+    switch (message.type) {
+      case MessageType.image:
+        return ImageMessageBubble(message: message);
+      case MessageType.audio:
+        return AudioMessageBubble(message: message);
+      case MessageType.file:
+        return FileMessageBubble(message: message);
+      case MessageType.system:
+        return _SystemMessage(message: message);
+      case MessageType.text:
+      case MessageType.booking:
+        return message.isMe
+            ? _MyTextBubble(message: message)
+            : _TheirTextBubble(message: message, showAvatar: showAvatar);
+    }
   }
+}
 
-  Widget _buildMyBubble(BuildContext context, ThemeData theme) {
+class _MyTextBubble extends StatelessWidget {
+  const _MyTextBubble({required this.message});
+  final ChatMessageEntity message;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(left: 64, right: 12, top: 2, bottom: 2),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          Container(
+            constraints: const BoxConstraints(maxWidth: 280),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [AppColors.primary, AppColors.primaryDark],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(18),
+                topRight: Radius.circular(18),
+                bottomLeft: Radius.circular(18),
+                bottomRight: Radius.circular(4),
+              ),
+            ),
+            child: Text(
+              message.text ?? '',
+              style: const TextStyle(color: Colors.white, fontSize: 14),
+            ),
+          ),
+          const SizedBox(height: 2),
+          Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 14, vertical: 10),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [AppColors.primary, AppColors.primaryDark],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(18),
-                    topRight: Radius.circular(18),
-                    bottomLeft: Radius.circular(18),
-                    bottomRight: Radius.circular(4),
-                  ),
-                ),
-                child: Text(
-                  message.text ?? '',
-                  style: const TextStyle(color: Colors.white, fontSize: 14),
-                ),
+              Text(
+                _fmt(message.createdAt),
+                style: theme.textTheme.bodySmall?.copyWith(
+                    fontSize: 10,
+                    color: theme.colorScheme.onSurfaceVariant),
               ),
-              const SizedBox(height: 2),
-              Row(
-                children: [
-                  Text(
-                    _formatTime(message.createdAt),
-                    style: theme.textTheme.bodySmall?.copyWith(
-                        fontSize: 10,
-                        color: theme.colorScheme.onSurfaceVariant),
-                  ),
-                  const SizedBox(width: 4),
-                  _StatusIcon(status: message.status),
-                ],
-              ),
+              const SizedBox(width: 4),
+              _StatusIcon(status: message.status),
             ],
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildTheirBubble(BuildContext context, ThemeData theme) {
+class _TheirTextBubble extends StatelessWidget {
+  const _TheirTextBubble({
+    required this.message,
+    required this.showAvatar,
+  });
+  final ChatMessageEntity message;
+  final bool showAvatar;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(left: 12, right: 64, top: 2, bottom: 2),
       child: Row(
@@ -100,6 +129,7 @@ class ChatMessageBubble extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
+                constraints: const BoxConstraints(maxWidth: 280),
                 padding: const EdgeInsets.symmetric(
                     horizontal: 14, vertical: 10),
                 decoration: BoxDecoration(
@@ -119,7 +149,7 @@ class ChatMessageBubble extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               Text(
-                _formatTime(message.createdAt),
+                _fmt(message.createdAt),
                 style: theme.textTheme.bodySmall?.copyWith(
                     fontSize: 10,
                     color: theme.colorScheme.onSurfaceVariant),
@@ -130,11 +160,35 @@ class ChatMessageBubble extends StatelessWidget {
       ),
     );
   }
+}
 
-  String _formatTime(DateTime dt) {
-    final h = dt.hour.toString().padLeft(2, '0');
-    final m = dt.minute.toString().padLeft(2, '0');
-    return '$h:$m';
+class _SystemMessage extends StatelessWidget {
+  const _SystemMessage({required this.message});
+  final ChatMessageEntity message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: Theme.of(context)
+                .colorScheme
+                .surfaceVariant
+                .withOpacity(0.7),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Text(
+            message.text ?? '',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -162,3 +216,6 @@ class _StatusIcon extends StatelessWidget {
     }
   }
 }
+
+String _fmt(DateTime dt) =>
+    '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
