@@ -43,5 +43,20 @@ abstract final class RouteNames {
   // Misc
   static const String search = '/search';
 
+  // Business — Discovery
+  static const String savedCreators = '/discover/saved';
+
+  // Business — Campaigns
+  static const String campaigns = '/campaigns';
+
+  // Business — Team
+  static const String team = '/team';
+
+  // Business — Analytics
+  static const String analytics = '/analytics';
+
+  // Business — Payments
+  static const String payments = '/payments';
+
   RouteNames._();
 }

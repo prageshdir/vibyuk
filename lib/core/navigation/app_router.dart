@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibyuk/core/di/injection_container.dart';
 import 'package:vibyuk/core/navigation/guards/auth_guard.dart';
 import 'package:vibyuk/core/navigation/route_names.dart';
 import 'package:vibyuk/features/auth/presentation/screens/forgot_password_screen.dart';
@@ -10,6 +12,25 @@ import 'package:vibyuk/features/auth/presentation/screens/reset_password_screen.
 import 'package:vibyuk/features/auth/presentation/screens/role_selection_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/splash_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/verify_email_screen.dart';
+import 'package:vibyuk/features/business/presentation/blocs/analytics/analytics_bloc.dart';
+import 'package:vibyuk/features/business/presentation/blocs/booking/booking_bloc.dart';
+import 'package:vibyuk/features/business/presentation/blocs/campaign/campaign_bloc.dart';
+import 'package:vibyuk/features/business/presentation/blocs/discovery/discovery_bloc.dart';
+import 'package:vibyuk/features/business/presentation/blocs/notifications/notifications_bloc.dart';
+import 'package:vibyuk/features/business/presentation/blocs/payment/payment_bloc.dart';
+import 'package:vibyuk/features/business/presentation/blocs/team/team_bloc.dart';
+import 'package:vibyuk/features/business/presentation/screens/analytics_dashboard_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/bookings/booking_detail_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/bookings/booking_list_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/campaigns/campaign_detail_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/campaigns/campaign_list_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/campaigns/create_campaign_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/creator_detail_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/discover_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/notification_center_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/payment_overview_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/saved_creators_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/team_screen.dart';
 import 'package:vibyuk/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:vibyuk/features/profile/presentation/screens/profile_screen.dart';
 import 'package:vibyuk/features/profile/presentation/screens/settings_screen.dart';
@@ -45,7 +66,8 @@ class AppRouter {
           children: [
             const Icon(Icons.error_outline, size: 64),
             const SizedBox(height: 16),
-            Text('Page not found', style: Theme.of(context).textTheme.headlineMedium),
+            Text('Page not found',
+                style: Theme.of(context).textTheme.headlineMedium),
             const SizedBox(height: 8),
             TextButton(
               onPressed: () => context.go(RouteNames.home),
@@ -123,28 +145,37 @@ class AppRouter {
             GoRoute(
               path: RouteNames.home,
               name: 'home',
-              builder: (_, __) => const _PlaceholderScreen(title: 'Home'),
+              builder: (_, __) =>
+                  const _PlaceholderScreen(title: 'Home'),
             ),
           ]),
           StatefulShellBranch(routes: [
             GoRoute(
               path: RouteNames.discover,
               name: 'discover',
-              builder: (_, __) => const _PlaceholderScreen(title: 'Discover'),
+              builder: (context, _) => BlocProvider(
+                create: (_) => sl<DiscoveryBloc>(),
+                child: const DiscoverScreen(),
+              ),
               routes: [
                 GoRoute(
-                  path: 'creators/:id',
-                  name: 'creator-detail',
-                  builder: (context, state) => _PlaceholderScreen(
-                    title: 'Creator ${state.pathParameters['id']}',
+                  path: 'saved',
+                  name: 'saved-creators',
+                  builder: (context, _) => BlocProvider(
+                    create: (_) => sl<DiscoveryBloc>(),
+                    child: const SavedCreatorsScreen(),
                   ),
                 ),
                 GoRoute(
-                  path: 'events/:id',
-                  name: 'event-detail',
-                  builder: (context, state) => _PlaceholderScreen(
-                    title: 'Event ${state.pathParameters['id']}',
-                  ),
+                  path: 'creators/:id',
+                  name: 'creator-detail',
+                  builder: (context, state) {
+                    final id = state.pathParameters['id']!;
+                    return BlocProvider(
+                      create: (_) => sl<DiscoveryBloc>(),
+                      child: CreatorDetailScreen(creatorId: id),
+                    );
+                  },
                 ),
               ],
             ),
@@ -153,14 +184,21 @@ class AppRouter {
             GoRoute(
               path: RouteNames.bookings,
               name: 'bookings',
-              builder: (_, __) => const _PlaceholderScreen(title: 'Bookings'),
+              builder: (context, _) => BlocProvider(
+                create: (_) => sl<BookingBloc>(),
+                child: const BookingListScreen(),
+              ),
               routes: [
                 GoRoute(
                   path: ':id',
                   name: 'booking-detail',
-                  builder: (context, state) => _PlaceholderScreen(
-                    title: 'Booking ${state.pathParameters['id']}',
-                  ),
+                  builder: (context, state) {
+                    final id = state.pathParameters['id']!;
+                    return BlocProvider(
+                      create: (_) => sl<BookingBloc>(),
+                      child: BookingDetailScreen(bookingId: id),
+                    );
+                  },
                 ),
               ],
             ),
@@ -169,7 +207,8 @@ class AppRouter {
             GoRoute(
               path: RouteNames.messages,
               name: 'messages',
-              builder: (_, __) => const _PlaceholderScreen(title: 'Messages'),
+              builder: (_, __) =>
+                  const _PlaceholderScreen(title: 'Messages'),
             ),
           ]),
           StatefulShellBranch(routes: [
@@ -203,7 +242,71 @@ class AppRouter {
       GoRoute(
         path: RouteNames.notifications,
         name: 'notifications',
-        builder: (_, __) => const _PlaceholderScreen(title: 'Notifications'),
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<NotificationsBloc>(),
+          child: const NotificationCenterScreen(),
+        ),
+      ),
+
+      // Business — Campaigns
+      GoRoute(
+        path: RouteNames.campaigns,
+        name: 'campaigns',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<CampaignBloc>(),
+          child: const CampaignListScreen(),
+        ),
+        routes: [
+          GoRoute(
+            path: 'create',
+            name: 'create-campaign',
+            builder: (context, _) => BlocProvider(
+              create: (_) => sl<CampaignBloc>(),
+              child: const CreateCampaignScreen(),
+            ),
+          ),
+          GoRoute(
+            path: ':id',
+            name: 'campaign-detail',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return BlocProvider(
+                create: (_) => sl<CampaignBloc>(),
+                child: CampaignDetailScreen(campaignId: id),
+              );
+            },
+          ),
+        ],
+      ),
+
+      // Business — Team
+      GoRoute(
+        path: RouteNames.team,
+        name: 'team',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<TeamBloc>(),
+          child: const TeamScreen(),
+        ),
+      ),
+
+      // Business — Analytics
+      GoRoute(
+        path: RouteNames.analytics,
+        name: 'analytics',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<AnalyticsBloc>(),
+          child: const AnalyticsDashboardScreen(),
+        ),
+      ),
+
+      // Business — Payments
+      GoRoute(
+        path: RouteNames.payments,
+        name: 'payments',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<PaymentBloc>(),
+          child: const PaymentOverviewScreen(),
+        ),
       ),
     ],
   );
@@ -225,11 +328,26 @@ class _ScaffoldWithNavBar extends StatelessWidget {
           initialLocation: index == navigationShell.currentIndex,
         ),
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.explore_outlined), selectedIcon: Icon(Icons.explore), label: 'Discover'),
-          NavigationDestination(icon: Icon(Icons.calendar_month_outlined), selectedIcon: Icon(Icons.calendar_month), label: 'Bookings'),
-          NavigationDestination(icon: Icon(Icons.chat_bubble_outline), selectedIcon: Icon(Icons.chat_bubble), label: 'Messages'),
-          NavigationDestination(icon: Icon(Icons.person_outline), selectedIcon: Icon(Icons.person), label: 'Profile'),
+          NavigationDestination(
+              icon: Icon(Icons.home_outlined),
+              selectedIcon: Icon(Icons.home),
+              label: 'Home'),
+          NavigationDestination(
+              icon: Icon(Icons.explore_outlined),
+              selectedIcon: Icon(Icons.explore),
+              label: 'Discover'),
+          NavigationDestination(
+              icon: Icon(Icons.calendar_month_outlined),
+              selectedIcon: Icon(Icons.calendar_month),
+              label: 'Bookings'),
+          NavigationDestination(
+              icon: Icon(Icons.chat_bubble_outline),
+              selectedIcon: Icon(Icons.chat_bubble),
+              label: 'Messages'),
+          NavigationDestination(
+              icon: Icon(Icons.person_outline),
+              selectedIcon: Icon(Icons.person),
+              label: 'Profile'),
         ],
       ),
     );
