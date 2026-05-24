@@ -31,6 +31,33 @@ import 'package:vibyuk/features/business/presentation/screens/notification_cente
 import 'package:vibyuk/features/business/presentation/screens/payment_overview_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/saved_creators_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/team_screen.dart';
+import 'package:vibyuk/features/creator/presentation/blocs/availability/availability_bloc.dart';
+import 'package:vibyuk/features/creator/presentation/blocs/booking_requests/booking_requests_bloc.dart';
+import 'package:vibyuk/features/creator/presentation/blocs/campaign_applications/campaign_applications_bloc.dart';
+import 'package:vibyuk/features/creator/presentation/blocs/creator_analytics/creator_analytics_bloc.dart';
+import 'package:vibyuk/features/creator/presentation/blocs/creator_profile/creator_profile_bloc.dart';
+import 'package:vibyuk/features/creator/presentation/blocs/earnings/earnings_bloc.dart';
+import 'package:vibyuk/features/creator/presentation/blocs/kyc/kyc_bloc.dart';
+import 'package:vibyuk/features/creator/presentation/blocs/portfolio/portfolio_bloc.dart';
+import 'package:vibyuk/features/creator/presentation/blocs/pricing/pricing_bloc.dart';
+import 'package:vibyuk/features/creator/presentation/blocs/reviews/reviews_bloc.dart';
+import 'package:vibyuk/features/creator/presentation/screens/availability_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/booking_requests/booking_request_detail_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/booking_requests/booking_requests_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/campaign_applications/apply_to_campaign_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/campaign_applications/campaign_applications_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/creator_analytics_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/creator_dashboard_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/creator_public_profile_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/earnings_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/kyc_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/onboarding/creator_onboarding_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/portfolio/add_portfolio_item_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/portfolio/portfolio_screen.dart';
+import 'package:vibyuk/features/creator/domain/entities/pricing_package_entity.dart';
+import 'package:vibyuk/features/creator/presentation/screens/pricing/add_edit_pricing_package_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/pricing/pricing_packages_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/reviews_screen.dart';
 import 'package:vibyuk/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:vibyuk/features/profile/presentation/screens/profile_screen.dart';
 import 'package:vibyuk/features/profile/presentation/screens/settings_screen.dart';
@@ -307,6 +334,207 @@ class AppRouter {
           create: (_) => sl<PaymentBloc>(),
           child: const PaymentOverviewScreen(),
         ),
+      ),
+
+      // Creator — Dashboard
+      GoRoute(
+        path: RouteNames.creatorDashboard,
+        name: 'creator-dashboard',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<CreatorProfileBloc>(),
+          child: const CreatorDashboardScreen(),
+        ),
+      ),
+
+      // Creator — Onboarding
+      GoRoute(
+        path: RouteNames.creatorOnboarding,
+        name: 'creator-onboarding',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<CreatorProfileBloc>(),
+          child: const CreatorOnboardingScreen(),
+        ),
+      ),
+
+      // Creator — Edit Profile
+      GoRoute(
+        path: RouteNames.editCreatorProfile,
+        name: 'edit-creator-profile',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<CreatorProfileBloc>(),
+          child: const _PlaceholderScreen(title: 'Edit Profile'),
+        ),
+      ),
+
+      // Creator — Portfolio
+      GoRoute(
+        path: RouteNames.creatorPortfolio,
+        name: 'creator-portfolio',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<PortfolioBloc>(),
+          child: const PortfolioScreen(),
+        ),
+        routes: [
+          GoRoute(
+            path: 'add',
+            name: 'add-portfolio-item',
+            builder: (context, _) => BlocProvider(
+              create: (_) => sl<PortfolioBloc>(),
+              child: const AddPortfolioItemScreen(),
+            ),
+          ),
+        ],
+      ),
+
+      // Creator — Pricing
+      GoRoute(
+        path: RouteNames.creatorPricing,
+        name: 'creator-pricing',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<PricingBloc>(),
+          child: const PricingPackagesScreen(),
+        ),
+        routes: [
+          GoRoute(
+            path: 'add',
+            name: 'add-pricing-package',
+            builder: (context, _) => BlocProvider(
+              create: (_) => sl<PricingBloc>(),
+              child: const AddEditPricingPackageScreen(),
+            ),
+          ),
+          GoRoute(
+            path: ':id/edit',
+            name: 'edit-pricing-package',
+            builder: (context, state) {
+              final pkg = state.extra;
+              return BlocProvider(
+                create: (_) => sl<PricingBloc>(),
+                child: AddEditPricingPackageScreen(
+                    existingPackage:
+                        pkg as PricingPackageEntity?),
+              );
+            },
+          ),
+        ],
+      ),
+
+      // Creator — Availability
+      GoRoute(
+        path: RouteNames.creatorAvailability,
+        name: 'creator-availability',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<AvailabilityBloc>(),
+          child: const AvailabilityScreen(),
+        ),
+      ),
+
+      // Creator — Analytics
+      GoRoute(
+        path: RouteNames.creatorAnalytics,
+        name: 'creator-analytics',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<CreatorAnalyticsBloc>(),
+          child: const CreatorAnalyticsScreen(),
+        ),
+      ),
+
+      // Creator — Earnings
+      GoRoute(
+        path: RouteNames.creatorEarnings,
+        name: 'creator-earnings',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<EarningsBloc>(),
+          child: const EarningsScreen(),
+        ),
+      ),
+
+      // Creator — Booking Requests
+      GoRoute(
+        path: RouteNames.creatorBookingRequests,
+        name: 'creator-booking-requests',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<BookingRequestsBloc>(),
+          child: const BookingRequestsScreen(),
+        ),
+        routes: [
+          GoRoute(
+            path: ':id',
+            name: 'creator-booking-request-detail',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return BlocProvider(
+                create: (_) => sl<BookingRequestsBloc>(),
+                child: BookingRequestDetailScreen(requestId: id),
+              );
+            },
+          ),
+        ],
+      ),
+
+      // Creator — Campaign Applications
+      GoRoute(
+        path: RouteNames.creatorApplications,
+        name: 'creator-applications',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<CampaignApplicationsBloc>(),
+          child: const CampaignApplicationsScreen(),
+        ),
+        routes: [
+          GoRoute(
+            path: 'apply/:campaignId',
+            name: 'apply-to-campaign',
+            builder: (context, state) {
+              final campaignId = state.pathParameters['campaignId']!;
+              final campaignTitle =
+                  state.uri.queryParameters['title'] ?? 'Campaign';
+              return BlocProvider(
+                create: (_) => sl<CampaignApplicationsBloc>(),
+                child: ApplyToCampaignScreen(
+                  campaignId: campaignId,
+                  campaignTitle: campaignTitle,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+
+      // Creator — Reviews
+      GoRoute(
+        path: RouteNames.creatorReviews,
+        name: 'creator-reviews',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<ReviewsBloc>(),
+          child: const ReviewsScreen(),
+        ),
+      ),
+
+      // Creator — KYC
+      GoRoute(
+        path: RouteNames.creatorKyc,
+        name: 'creator-kyc',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<KycBloc>()..add(const LoadKycStatusEvent()),
+          child: const KycScreen(),
+        ),
+      ),
+
+      // Creator — Public Profile
+      GoRoute(
+        path: '/creators/:id/preview',
+        name: 'creator-public-profile',
+        builder: (context, state) {
+          final id = state.pathParameters['id']!;
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (_) => sl<CreatorProfileBloc>()),
+              BlocProvider(create: (_) => sl<PortfolioBloc>()),
+              BlocProvider(create: (_) => sl<ReviewsBloc>()),
+            ],
+            child: CreatorPublicProfileScreen(creatorId: id),
+          );
+        },
       ),
     ],
   );

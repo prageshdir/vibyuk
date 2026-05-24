@@ -54,4 +54,52 @@ abstract final class ApiEndpoints {
   static const String search = '/search';
   static const String searchCreators = '/search/creators';
   static const String searchEvents = '/search/events';
+
+  // Creator — Profile
+  static const String creatorMe = '/creator/me';
+  static const String creatorMeProfileImage = '/creator/me/profile-image';
+  static const String creatorMeCoverImage = '/creator/me/cover-image';
+  static const String creatorMeOnboarding = '/creator/me/onboarding';
+  static String creatorPublicProfile(String id) => '/creator/$id/public';
+
+  // Creator — Portfolio
+  static const String creatorPortfolioItems = '/creator/me/portfolio';
+  static String creatorPortfolioItem(String id) => '/creator/me/portfolio/$id';
+  static const String creatorPortfolioReorder = '/creator/me/portfolio/reorder';
+
+  // Creator — Pricing
+  static const String creatorPricingPackages = '/creator/me/pricing';
+  static String creatorPricingPackage(String id) => '/creator/me/pricing/$id';
+
+  // Creator — Availability
+  static const String creatorAvailability = '/creator/me/availability';
+  static const String creatorAvailabilityDays = '/creator/me/availability/days';
+  static const String creatorAvailabilitySlots = '/creator/me/availability/slots';
+  static const String creatorAvailabilityBlock = '/creator/me/availability/block';
+
+  // Creator — Analytics
+  static const String creatorAnalytics = '/creator/me/analytics';
+
+  // Creator — Earnings
+  static const String creatorEarnings = '/creator/me/earnings';
+  static const String creatorPayoutRequest = '/creator/me/earnings/payout';
+
+  // Creator — Booking Requests
+  static const String creatorBookingRequests = '/creator/me/booking-requests';
+  static String creatorBookingRequest(String id) => '/creator/me/booking-requests/$id';
+  static String creatorBookingRequestRespond(String id) =>
+      '/creator/me/booking-requests/$id/respond';
+
+  // Creator — Campaign Applications
+  static const String creatorApplications = '/creator/me/applications';
+  static String creatorApplication(String id) => '/creator/me/applications/$id';
+  static String creatorApplicationWithdraw(String id) =>
+      '/creator/me/applications/$id/withdraw';
+  static String campaignApply(String campaignId) => '/campaigns/$campaignId/apply';
+
+  // Creator — Reviews
+  static const String creatorReviewsMe = '/creator/me/reviews';
+
+  // Creator — KYC
+  static const String creatorKyc = '/creator/me/kyc';
 }

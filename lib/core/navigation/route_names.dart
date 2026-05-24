@@ -58,5 +58,43 @@ abstract final class RouteNames {
   // Business — Payments
   static const String payments = '/payments';
 
+  // Creator — Dashboard & Onboarding
+  static const String creatorDashboard = '/creator/dashboard';
+  static const String creatorOnboarding = '/creator/onboarding';
+  static const String editCreatorProfile = '/creator/profile/edit';
+
+  // Creator — Portfolio
+  static const String creatorPortfolio = '/creator/portfolio';
+  static const String addPortfolioItem = '/creator/portfolio/add';
+
+  // Creator — Pricing
+  static const String creatorPricing = '/creator/pricing';
+  static const String addPricingPackage = '/creator/pricing/add';
+  static String editPricingPackage(String id) => '/creator/pricing/$id/edit';
+
+  // Creator — Availability
+  static const String creatorAvailability = '/creator/availability';
+
+  // Creator — Analytics & Earnings
+  static const String creatorAnalytics = '/creator/analytics';
+  static const String creatorEarnings = '/creator/earnings';
+
+  // Creator — Booking Requests
+  static const String creatorBookingRequests = '/creator/bookings';
+  static String creatorBookingRequestDetail(String id) =>
+      '/creator/bookings/$id';
+
+  // Creator — Campaign Applications
+  static const String creatorApplications = '/creator/applications';
+  static String applyToCampaign(String campaignId) =>
+      '/creator/applications/apply/$campaignId';
+
+  // Creator — Reviews & KYC
+  static const String creatorReviews = '/creator/reviews';
+  static const String creatorKyc = '/creator/kyc';
+
+  // Creator — Public Profile
+  static String creatorPublicProfile(String id) => '/creators/$id/preview';
+
   RouteNames._();
 }
