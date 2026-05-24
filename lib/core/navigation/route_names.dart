@@ -120,5 +120,9 @@ abstract final class RouteNames {
   static String bookingEngineInvoice(String id) =>
       '/booking-engine/bookings/$id/invoice';
 
+  // Chat
+  static const String chat = '/messages/:id';
+  static String chatConversation(String id) => '/messages/$id';
+
   RouteNames._();
 }

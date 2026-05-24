@@ -83,6 +83,11 @@ import 'package:vibyuk/features/booking_engine/presentation/screens/timeline/tim
 import 'package:vibyuk/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:vibyuk/features/profile/presentation/screens/profile_screen.dart';
 import 'package:vibyuk/features/profile/presentation/screens/settings_screen.dart';
+import 'package:vibyuk/features/chat/domain/entities/conversation_entity.dart';
+import 'package:vibyuk/features/chat/presentation/blocs/chat/chat_bloc.dart';
+import 'package:vibyuk/features/chat/presentation/blocs/conversations/conversations_bloc.dart';
+import 'package:vibyuk/features/chat/presentation/screens/chat_screen.dart';
+import 'package:vibyuk/features/chat/presentation/screens/conversations_screen.dart';
 
 class _PlaceholderScreen extends StatelessWidget {
   final String title;
@@ -256,8 +261,27 @@ class AppRouter {
             GoRoute(
               path: RouteNames.messages,
               name: 'messages',
-              builder: (_, __) =>
-                  const _PlaceholderScreen(title: 'Messages'),
+              builder: (context, _) => BlocProvider(
+                create: (_) => sl<ConversationsBloc>(),
+                child: const ConversationsScreen(),
+              ),
+              routes: [
+                GoRoute(
+                  path: ':id',
+                  name: 'chat',
+                  builder: (context, state) {
+                    final id = state.pathParameters['id']!;
+                    final conversation = state.extra! as ConversationEntity;
+                    return BlocProvider(
+                      create: (_) => sl<ChatBloc>(),
+                      child: ChatScreen(
+                        conversationId: id,
+                        conversation: conversation,
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
           ]),
           StatefulShellBranch(routes: [

@@ -4,6 +4,7 @@ import 'package:vibyuk/core/di/modules/api_module.dart';
 import 'package:vibyuk/core/di/modules/auth_module.dart';
 import 'package:vibyuk/core/di/modules/business_module.dart';
 import 'package:vibyuk/core/di/modules/booking_engine_module.dart';
+import 'package:vibyuk/core/di/modules/chat_module.dart';
 import 'package:vibyuk/core/di/modules/creator_module.dart';
 import 'package:vibyuk/core/di/modules/cache_module.dart';
 import 'package:vibyuk/core/di/modules/profile_module.dart';
@@ -30,6 +31,7 @@ Future<void> configureDependencies() async {
   registerBusinessModule(sl);
   registerCreatorModule(sl);
   registerBookingEngineModule(sl);
+  registerChatModule(sl);
 
   // Bootstrap connectivity watcher
   await sl<ConnectivityHelper>().initialize();

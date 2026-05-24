@@ -157,4 +157,11 @@ abstract final class ApiEndpoints {
   // Booking Engine — Invoice
   static String bookingEngineInvoice(String bookingId) =>
       '/booking-engine/bookings/$bookingId/invoice';
+
+  // Chat
+  static const String chatConversations = '/chat/conversations';
+  static String chatMessages(String conversationId) =>
+      '/chat/conversations/$conversationId/messages';
+  static String chatConversationRead(String conversationId) =>
+      '/chat/conversations/$conversationId/read';
 }
