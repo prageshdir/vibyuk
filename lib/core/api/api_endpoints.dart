@@ -47,4 +47,20 @@ abstract final class ApiEndpoints {
   static const String search = '/search';
   static const String searchCreators = '/search/creators';
   static const String searchEvents = '/search/events';
+
+  // AI Features
+  static const String aiRecommendations = '/ai/recommendations';
+  static const String aiCampaigns = '/ai/campaigns';
+  static const String aiCampaignGenerate = '/ai/campaigns/generate';
+  static String aiCampaignStep(String campaignId, String stepId) =>
+      '/ai/campaigns/$campaignId/steps/$stepId';
+  static const String aiPricing = '/ai/pricing';
+  static const String aiPricingSuggestions = '/ai/pricing/suggestions';
+  static const String aiAnalytics = '/ai/analytics';
+  static const String aiInsights = '/ai/insights';
+  static String aiInsightDismiss(String id) => '/ai/insights/$id/dismiss';
+  static const String aiConversations = '/ai/conversations';
+  static String aiConversation(String id) => '/ai/conversations/$id';
+  static String aiChatMessages(String conversationId) =>
+      '/ai/conversations/$conversationId/messages';
 }

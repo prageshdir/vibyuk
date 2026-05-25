@@ -41,5 +41,13 @@ abstract final class RouteNames {
   // Misc
   static const String search = '/search';
 
+  // AI Features
+  static const String aiHub = '/ai';
+  static const String aiRecommendations = '/ai/recommendations';
+  static const String aiCampaignPlanner = '/ai/campaign-planner';
+  static const String aiPricing = '/ai/pricing';
+  static const String aiAnalytics = '/ai/analytics';
+  static const String aiChat = '/ai/chat';
+
   RouteNames._();
 }

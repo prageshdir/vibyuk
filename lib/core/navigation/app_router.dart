@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibyuk/core/di/injection_container.dart';
 import 'package:vibyuk/core/navigation/guards/auth_guard.dart';
 import 'package:vibyuk/core/navigation/route_names.dart';
+import 'package:vibyuk/features/ai/presentation/blocs/ai_analytics/ai_analytics_bloc.dart';
+import 'package:vibyuk/features/ai/presentation/blocs/ai_campaign/ai_campaign_bloc.dart';
+import 'package:vibyuk/features/ai/presentation/blocs/ai_chat/ai_chat_bloc.dart';
+import 'package:vibyuk/features/ai/presentation/blocs/ai_insights/ai_insights_bloc.dart';
+import 'package:vibyuk/features/ai/presentation/blocs/ai_pricing/ai_pricing_bloc.dart';
+import 'package:vibyuk/features/ai/presentation/blocs/ai_recommendations/ai_recommendations_bloc.dart';
+import 'package:vibyuk/features/ai/presentation/screens/ai_analytics_screen.dart';
+import 'package:vibyuk/features/ai/presentation/screens/ai_campaign_planner_screen.dart';
+import 'package:vibyuk/features/ai/presentation/screens/ai_chat_screen.dart';
+import 'package:vibyuk/features/ai/presentation/screens/ai_hub_screen.dart';
+import 'package:vibyuk/features/ai/presentation/screens/ai_pricing_screen.dart';
+import 'package:vibyuk/features/ai/domain/entities/ai_chat_message.dart';
+import 'package:vibyuk/features/ai/presentation/screens/ai_recommendations_screen.dart';
 
 // Placeholder screens — replaced by feature modules as they are built
 class _PlaceholderScreen extends StatelessWidget {
@@ -180,6 +195,64 @@ class AppRouter {
         path: RouteNames.notifications,
         name: 'notifications',
         builder: (_, __) => const _PlaceholderScreen(title: 'Notifications'),
+      ),
+
+      // AI Feature Routes
+      GoRoute(
+        path: RouteNames.aiHub,
+        name: 'ai-hub',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<AiInsightsBloc>(),
+          child: const AiHubScreen(),
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.aiRecommendations,
+        name: 'ai-recommendations',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<AiRecommendationsBloc>(),
+          child: const AiRecommendationsScreen(),
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.aiCampaignPlanner,
+        name: 'ai-campaign-planner',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<AiCampaignBloc>(),
+          child: const AiCampaignPlannerScreen(),
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.aiPricing,
+        name: 'ai-pricing',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<AiPricingBloc>(),
+          child: const AiPricingScreen(),
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.aiAnalytics,
+        name: 'ai-analytics',
+        builder: (context, _) => BlocProvider(
+          create: (_) => sl<AiAnalyticsBloc>(),
+          child: const AiAnalyticsScreen(),
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.aiChat,
+        name: 'ai-chat',
+        builder: (context, state) {
+          final contextParam =
+              state.uri.queryParameters['context'] ?? 'general';
+          final chatCtx = AiChatContext.values.firstWhere(
+            (c) => c.name == contextParam,
+            orElse: () => AiChatContext.general,
+          );
+          return BlocProvider(
+            create: (_) => sl<AiChatBloc>(),
+            child: AiChatScreen(chatContext: chatCtx),
+          );
+        },
       ),
     ],
   );
