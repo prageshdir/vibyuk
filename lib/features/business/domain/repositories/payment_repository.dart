@@ -3,6 +3,7 @@ import 'package:vibyuk/core/error/failures.dart';
 import 'package:vibyuk/features/business/domain/entities/escrow_entity.dart';
 import 'package:vibyuk/features/business/domain/entities/invoice_entity.dart';
 import 'package:vibyuk/features/business/domain/entities/paginated_result.dart';
+import 'package:vibyuk/features/business/domain/entities/payment_analytics_entity.dart';
 import 'package:vibyuk/features/business/domain/entities/payment_entity.dart';
 import 'package:vibyuk/features/business/domain/entities/payment_order_entity.dart';
 import 'package:vibyuk/features/business/domain/entities/transaction_entity.dart';
@@ -55,4 +56,9 @@ abstract interface class PaymentRepository {
   // ── GST Invoice ───────────────────────────────────────────────────────────
   Future<Either<Failure, InvoiceEntity>> getInvoice(String bookingId);
   Future<Either<Failure, String>> getInvoicePdfUrl(String invoiceId);
+
+  // ── Payment Analytics ─────────────────────────────────────────────────────
+  Future<Either<Failure, PaymentAnalyticsEntity>> getPaymentAnalytics({
+    String period = '30d',
+  });
 }

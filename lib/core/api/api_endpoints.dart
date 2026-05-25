@@ -185,4 +185,7 @@ abstract final class ApiEndpoints {
   static String invoiceByBooking(String bookingId) =>
       '/booking-engine/bookings/$bookingId/invoice-gst';
   static String invoicePdf(String invoiceId) => '/invoices/$invoiceId/pdf';
+
+  // Payment Analytics
+  static const String paymentAnalytics = '/payments/analytics';
 }

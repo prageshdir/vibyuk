@@ -7,6 +7,7 @@ import 'package:vibyuk/features/business/data/datasources/discovery_remote_data_
 import 'package:vibyuk/features/business/data/datasources/notifications_remote_data_source.dart';
 import 'package:vibyuk/features/business/data/datasources/payment_remote_data_source.dart';
 import 'package:vibyuk/features/business/data/datasources/team_remote_data_source.dart';
+import 'package:vibyuk/features/business/data/services/payment_gateway_service.dart';
 import 'package:vibyuk/features/business/data/repositories/analytics_repository_impl.dart';
 import 'package:vibyuk/features/business/data/repositories/booking_repository_impl.dart';
 import 'package:vibyuk/features/business/data/repositories/campaign_repository_impl.dart';
@@ -44,6 +45,7 @@ import 'package:vibyuk/features/business/domain/usecases/notifications/mark_all_
 import 'package:vibyuk/features/business/domain/usecases/notifications/mark_notification_read_use_case.dart';
 import 'package:vibyuk/features/business/domain/usecases/payment/get_escrow_details_use_case.dart';
 import 'package:vibyuk/features/business/domain/usecases/payment/get_invoice_use_case.dart';
+import 'package:vibyuk/features/business/domain/usecases/payment/get_payment_analytics_use_case.dart';
 import 'package:vibyuk/features/business/domain/usecases/payment/get_payment_detail_use_case.dart';
 import 'package:vibyuk/features/business/domain/usecases/payment/get_payments_use_case.dart';
 import 'package:vibyuk/features/business/domain/usecases/payment/get_transactions_use_case.dart';
@@ -63,6 +65,7 @@ import 'package:vibyuk/features/business/presentation/blocs/notifications/notifi
 import 'package:vibyuk/features/business/presentation/blocs/escrow/escrow_bloc.dart';
 import 'package:vibyuk/features/business/presentation/blocs/invoice/invoice_bloc.dart';
 import 'package:vibyuk/features/business/presentation/blocs/payment/payment_bloc.dart';
+import 'package:vibyuk/features/business/presentation/blocs/payment_analytics/payment_analytics_bloc.dart';
 import 'package:vibyuk/features/business/presentation/blocs/team/team_bloc.dart';
 import 'package:vibyuk/features/business/presentation/blocs/transaction/transaction_bloc.dart';
 
@@ -84,6 +87,9 @@ void registerBusinessModule(GetIt sl) {
       () => PaymentRemoteDataSourceImpl(sl()));
   sl.registerLazySingleton<NotificationsRemoteDataSource>(
       () => NotificationsRemoteDataSourceImpl(sl()));
+
+  // ── Data Services ─────────────────────────────────────────────────────────
+  sl.registerLazySingleton<PaymentGatewayService>(() => PaymentGatewayService());
 
   // ── Repositories ──────────────────────────────────────────────────────────
   sl.registerLazySingleton<DiscoveryRepository>(
@@ -142,6 +148,7 @@ void registerBusinessModule(GetIt sl) {
 
   // ── Analytics & Payment & Notifications Use Cases ─────────────────────────
   sl.registerLazySingleton(() => GetAnalyticsDashboardUseCase(sl()));
+  sl.registerLazySingleton(() => GetPaymentAnalyticsUseCase(sl()));
   sl.registerLazySingleton(() => GetPaymentsUseCase(sl()));
   sl.registerLazySingleton(() => GetPaymentDetailUseCase(sl()));
   sl.registerLazySingleton(() => InitiatePaymentUseCase(sl()));
@@ -226,5 +233,8 @@ void registerBusinessModule(GetIt sl) {
       markNotificationRead: sl(),
       markAllNotificationsRead: sl(),
     ),
+  );
+  sl.registerFactory<PaymentAnalyticsBloc>(
+    () => PaymentAnalyticsBloc(getAnalytics: sl()),
   );
 }

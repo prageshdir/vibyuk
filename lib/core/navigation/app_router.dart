@@ -31,6 +31,7 @@ import 'package:vibyuk/features/business/presentation/screens/notification_cente
 import 'package:vibyuk/features/business/domain/entities/payment_entity.dart';
 import 'package:vibyuk/features/business/presentation/screens/invoice_screen.dart' as biz_invoice;
 import 'package:vibyuk/features/business/presentation/screens/payment_detail_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/payment_analytics_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/payment_overview_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/transaction_history_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/saved_creators_screen.dart';
@@ -397,6 +398,11 @@ class AppRouter {
         path: RouteNames.transactionHistory,
         name: 'transaction-history',
         builder: (context, _) => const TransactionHistoryScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.paymentAnalytics,
+        name: 'payment-analytics',
+        builder: (context, _) => const PaymentAnalyticsScreen(),
       ),
       GoRoute(
         path: '/payments/invoice/:bookingId',

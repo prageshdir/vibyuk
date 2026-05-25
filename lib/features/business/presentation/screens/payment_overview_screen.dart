@@ -57,6 +57,11 @@ class _PaymentOverviewScreenState extends State<PaymentOverviewScreen> {
             style: TextStyle(fontWeight: FontWeight.w700)),
         actions: [
           IconButton(
+            icon: const Icon(Icons.analytics_rounded, color: AppColors.textSecondary),
+            tooltip: 'Payment Analytics',
+            onPressed: () => context.push(RouteNames.paymentAnalytics),
+          ),
+          IconButton(
             onPressed: () => context.push(RouteNames.transactionHistory),
             icon: const Icon(Icons.receipt_long_outlined),
             tooltip: 'Transaction History',

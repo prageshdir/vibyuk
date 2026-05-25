@@ -59,6 +59,7 @@ abstract final class RouteNames {
   static const String payments = '/payments';
   static const String paymentDetail = '/payments/detail';
   static const String transactionHistory = '/payments/transactions';
+  static const String paymentAnalytics = '/payments/analytics';
   static String invoiceScreen(String bookingId) => '/payments/invoice/$bookingId';
 
   // Creator — Dashboard & Onboarding

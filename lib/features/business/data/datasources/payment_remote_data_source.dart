@@ -30,6 +30,7 @@ abstract interface class PaymentRemoteDataSource {
       {String? type});
   Future<Map<String, dynamic>> getInvoice(String bookingId);
   Future<Map<String, dynamic>> getInvoicePdfUrl(String invoiceId);
+  Future<Map<String, dynamic>> getPaymentAnalytics(String period);
 }
 
 class PaymentRemoteDataSourceImpl implements PaymentRemoteDataSource {
@@ -156,6 +157,15 @@ class PaymentRemoteDataSourceImpl implements PaymentRemoteDataSource {
   @override
   Future<Map<String, dynamic>> getInvoicePdfUrl(String invoiceId) async {
     final res = await _dio.get(ApiEndpoints.invoicePdf(invoiceId));
+    return _unwrap(res);
+  }
+
+  @override
+  Future<Map<String, dynamic>> getPaymentAnalytics(String period) async {
+    final res = await _dio.get(
+      ApiEndpoints.paymentAnalytics,
+      queryParameters: {'period': period},
+    );
     return _unwrap(res);
   }
 }

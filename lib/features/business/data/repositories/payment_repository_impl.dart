@@ -4,12 +4,14 @@ import 'package:vibyuk/core/error/failures.dart';
 import 'package:vibyuk/features/business/data/datasources/payment_remote_data_source.dart';
 import 'package:vibyuk/features/business/data/models/escrow_model.dart';
 import 'package:vibyuk/features/business/data/models/invoice_model.dart';
+import 'package:vibyuk/features/business/data/models/payment_analytics_model.dart';
 import 'package:vibyuk/features/business/data/models/payment_model.dart';
 import 'package:vibyuk/features/business/data/models/payment_order_model.dart';
 import 'package:vibyuk/features/business/data/models/transaction_model.dart';
 import 'package:vibyuk/features/business/domain/entities/escrow_entity.dart';
 import 'package:vibyuk/features/business/domain/entities/invoice_entity.dart';
 import 'package:vibyuk/features/business/domain/entities/paginated_result.dart';
+import 'package:vibyuk/features/business/domain/entities/payment_analytics_entity.dart';
 import 'package:vibyuk/features/business/domain/entities/payment_entity.dart';
 import 'package:vibyuk/features/business/domain/entities/payment_order_entity.dart';
 import 'package:vibyuk/features/business/domain/entities/transaction_entity.dart';
@@ -146,5 +148,14 @@ class PaymentRepositoryImpl extends BaseRepository implements PaymentRepository 
       safeCall(() async {
         final data = await _remote.getInvoicePdfUrl(invoiceId);
         return data['url'] as String;
+      });
+
+  @override
+  Future<Either<Failure, PaymentAnalyticsEntity>> getPaymentAnalytics({
+    String period = '30d',
+  }) =>
+      safeCall(() async {
+        final data = await _remote.getPaymentAnalytics(period);
+        return PaymentAnalyticsModel.fromJson(data).toEntity();
       });
 }
