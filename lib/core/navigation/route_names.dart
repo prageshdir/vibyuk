@@ -24,9 +24,15 @@ abstract final class RouteNames {
   static const String creatorPortfolio = '/creators/:id/portfolio';
 
   // Events
+  static const String eventList = '/events';
   static const String eventDetail = '/events/:id';
   static const String createEvent = '/events/create';
-  static const String editEvent = '/events/:id/edit';
+  static const String editEventRoute = '/events/:id/edit';
+  static String editEventPath(String id) => '/events/$id/edit';
+  static const String purchaseTickets = '/events/:id/purchase';
+  static String purchaseTicketsPath(String id) => '/events/$id/purchase';
+  static const String eventDashboard = '/events/:id/dashboard';
+  static String eventDashboardPath(String id) => '/events/$id/dashboard';
 
   // Bookings
   static const String bookingDetail = '/bookings/:id';
@@ -36,11 +42,16 @@ abstract final class RouteNames {
   // Profile
   static const String editProfile = '/profile/edit';
   static const String settings = '/settings';
-  static const String notifications = '/notifications';
 
   // Notifications
+  static const String notifications = '/notifications';
   static const String notificationDetail = '/notifications/:id';
   static const String notificationPreferences = '/notifications/preferences';
+
+  // Tickets
+  static const String myTickets = '/tickets';
+  static const String ticketDetail = '/tickets/:id';
+  static const String ticketScanner = '/scanner';
 
   // Misc
   static const String search = '/search';

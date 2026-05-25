@@ -123,17 +123,85 @@ class NotificationsDao extends DatabaseAccessor<AppDatabase>
           .go();
 }
 
+// ── Events cache table ─────────────────────────────────────────────────────────
+
+@DataClassName('CachedEvent')
+class EventsCache extends Table {
+  TextColumn get id => text()();
+  TextColumn get dataJson => text()();
+  BoolColumn get isMine =>
+      boolean().withDefault(const Constant(false))();
+  DateTimeColumn get cachedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+@DataClassName('CachedTicket')
+class TicketsCache extends Table {
+  TextColumn get id => text()();
+  TextColumn get eventId => text()();
+  TextColumn get dataJson => text()();
+  TextColumn get status => text()();
+  DateTimeColumn get cachedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+// ── Events DAO ─────────────────────────────────────────────────────────────────
+
+@DriftAccessor(tables: [EventsCache, TicketsCache])
+class EventsDao extends DatabaseAccessor<AppDatabase>
+    with _$EventsDaoMixin {
+  EventsDao(super.db);
+
+  Future<void> upsertEvent(EventsCacheCompanion entry) =>
+      into(eventsCache).insertOnConflictUpdate(entry);
+
+  Future<void> upsertTicket(TicketsCacheCompanion entry) =>
+      into(ticketsCache).insertOnConflictUpdate(entry);
+
+  Future<CachedEvent?> getEvent(String id) =>
+      (select(eventsCache)..where((e) => e.id.equals(id))).getSingleOrNull();
+
+  Future<List<CachedEvent>> getMyEvents() =>
+      (select(eventsCache)..where((e) => e.isMine.equals(true))
+        ..orderBy([(e) => OrderingTerm.desc(e.cachedAt)]))
+          .get();
+
+  Future<List<CachedTicket>> getMyTickets() =>
+      (select(ticketsCache)
+        ..orderBy([(t) => OrderingTerm.desc(t.cachedAt)]))
+          .get();
+
+  Future<CachedTicket?> getTicket(String id) =>
+      (select(ticketsCache)..where((t) => t.id.equals(id))).getSingleOrNull();
+
+  Future<List<CachedTicket>> getTicketsForEvent(String eventId) =>
+      (select(ticketsCache)..where((t) => t.eventId.equals(eventId))).get();
+
+  Future<void> updateTicketStatus(String id, String status) =>
+      (update(ticketsCache)..where((t) => t.id.equals(id)))
+          .write(TicketsCacheCompanion(status: Value(status)));
+
+  Future<void> pruneEventCache(DateTime olderThan) =>
+      (delete(eventsCache)
+            ..where((e) => e.cachedAt.isSmallerThanValue(olderThan)))
+          .go();
+}
+
 // ── Database ───────────────────────────────────────────────────────────────────
 
 @DriftDatabase(
-  tables: [NotificationsTable],
-  daos: [NotificationsDao],
+  tables: [NotificationsTable, EventsCache, TicketsCache],
+  daos: [NotificationsDao, EventsDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -143,6 +211,10 @@ class AppDatabase extends _$AppDatabase {
         onUpgrade: (m, from, to) async {
           if (from < 2) {
             await m.createTable(notificationsTable);
+          }
+          if (from < 3) {
+            await m.createTable(eventsCache);
+            await m.createTable(ticketsCache);
           }
         },
         beforeOpen: (details) async {

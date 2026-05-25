@@ -25,7 +25,20 @@ abstract final class ApiEndpoints {
   // Events
   static const String events = '/events';
   static String event(String id) => '/events/$id';
+  static String eventById(String id) => '/events/$id';
   static String eventAttendees(String id) => '/events/$id/attendees';
+  static String eventTicketTypes(String id) => '/events/$id/ticket-types';
+  static String eventTicketType(String eventId, String typeId) =>
+      '/events/$eventId/ticket-types/$typeId';
+  static String eventAnalytics(String id) => '/events/$id/analytics';
+  static String publishEvent(String id) => '/events/$id/publish';
+  static String cancelEvent(String id) => '/events/$id/cancel';
+  static String purchaseTickets(String eventId) =>
+      '/events/$eventId/tickets/purchase';
+  static String verifyTicket(String eventId) =>
+      '/events/$eventId/tickets/verify';
+  static String uploadEventCover(String eventId) =>
+      '/events/$eventId/cover-image';
 
   // Bookings
   static const String bookings = '/bookings';
@@ -42,6 +55,12 @@ abstract final class ApiEndpoints {
   static String unregisterDeviceToken(String token) =>
       '/notifications/device-tokens/$token';
   static const String notificationPreferences = '/notifications/preferences';
+
+  // Tickets
+  static const String myTickets = '/tickets';
+  static String ticketById(String id) => '/tickets/$id';
+  static String checkInTicket(String ticketId) => '/tickets/$ticketId/check-in';
+  static String requestRefund(String ticketId) => '/tickets/$ticketId/refund';
 
   // Media
   static const String uploadMedia = '/media/upload';

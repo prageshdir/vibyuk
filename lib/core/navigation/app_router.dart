@@ -4,6 +4,23 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibyuk/core/navigation/guards/auth_guard.dart';
 import 'package:vibyuk/core/navigation/route_names.dart';
+import 'package:vibyuk/features/events/domain/entities/event_entity.dart';
+import 'package:vibyuk/features/events/domain/entities/ticket_entity.dart';
+import 'package:vibyuk/features/events/presentation/blocs/event_dashboard/event_dashboard_bloc.dart';
+import 'package:vibyuk/features/events/presentation/blocs/event_detail/event_detail_bloc.dart';
+import 'package:vibyuk/features/events/presentation/blocs/event_form/event_form_bloc.dart';
+import 'package:vibyuk/features/events/presentation/blocs/event_list/event_list_bloc.dart';
+import 'package:vibyuk/features/events/presentation/blocs/my_tickets/my_tickets_bloc.dart';
+import 'package:vibyuk/features/events/presentation/blocs/ticket_purchase/ticket_purchase_bloc.dart';
+import 'package:vibyuk/features/events/presentation/blocs/ticket_scanner/ticket_scanner_cubit.dart';
+import 'package:vibyuk/features/events/presentation/screens/create_edit_event_screen.dart';
+import 'package:vibyuk/features/events/presentation/screens/event_dashboard_screen.dart';
+import 'package:vibyuk/features/events/presentation/screens/event_detail_screen.dart';
+import 'package:vibyuk/features/events/presentation/screens/event_list_screen.dart';
+import 'package:vibyuk/features/events/presentation/screens/my_tickets_screen.dart';
+import 'package:vibyuk/features/events/presentation/screens/ticket_detail_screen.dart';
+import 'package:vibyuk/features/events/presentation/screens/ticket_purchase_screen.dart';
+import 'package:vibyuk/features/events/presentation/screens/ticket_scanner_screen.dart';
 import 'package:vibyuk/features/notifications/presentation/blocs/notification_center/notification_center_bloc.dart';
 import 'package:vibyuk/features/notifications/presentation/blocs/notification_preferences/notification_preferences_bloc.dart';
 import 'package:vibyuk/features/notifications/presentation/screens/notification_center_screen.dart';
@@ -207,6 +224,102 @@ class AppRouter {
             ),
           ),
         ],
+      ),
+
+      // ── Events ──────────────────────────────────────────────────────────────
+      GoRoute(
+        path: RouteNames.eventList,
+        name: 'event-list',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<EventListBloc>(),
+          child: const EventListScreen(),
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.createEvent,
+        name: 'create-event',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<EventFormBloc>(),
+          child: const CreateEditEventScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/events/:id',
+        name: 'event-detail-full',
+        builder: (context, state) => BlocProvider(
+          create: (_) => GetIt.instance<EventDetailBloc>(),
+          child: EventDetailScreen(eventId: state.pathParameters['id']!),
+        ),
+        routes: [
+          GoRoute(
+            path: 'edit',
+            name: 'edit-event',
+            builder: (context, state) => BlocProvider(
+              create: (_) => GetIt.instance<EventFormBloc>(),
+              child: CreateEditEventScreen(
+                eventId: state.pathParameters['id'],
+              ),
+            ),
+          ),
+          GoRoute(
+            path: 'purchase',
+            name: 'purchase-tickets',
+            builder: (context, state) {
+              final event = state.extra as EventEntity?;
+              if (event == null) {
+                return const _PlaceholderScreen(title: 'Purchase Tickets');
+              }
+              return BlocProvider(
+                create: (_) => GetIt.instance<TicketPurchaseBloc>(),
+                child: TicketPurchaseScreen(event: event),
+              );
+            },
+          ),
+          GoRoute(
+            path: 'dashboard',
+            name: 'event-dashboard',
+            builder: (context, state) => BlocProvider(
+              create: (_) => GetIt.instance<EventDashboardBloc>(),
+              child: EventDashboardScreen(
+                eventId: state.pathParameters['id']!,
+              ),
+            ),
+          ),
+        ],
+      ),
+
+      // ── Tickets ─────────────────────────────────────────────────────────────
+      GoRoute(
+        path: RouteNames.myTickets,
+        name: 'my-tickets',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<MyTicketsBloc>(),
+          child: const MyTicketsScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/tickets/:id',
+        name: 'ticket-detail',
+        builder: (context, state) {
+          final ticket = state.extra as TicketEntity?;
+          if (ticket == null) {
+            return const _PlaceholderScreen(title: 'Ticket');
+          }
+          return TicketDetailScreen(ticket: ticket);
+        },
+      ),
+
+      // ── Scanner ─────────────────────────────────────────────────────────────
+      GoRoute(
+        path: RouteNames.ticketScanner,
+        name: 'ticket-scanner',
+        builder: (context, state) {
+          final eventId = state.uri.queryParameters['eventId'] ?? '';
+          return BlocProvider(
+            create: (_) => GetIt.instance<TicketScannerCubit>(),
+            child: TicketScannerScreen(eventId: eventId),
+          );
+        },
       ),
     ],
     );
