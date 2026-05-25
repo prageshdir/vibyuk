@@ -56,5 +56,18 @@ abstract final class RouteNames {
   // Misc
   static const String search = '/search';
 
+  // Wedding
+  static const String weddingDashboard = '/wedding';
+  static const String weddingMarketplace = '/wedding/marketplace';
+  static const String weddingVendorDetail = '/wedding/vendors/:id';
+  static String weddingVendorDetailPath(String id) => '/wedding/vendors/$id';
+  static const String weddingVenueListing = '/wedding/venues';
+  static const String weddingVenueDetail = '/wedding/venues/:id';
+  static String weddingVenueDetailPath(String id) => '/wedding/venues/$id';
+  static const String weddingPackageBuilder = '/wedding/packages/build';
+  static const String weddingBudgetTracker = '/wedding/budget';
+  static const String weddingTimeline = '/wedding/timeline';
+  static const String weddingAnalytics = '/wedding/analytics';
+
   RouteNames._();
 }

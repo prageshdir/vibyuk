@@ -191,17 +191,127 @@ class EventsDao extends DatabaseAccessor<AppDatabase>
           .go();
 }
 
+// ── Wedding cache tables ───────────────────────────────────────────────────────
+
+@DataClassName('CachedWedding')
+class WeddingCache extends Table {
+  TextColumn get id => text()();
+  TextColumn get dataJson => text()();
+  DateTimeColumn get cachedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+@DataClassName('CachedWeddingVendor')
+class WeddingVendorsCache extends Table {
+  TextColumn get id => text()();
+  TextColumn get dataJson => text()();
+  TextColumn get category => text()();
+  DateTimeColumn get cachedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+@DataClassName('CachedBudgetItem')
+class WeddingBudgetCache extends Table {
+  TextColumn get id => text()();
+  TextColumn get weddingId => text()();
+  TextColumn get dataJson => text()();
+  DateTimeColumn get cachedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+@DataClassName('CachedTimelineTask')
+class WeddingTimelineCache extends Table {
+  TextColumn get id => text()();
+  TextColumn get weddingId => text()();
+  TextColumn get dataJson => text()();
+  BoolColumn get isCompleted =>
+      boolean().withDefault(const Constant(false))();
+  DateTimeColumn get cachedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+// ── Wedding DAO ────────────────────────────────────────────────────────────────
+
+@DriftAccessor(tables: [WeddingCache, WeddingVendorsCache, WeddingBudgetCache, WeddingTimelineCache])
+class WeddingDao extends DatabaseAccessor<AppDatabase>
+    with _$WeddingDaoMixin {
+  WeddingDao(super.db);
+
+  // Wedding
+  Future<void> upsertWedding(WeddingCacheCompanion entry) =>
+      into(weddingCache).insertOnConflictUpdate(entry);
+
+  Future<CachedWedding?> getWedding(String id) =>
+      (select(weddingCache)..where((w) => w.id.equals(id))).getSingleOrNull();
+
+  // Vendors
+  Future<void> upsertVendor(WeddingVendorsCacheCompanion entry) =>
+      into(weddingVendorsCache).insertOnConflictUpdate(entry);
+
+  Future<List<CachedWeddingVendor>> getVendors({String? category}) {
+    final query = select(weddingVendorsCache);
+    if (category != null) query.where((v) => v.category.equals(category));
+    return query.get();
+  }
+
+  Future<CachedWeddingVendor?> getVendor(String id) =>
+      (select(weddingVendorsCache)..where((v) => v.id.equals(id)))
+          .getSingleOrNull();
+
+  // Budget
+  Future<void> upsertBudgetItem(WeddingBudgetCacheCompanion entry) =>
+      into(weddingBudgetCache).insertOnConflictUpdate(entry);
+
+  Future<List<CachedBudgetItem>> getBudgetItems(String weddingId) =>
+      (select(weddingBudgetCache)
+            ..where((b) => b.weddingId.equals(weddingId)))
+          .get();
+
+  Future<void> deleteBudgetItem(String id) =>
+      (delete(weddingBudgetCache)..where((b) => b.id.equals(id))).go();
+
+  // Timeline
+  Future<void> upsertTimelineTask(WeddingTimelineCacheCompanion entry) =>
+      into(weddingTimelineCache).insertOnConflictUpdate(entry);
+
+  Future<List<CachedTimelineTask>> getTimelineTasks(String weddingId) =>
+      (select(weddingTimelineCache)
+            ..where((t) => t.weddingId.equals(weddingId)))
+          .get();
+
+  Future<void> updateTaskCompletion(String id, bool isCompleted) =>
+      (update(weddingTimelineCache)..where((t) => t.id.equals(id))).write(
+        WeddingTimelineCacheCompanion(isCompleted: Value(isCompleted)),
+      );
+}
+
 // ── Database ───────────────────────────────────────────────────────────────────
 
 @DriftDatabase(
-  tables: [NotificationsTable, EventsCache, TicketsCache],
-  daos: [NotificationsDao, EventsDao],
+  tables: [
+    NotificationsTable,
+    EventsCache,
+    TicketsCache,
+    WeddingCache,
+    WeddingVendorsCache,
+    WeddingBudgetCache,
+    WeddingTimelineCache,
+  ],
+  daos: [NotificationsDao, EventsDao, WeddingDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -216,12 +326,22 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(eventsCache);
             await m.createTable(ticketsCache);
           }
+          if (from < 4) {
+            await m.createTable(weddingCache);
+            await m.createTable(weddingVendorsCache);
+            await m.createTable(weddingBudgetCache);
+            await m.createTable(weddingTimelineCache);
+          }
         },
         beforeOpen: (details) async {
           await customStatement('PRAGMA foreign_keys = ON');
           await customStatement('PRAGMA journal_mode = WAL');
         },
       );
+
+  NotificationsDao get notificationsDao => NotificationsDao(this);
+  EventsDao get eventsDao => EventsDao(this);
+  WeddingDao get weddingDao => WeddingDao(this);
 
   static QueryExecutor _openConnection() {
     return LazyDatabase(() async {

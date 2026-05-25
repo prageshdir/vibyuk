@@ -9,6 +9,7 @@ import 'package:vibyuk/core/notifications/notification_handler.dart';
 import 'package:vibyuk/core/utils/helpers/connectivity_helper.dart';
 import 'package:vibyuk/features/events/di/event_module.dart';
 import 'package:vibyuk/features/notifications/di/notification_module.dart';
+import 'package:vibyuk/features/wedding/di/wedding_module.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -28,6 +29,7 @@ Future<void> configureDependencies() async {
   // registerAuthModule(sl);
   // registerCreatorModule(sl);
   registerEventModule(sl);
+  registerWeddingModule(sl);
 
   // Bootstrap services
   await sl<ConnectivityHelper>().initialize();

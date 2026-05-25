@@ -25,6 +25,21 @@ import 'package:vibyuk/features/notifications/presentation/blocs/notification_ce
 import 'package:vibyuk/features/notifications/presentation/blocs/notification_preferences/notification_preferences_bloc.dart';
 import 'package:vibyuk/features/notifications/presentation/screens/notification_center_screen.dart';
 import 'package:vibyuk/features/notifications/presentation/screens/notification_preferences_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/blocs/wedding_dashboard/wedding_dashboard_bloc.dart';
+import 'package:vibyuk/features/wedding/presentation/blocs/wedding_marketplace/wedding_marketplace_bloc.dart';
+import 'package:vibyuk/features/wedding/presentation/blocs/vendor_detail/vendor_detail_bloc.dart';
+import 'package:vibyuk/features/wedding/presentation/blocs/package_builder/package_builder_bloc.dart';
+import 'package:vibyuk/features/wedding/presentation/blocs/budget_tracker/budget_tracker_bloc.dart';
+import 'package:vibyuk/features/wedding/presentation/blocs/wedding_timeline/wedding_timeline_bloc.dart';
+import 'package:vibyuk/features/wedding/presentation/blocs/wedding_analytics/wedding_analytics_cubit.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/wedding_dashboard_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/wedding_marketplace_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/vendor_detail_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/venue_listing_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/package_builder_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/budget_tracker_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/wedding_timeline_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/wedding_analytics_screen.dart';
 
 // Placeholder screens — replaced by feature modules as they are built
 class _PlaceholderScreen extends StatelessWidget {
@@ -318,6 +333,84 @@ class AppRouter {
           return BlocProvider(
             create: (_) => GetIt.instance<TicketScannerCubit>(),
             child: TicketScannerScreen(eventId: eventId),
+          );
+        },
+      ),
+
+      // ── Wedding Ecosystem ────────────────────────────────────────────────────
+      GoRoute(
+        path: '/wedding',
+        name: 'wedding-dashboard',
+        builder: (_, __) => MultiBlocProvider(
+          providers: [
+            BlocProvider(
+                create: (_) => GetIt.instance<WeddingDashboardBloc>()),
+          ],
+          child: const WeddingDashboardScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/wedding/marketplace',
+        name: 'wedding-marketplace',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<WeddingMarketplaceBloc>(),
+          child: const WeddingMarketplaceScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/wedding/vendors/:id',
+        name: 'wedding-vendor-detail',
+        builder: (context, state) => BlocProvider(
+          create: (_) => GetIt.instance<VendorDetailBloc>(),
+          child: VendorDetailScreen(vendorId: state.pathParameters['id']!),
+        ),
+      ),
+      GoRoute(
+        path: '/wedding/venues',
+        name: 'wedding-venues',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<WeddingMarketplaceBloc>(),
+          child: const VenueListingScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/wedding/packages/build',
+        name: 'wedding-package-builder',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<PackageBuilderBloc>(),
+          child: const PackageBuilderScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/wedding/budget',
+        name: 'wedding-budget',
+        builder: (context, state) {
+          final weddingId = state.uri.queryParameters['weddingId'] ?? '';
+          return BlocProvider(
+            create: (_) => GetIt.instance<BudgetTrackerBloc>(),
+            child: BudgetTrackerScreen(weddingId: weddingId),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/wedding/timeline',
+        name: 'wedding-timeline',
+        builder: (context, state) {
+          final weddingId = state.uri.queryParameters['weddingId'] ?? '';
+          return BlocProvider(
+            create: (_) => GetIt.instance<WeddingTimelineBloc>(),
+            child: WeddingTimelineScreen(weddingId: weddingId),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/wedding/analytics',
+        name: 'wedding-analytics',
+        builder: (context, state) {
+          final weddingId = state.uri.queryParameters['weddingId'] ?? '';
+          return BlocProvider(
+            create: (_) => GetIt.instance<WeddingAnalyticsCubit>(),
+            child: WeddingAnalyticsScreen(weddingId: weddingId),
           );
         },
       ),

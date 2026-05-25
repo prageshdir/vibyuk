@@ -62,6 +62,41 @@ abstract final class ApiEndpoints {
   static String checkInTicket(String ticketId) => '/tickets/$ticketId/check-in';
   static String requestRefund(String ticketId) => '/tickets/$ticketId/refund';
 
+  // Wedding
+  static const String weddings = '/wedding/projects';
+  static String weddingById(String id) => '/wedding/projects/$id';
+  static String weddingAnalytics(String id) => '/wedding/projects/$id/analytics';
+
+  // Wedding Vendors & Venues
+  static const String weddingVendors = '/wedding/vendors';
+  static String weddingVendorById(String id) => '/wedding/vendors/$id';
+  static const String weddingVenues = '/wedding/venues';
+  static String weddingVenueById(String id) => '/wedding/venues/$id';
+
+  // Wedding Packages
+  static const String weddingPackages = '/wedding/packages';
+  static String weddingPackageById(String id) => '/wedding/packages/$id';
+  static String buildWeddingPackage(String weddingId) =>
+      '/wedding/projects/$weddingId/packages';
+
+  // Vendor Bookings
+  static String weddingBookings(String weddingId) =>
+      '/wedding/projects/$weddingId/bookings';
+  static String weddingBookingById(String weddingId, String bookingId) =>
+      '/wedding/projects/$weddingId/bookings/$bookingId';
+
+  // Budget
+  static String weddingBudget(String weddingId) =>
+      '/wedding/projects/$weddingId/budget';
+  static String weddingBudgetItem(String weddingId, String itemId) =>
+      '/wedding/projects/$weddingId/budget/$itemId';
+
+  // Timeline
+  static String weddingTimeline(String weddingId) =>
+      '/wedding/projects/$weddingId/timeline';
+  static String weddingTimelineTask(String weddingId, String taskId) =>
+      '/wedding/projects/$weddingId/timeline/$taskId';
+
   // Media
   static const String uploadMedia = '/media/upload';
   static String deleteMedia(String id) => '/media/$id';
