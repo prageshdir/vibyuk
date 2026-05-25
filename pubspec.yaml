@@ -76,6 +76,15 @@ dependencies:
   cached_network_image: ^3.3.1
   flutter_svg: ^2.0.10+1
 
+  # Local Notifications
+  flutter_local_notifications: ^17.2.3
+
+  # Event Ticketing
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^4.0.1
+  fl_chart: ^0.65.0
+  image_picker: ^1.0.7
+
   # UI
   shimmer: ^3.0.0
   gap: ^3.0.1

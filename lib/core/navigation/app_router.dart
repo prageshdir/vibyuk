@@ -1,7 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibyuk/core/navigation/guards/auth_guard.dart';
 import 'package:vibyuk/core/navigation/route_names.dart';
+import 'package:vibyuk/features/events/domain/entities/event_entity.dart';
+import 'package:vibyuk/features/events/domain/entities/ticket_entity.dart';
+import 'package:vibyuk/features/events/presentation/blocs/event_dashboard/event_dashboard_bloc.dart';
+import 'package:vibyuk/features/events/presentation/blocs/event_detail/event_detail_bloc.dart';
+import 'package:vibyuk/features/events/presentation/blocs/event_form/event_form_bloc.dart';
+import 'package:vibyuk/features/events/presentation/blocs/event_list/event_list_bloc.dart';
+import 'package:vibyuk/features/events/presentation/blocs/my_tickets/my_tickets_bloc.dart';
+import 'package:vibyuk/features/events/presentation/blocs/ticket_purchase/ticket_purchase_bloc.dart';
+import 'package:vibyuk/features/events/presentation/blocs/ticket_scanner/ticket_scanner_cubit.dart';
+import 'package:vibyuk/features/events/presentation/screens/create_edit_event_screen.dart';
+import 'package:vibyuk/features/events/presentation/screens/event_dashboard_screen.dart';
+import 'package:vibyuk/features/events/presentation/screens/event_detail_screen.dart';
+import 'package:vibyuk/features/events/presentation/screens/event_list_screen.dart';
+import 'package:vibyuk/features/events/presentation/screens/my_tickets_screen.dart';
+import 'package:vibyuk/features/events/presentation/screens/ticket_detail_screen.dart';
+import 'package:vibyuk/features/events/presentation/screens/ticket_purchase_screen.dart';
+import 'package:vibyuk/features/events/presentation/screens/ticket_scanner_screen.dart';
+import 'package:vibyuk/features/notifications/presentation/blocs/notification_center/notification_center_bloc.dart';
+import 'package:vibyuk/features/notifications/presentation/blocs/notification_preferences/notification_preferences_bloc.dart';
+import 'package:vibyuk/features/notifications/presentation/screens/notification_center_screen.dart';
+import 'package:vibyuk/features/notifications/presentation/screens/notification_preferences_screen.dart';
+import 'package:vibyuk/features/tourism/domain/entities/tourism_destination_entity.dart';
+import 'package:vibyuk/features/tourism/presentation/blocs/campaign_list/campaign_list_bloc.dart';
+import 'package:vibyuk/features/tourism/presentation/blocs/creator_collaboration/creator_collaboration_bloc.dart';
+import 'package:vibyuk/features/tourism/presentation/blocs/destination_detail/destination_detail_bloc.dart';
+import 'package:vibyuk/features/tourism/presentation/blocs/destination_list/destination_list_bloc.dart';
+import 'package:vibyuk/features/tourism/presentation/blocs/fam_trip/fam_trip_bloc.dart';
+import 'package:vibyuk/features/tourism/presentation/blocs/tourism_analytics/tourism_analytics_cubit.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/campaign_list_screen.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/creator_collaboration_screen.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/destination_detail_screen.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/destination_gallery_screen.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/destination_list_screen.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/fam_trip_screen.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/tourism_analytics_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/blocs/wedding_dashboard/wedding_dashboard_bloc.dart';
+import 'package:vibyuk/features/wedding/presentation/blocs/wedding_marketplace/wedding_marketplace_bloc.dart';
+import 'package:vibyuk/features/wedding/presentation/blocs/vendor_detail/vendor_detail_bloc.dart';
+import 'package:vibyuk/features/wedding/presentation/blocs/package_builder/package_builder_bloc.dart';
+import 'package:vibyuk/features/wedding/presentation/blocs/budget_tracker/budget_tracker_bloc.dart';
+import 'package:vibyuk/features/wedding/presentation/blocs/wedding_timeline/wedding_timeline_bloc.dart';
+import 'package:vibyuk/features/wedding/presentation/blocs/wedding_analytics/wedding_analytics_cubit.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/wedding_dashboard_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/wedding_marketplace_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/vendor_detail_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/venue_listing_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/package_builder_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/budget_tracker_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/wedding_timeline_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/wedding_analytics_screen.dart';
 
 // Placeholder screens — replaced by feature modules as they are built
 class _PlaceholderScreen extends StatelessWidget {
@@ -24,7 +76,10 @@ class AppRouter {
 
   final AuthGuard _authGuard;
 
-  late final GoRouter router = GoRouter(
+  late final GoRouter router = _buildRouter();
+
+  GoRouter _buildRouter() {
+    final router = GoRouter(
     initialLocation: RouteNames.splash,
     debugLogDiagnostics: true,
     redirect: _authGuard.redirect,
@@ -179,10 +234,294 @@ class AppRouter {
       GoRoute(
         path: RouteNames.notifications,
         name: 'notifications',
-        builder: (_, __) => const _PlaceholderScreen(title: 'Notifications'),
+        builder: (_, __) => MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (_) => GetIt.instance<NotificationCenterBloc>(),
+            ),
+          ],
+          child: const NotificationCenterScreen(),
+        ),
+        routes: [
+          GoRoute(
+            path: 'preferences',
+            name: 'notification-preferences',
+            builder: (_, __) => BlocProvider(
+              create: (_) =>
+                  GetIt.instance<NotificationPreferencesBloc>(),
+              child: const NotificationPreferencesScreen(),
+            ),
+          ),
+        ],
+      ),
+
+      // ── Events ──────────────────────────────────────────────────────────────
+      GoRoute(
+        path: RouteNames.eventList,
+        name: 'event-list',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<EventListBloc>(),
+          child: const EventListScreen(),
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.createEvent,
+        name: 'create-event',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<EventFormBloc>(),
+          child: const CreateEditEventScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/events/:id',
+        name: 'event-detail-full',
+        builder: (context, state) => BlocProvider(
+          create: (_) => GetIt.instance<EventDetailBloc>(),
+          child: EventDetailScreen(eventId: state.pathParameters['id']!),
+        ),
+        routes: [
+          GoRoute(
+            path: 'edit',
+            name: 'edit-event',
+            builder: (context, state) => BlocProvider(
+              create: (_) => GetIt.instance<EventFormBloc>(),
+              child: CreateEditEventScreen(
+                eventId: state.pathParameters['id'],
+              ),
+            ),
+          ),
+          GoRoute(
+            path: 'purchase',
+            name: 'purchase-tickets',
+            builder: (context, state) {
+              final event = state.extra as EventEntity?;
+              if (event == null) {
+                return const _PlaceholderScreen(title: 'Purchase Tickets');
+              }
+              return BlocProvider(
+                create: (_) => GetIt.instance<TicketPurchaseBloc>(),
+                child: TicketPurchaseScreen(event: event),
+              );
+            },
+          ),
+          GoRoute(
+            path: 'dashboard',
+            name: 'event-dashboard',
+            builder: (context, state) => BlocProvider(
+              create: (_) => GetIt.instance<EventDashboardBloc>(),
+              child: EventDashboardScreen(
+                eventId: state.pathParameters['id']!,
+              ),
+            ),
+          ),
+        ],
+      ),
+
+      // ── Tickets ─────────────────────────────────────────────────────────────
+      GoRoute(
+        path: RouteNames.myTickets,
+        name: 'my-tickets',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<MyTicketsBloc>(),
+          child: const MyTicketsScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/tickets/:id',
+        name: 'ticket-detail',
+        builder: (context, state) {
+          final ticket = state.extra as TicketEntity?;
+          if (ticket == null) {
+            return const _PlaceholderScreen(title: 'Ticket');
+          }
+          return TicketDetailScreen(ticket: ticket);
+        },
+      ),
+
+      // ── Scanner ─────────────────────────────────────────────────────────────
+      GoRoute(
+        path: RouteNames.ticketScanner,
+        name: 'ticket-scanner',
+        builder: (context, state) {
+          final eventId = state.uri.queryParameters['eventId'] ?? '';
+          return BlocProvider(
+            create: (_) => GetIt.instance<TicketScannerCubit>(),
+            child: TicketScannerScreen(eventId: eventId),
+          );
+        },
+      ),
+
+      // ── Wedding Ecosystem ────────────────────────────────────────────────────
+      GoRoute(
+        path: '/wedding',
+        name: 'wedding-dashboard',
+        builder: (_, __) => MultiBlocProvider(
+          providers: [
+            BlocProvider(
+                create: (_) => GetIt.instance<WeddingDashboardBloc>()),
+          ],
+          child: const WeddingDashboardScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/wedding/marketplace',
+        name: 'wedding-marketplace',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<WeddingMarketplaceBloc>(),
+          child: const WeddingMarketplaceScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/wedding/vendors/:id',
+        name: 'wedding-vendor-detail',
+        builder: (context, state) => BlocProvider(
+          create: (_) => GetIt.instance<VendorDetailBloc>(),
+          child: VendorDetailScreen(vendorId: state.pathParameters['id']!),
+        ),
+      ),
+      GoRoute(
+        path: '/wedding/venues',
+        name: 'wedding-venues',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<WeddingMarketplaceBloc>(),
+          child: const VenueListingScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/wedding/packages/build',
+        name: 'wedding-package-builder',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<PackageBuilderBloc>(),
+          child: const PackageBuilderScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/wedding/budget',
+        name: 'wedding-budget',
+        builder: (context, state) {
+          final weddingId = state.uri.queryParameters['weddingId'] ?? '';
+          return BlocProvider(
+            create: (_) => GetIt.instance<BudgetTrackerBloc>(),
+            child: BudgetTrackerScreen(weddingId: weddingId),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/wedding/timeline',
+        name: 'wedding-timeline',
+        builder: (context, state) {
+          final weddingId = state.uri.queryParameters['weddingId'] ?? '';
+          return BlocProvider(
+            create: (_) => GetIt.instance<WeddingTimelineBloc>(),
+            child: WeddingTimelineScreen(weddingId: weddingId),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/wedding/analytics',
+        name: 'wedding-analytics',
+        builder: (context, state) {
+          final weddingId = state.uri.queryParameters['weddingId'] ?? '';
+          return BlocProvider(
+            create: (_) => GetIt.instance<WeddingAnalyticsCubit>(),
+            child: WeddingAnalyticsScreen(weddingId: weddingId),
+          );
+        },
+      ),
+
+      // ── Tourism Promotion ────────────────────────────────────────────────────
+      GoRoute(
+        path: RouteNames.tourismDestinations,
+        name: 'tourism-destinations',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<DestinationListBloc>(),
+          child: const DestinationListScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/tourism/destinations/:id',
+        name: 'tourism-destination-detail',
+        builder: (context, state) => BlocProvider(
+          create: (_) => GetIt.instance<DestinationDetailBloc>(),
+          child: DestinationDetailScreen(
+              id: state.pathParameters['id']!),
+        ),
+        routes: [
+          GoRoute(
+            path: 'gallery',
+            name: 'tourism-destination-gallery',
+            builder: (context, state) {
+              final destination = state.extra as TourismDestinationEntity?;
+              if (destination == null) {
+                return const _PlaceholderScreen(title: 'Gallery');
+              }
+              return DestinationGalleryScreen(destination: destination);
+            },
+          ),
+        ],
+      ),
+      GoRoute(
+        path: RouteNames.tourismCampaigns,
+        name: 'tourism-campaigns',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return BlocProvider(
+            create: (_) => GetIt.instance<CampaignListBloc>(),
+            child: CampaignListScreen(
+              destinationId: extra?['destinationId'] as String?,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/tourism/campaigns/:id',
+        name: 'tourism-campaign-detail',
+        builder: (context, state) => BlocProvider(
+          create: (_) => GetIt.instance<CampaignListBloc>(),
+          child: CampaignListScreen(
+            destinationId: null,
+          ),
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.famTrips,
+        name: 'fam-trips',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return BlocProvider(
+            create: (_) => GetIt.instance<FamTripBloc>(),
+            child: FamTripScreen(
+              destinationId: extra?['destinationId'] as String?,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: RouteNames.tourismCollaborations,
+        name: 'tourism-collaborations',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return BlocProvider(
+            create: (_) => GetIt.instance<CreatorCollaborationBloc>(),
+            child: CreatorCollaborationScreen(
+              destinationId: extra?['destinationId'] as String?,
+              campaignId: extra?['campaignId'] as String?,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: RouteNames.tourismAnalyticsDashboard,
+        name: 'tourism-analytics',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<TourismAnalyticsCubit>(),
+          child: const TourismAnalyticsScreen(),
+        ),
       ),
     ],
-  );
+    );
+    return router;
+  }
 }
 
 class _ScaffoldWithNavBar extends StatelessWidget {
