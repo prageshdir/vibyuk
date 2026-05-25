@@ -5,6 +5,8 @@ import 'package:vibyuk/core/di/injection_container.dart';
 import 'package:vibyuk/core/navigation/app_router.dart';
 import 'package:vibyuk/core/theme/app_theme.dart';
 import 'package:vibyuk/core/theme/theme_bloc.dart';
+import 'package:vibyuk/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:vibyuk/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:vibyuk/l10n/l10n.dart';
 
 class VibyukApp extends StatelessWidget {
@@ -12,8 +14,18 @@ class VibyukApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ThemeBloc>(
-      create: (_) => sl<ThemeBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ThemeBloc>(
+          create: (_) => sl<ThemeBloc>(),
+        ),
+        BlocProvider<AuthBloc>(
+          create: (_) => sl<AuthBloc>(),
+        ),
+        BlocProvider<ProfileBloc>(
+          create: (_) => sl<ProfileBloc>(),
+        ),
+      ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {
           return MaterialApp.router(
