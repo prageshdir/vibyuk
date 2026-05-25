@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:vibyuk/core/cache/hive/hive_service.dart';
+import 'package:vibyuk/core/di/modules/admin_module.dart';
+import 'package:vibyuk/core/di/modules/ai_module.dart';
 import 'package:vibyuk/core/di/modules/api_module.dart';
 import 'package:vibyuk/core/di/modules/cache_module.dart';
 import 'package:vibyuk/core/di/modules/core_module.dart';
@@ -23,6 +25,8 @@ Future<void> configureDependencies() async {
   // registerAuthModule(sl);
   // registerCreatorModule(sl);
   // registerEventModule(sl);
+  registerAiModule(sl);
+  registerAdminModule(sl);
 
   // Bootstrap connectivity watcher
   await sl<ConnectivityHelper>().initialize();
