@@ -49,5 +49,13 @@ abstract final class RouteNames {
   static const String aiAnalytics = '/ai/analytics';
   static const String aiChat = '/ai/chat';
 
+  // Admin
+  static const String adminDashboard = '/admin';
+  static const String adminModeration = '/admin/moderation';
+  static const String adminDisputes = '/admin/disputes';
+  static const String adminVerifications = '/admin/verifications';
+  static const String adminAnalytics = '/admin/analytics';
+  static const String adminReports = '/admin/reports';
+
   RouteNames._();
 }

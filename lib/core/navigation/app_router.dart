@@ -17,6 +17,17 @@ import 'package:vibyuk/features/ai/presentation/screens/ai_hub_screen.dart';
 import 'package:vibyuk/features/ai/presentation/screens/ai_pricing_screen.dart';
 import 'package:vibyuk/features/ai/domain/entities/ai_chat_message.dart';
 import 'package:vibyuk/features/ai/presentation/screens/ai_recommendations_screen.dart';
+import 'package:vibyuk/features/admin/presentation/bloc/admin_analytics/admin_analytics_bloc.dart';
+import 'package:vibyuk/features/admin/presentation/bloc/admin_disputes/admin_disputes_bloc.dart';
+import 'package:vibyuk/features/admin/presentation/bloc/admin_moderation/admin_moderation_bloc.dart';
+import 'package:vibyuk/features/admin/presentation/bloc/admin_reports/admin_reports_bloc.dart';
+import 'package:vibyuk/features/admin/presentation/bloc/admin_verification/admin_verification_bloc.dart';
+import 'package:vibyuk/features/admin/presentation/screens/admin_analytics_screen.dart';
+import 'package:vibyuk/features/admin/presentation/screens/admin_dashboard_screen.dart';
+import 'package:vibyuk/features/admin/presentation/screens/admin_disputes_screen.dart';
+import 'package:vibyuk/features/admin/presentation/screens/admin_moderation_screen.dart';
+import 'package:vibyuk/features/admin/presentation/screens/admin_reports_screen.dart';
+import 'package:vibyuk/features/admin/presentation/screens/admin_verification_screen.dart';
 
 // Placeholder screens — replaced by feature modules as they are built
 class _PlaceholderScreen extends StatelessWidget {
@@ -253,6 +264,53 @@ class AppRouter {
             child: AiChatScreen(chatContext: chatCtx),
           );
         },
+      ),
+
+      // Admin Routes
+      GoRoute(
+        path: RouteNames.adminDashboard,
+        name: 'admin-dashboard',
+        builder: (_, __) => const AdminDashboardScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.adminModeration,
+        name: 'admin-moderation',
+        builder: (_, __) => BlocProvider(
+          create: (_) => sl<AdminModerationBloc>(),
+          child: const AdminModerationScreen(),
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.adminDisputes,
+        name: 'admin-disputes',
+        builder: (_, __) => BlocProvider(
+          create: (_) => sl<AdminDisputesBloc>(),
+          child: const AdminDisputesScreen(),
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.adminVerifications,
+        name: 'admin-verifications',
+        builder: (_, __) => BlocProvider(
+          create: (_) => sl<AdminVerificationBloc>(),
+          child: const AdminVerificationScreen(),
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.adminAnalytics,
+        name: 'admin-analytics',
+        builder: (_, __) => BlocProvider(
+          create: (_) => sl<AdminAnalyticsBloc>(),
+          child: const AdminAnalyticsScreen(),
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.adminReports,
+        name: 'admin-reports',
+        builder: (_, __) => BlocProvider(
+          create: (_) => sl<AdminReportsBloc>(),
+          child: const AdminReportsScreen(),
+        ),
       ),
     ],
   );
