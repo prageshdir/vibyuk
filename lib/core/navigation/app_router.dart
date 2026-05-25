@@ -25,6 +25,20 @@ import 'package:vibyuk/features/notifications/presentation/blocs/notification_ce
 import 'package:vibyuk/features/notifications/presentation/blocs/notification_preferences/notification_preferences_bloc.dart';
 import 'package:vibyuk/features/notifications/presentation/screens/notification_center_screen.dart';
 import 'package:vibyuk/features/notifications/presentation/screens/notification_preferences_screen.dart';
+import 'package:vibyuk/features/tourism/domain/entities/tourism_destination_entity.dart';
+import 'package:vibyuk/features/tourism/presentation/blocs/campaign_list/campaign_list_bloc.dart';
+import 'package:vibyuk/features/tourism/presentation/blocs/creator_collaboration/creator_collaboration_bloc.dart';
+import 'package:vibyuk/features/tourism/presentation/blocs/destination_detail/destination_detail_bloc.dart';
+import 'package:vibyuk/features/tourism/presentation/blocs/destination_list/destination_list_bloc.dart';
+import 'package:vibyuk/features/tourism/presentation/blocs/fam_trip/fam_trip_bloc.dart';
+import 'package:vibyuk/features/tourism/presentation/blocs/tourism_analytics/tourism_analytics_cubit.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/campaign_list_screen.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/creator_collaboration_screen.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/destination_detail_screen.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/destination_gallery_screen.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/destination_list_screen.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/fam_trip_screen.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/tourism_analytics_screen.dart';
 import 'package:vibyuk/features/wedding/presentation/blocs/wedding_dashboard/wedding_dashboard_bloc.dart';
 import 'package:vibyuk/features/wedding/presentation/blocs/wedding_marketplace/wedding_marketplace_bloc.dart';
 import 'package:vibyuk/features/wedding/presentation/blocs/vendor_detail/vendor_detail_bloc.dart';
@@ -413,6 +427,96 @@ class AppRouter {
             child: WeddingAnalyticsScreen(weddingId: weddingId),
           );
         },
+      ),
+
+      // ── Tourism Promotion ────────────────────────────────────────────────────
+      GoRoute(
+        path: RouteNames.tourismDestinations,
+        name: 'tourism-destinations',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<DestinationListBloc>(),
+          child: const DestinationListScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/tourism/destinations/:id',
+        name: 'tourism-destination-detail',
+        builder: (context, state) => BlocProvider(
+          create: (_) => GetIt.instance<DestinationDetailBloc>(),
+          child: DestinationDetailScreen(
+              id: state.pathParameters['id']!),
+        ),
+        routes: [
+          GoRoute(
+            path: 'gallery',
+            name: 'tourism-destination-gallery',
+            builder: (context, state) {
+              final destination = state.extra as TourismDestinationEntity?;
+              if (destination == null) {
+                return const _PlaceholderScreen(title: 'Gallery');
+              }
+              return DestinationGalleryScreen(destination: destination);
+            },
+          ),
+        ],
+      ),
+      GoRoute(
+        path: RouteNames.tourismCampaigns,
+        name: 'tourism-campaigns',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return BlocProvider(
+            create: (_) => GetIt.instance<CampaignListBloc>(),
+            child: CampaignListScreen(
+              destinationId: extra?['destinationId'] as String?,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/tourism/campaigns/:id',
+        name: 'tourism-campaign-detail',
+        builder: (context, state) => BlocProvider(
+          create: (_) => GetIt.instance<CampaignListBloc>(),
+          child: CampaignListScreen(
+            destinationId: null,
+          ),
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.famTrips,
+        name: 'fam-trips',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return BlocProvider(
+            create: (_) => GetIt.instance<FamTripBloc>(),
+            child: FamTripScreen(
+              destinationId: extra?['destinationId'] as String?,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: RouteNames.tourismCollaborations,
+        name: 'tourism-collaborations',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return BlocProvider(
+            create: (_) => GetIt.instance<CreatorCollaborationBloc>(),
+            child: CreatorCollaborationScreen(
+              destinationId: extra?['destinationId'] as String?,
+              campaignId: extra?['campaignId'] as String?,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: RouteNames.tourismAnalyticsDashboard,
+        name: 'tourism-analytics',
+        builder: (_, __) => BlocProvider(
+          create: (_) => GetIt.instance<TourismAnalyticsCubit>(),
+          child: const TourismAnalyticsScreen(),
+        ),
       ),
     ],
     );

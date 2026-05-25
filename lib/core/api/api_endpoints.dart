@@ -105,4 +105,18 @@ abstract final class ApiEndpoints {
   static const String search = '/search';
   static const String searchCreators = '/search/creators';
   static const String searchEvents = '/search/events';
+
+  // Tourism
+  static const String tourismDestinations = '/tourism/destinations';
+  static String tourismDestination(String id) => '/tourism/destinations/$id';
+  static String destinationGallery(String id) => '/tourism/destinations/$id/gallery';
+  static const String tourismCampaigns = '/tourism/campaigns';
+  static String tourismCampaign(String id) => '/tourism/campaigns/$id';
+  static String publishTourismCampaign(String id) => '/tourism/campaigns/$id/publish';
+  static const String famTrips = '/tourism/fam-trips';
+  static String famTrip(String id) => '/tourism/fam-trips/$id';
+  static String applyFamTrip(String id) => '/tourism/fam-trips/$id/apply';
+  static const String tourismCollaborations = '/tourism/collaborations';
+  static String tourismCollaboration(String id) => '/tourism/collaborations/$id';
+  static const String tourismAnalytics = '/tourism/analytics';
 }

@@ -293,6 +293,85 @@ class WeddingDao extends DatabaseAccessor<AppDatabase>
       );
 }
 
+// ── Tourism cache tables ───────────────────────────────────────────────────────
+
+@DataClassName('CachedTourismDestination')
+class TourismDestinationsCache extends Table {
+  TextColumn get id => text()();
+  TextColumn get dataJson => text()();
+  TextColumn get category => text()();
+  TextColumn get region => text()();
+  BoolColumn get isFeatured =>
+      boolean().withDefault(const Constant(false))();
+  DateTimeColumn get cachedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+@DataClassName('CachedTourismCampaign')
+class TourismCampaignsCache extends Table {
+  TextColumn get id => text()();
+  TextColumn get dataJson => text()();
+  TextColumn get destinationId => text()();
+  TextColumn get status => text()();
+  DateTimeColumn get cachedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+// ── Tourism DAO ────────────────────────────────────────────────────────────────
+
+@DriftAccessor(tables: [TourismDestinationsCache, TourismCampaignsCache])
+class TourismDao extends DatabaseAccessor<AppDatabase>
+    with _$TourismDaoMixin {
+  TourismDao(super.db);
+
+  Future<void> upsertDestination(TourismDestinationsCacheCompanion entry) =>
+      into(tourismDestinationsCache).insertOnConflictUpdate(entry);
+
+  Future<CachedTourismDestination?> getDestination(String id) =>
+      (select(tourismDestinationsCache)..where((d) => d.id.equals(id)))
+          .getSingleOrNull();
+
+  Future<List<CachedTourismDestination>> getDestinations({
+    String? category,
+    String? region,
+    bool? featuredOnly,
+  }) {
+    final query = select(tourismDestinationsCache);
+    if (category != null) query.where((d) => d.category.equals(category));
+    if (region != null) query.where((d) => d.region.equals(region));
+    if (featuredOnly == true) query.where((d) => d.isFeatured.equals(true));
+    return query.get();
+  }
+
+  Future<void> upsertCampaign(TourismCampaignsCacheCompanion entry) =>
+      into(tourismCampaignsCache).insertOnConflictUpdate(entry);
+
+  Future<CachedTourismCampaign?> getCampaign(String id) =>
+      (select(tourismCampaignsCache)..where((c) => c.id.equals(id)))
+          .getSingleOrNull();
+
+  Future<List<CachedTourismCampaign>> getCampaigns({
+    String? destinationId,
+    String? status,
+  }) {
+    final query = select(tourismCampaignsCache);
+    if (destinationId != null) {
+      query.where((c) => c.destinationId.equals(destinationId));
+    }
+    if (status != null) query.where((c) => c.status.equals(status));
+    return query.get();
+  }
+
+  Future<void> pruneDestinationCache(DateTime olderThan) =>
+      (delete(tourismDestinationsCache)
+            ..where((d) => d.cachedAt.isSmallerThanValue(olderThan)))
+          .go();
+}
+
 // ── Database ───────────────────────────────────────────────────────────────────
 
 @DriftDatabase(
@@ -304,14 +383,16 @@ class WeddingDao extends DatabaseAccessor<AppDatabase>
     WeddingVendorsCache,
     WeddingBudgetCache,
     WeddingTimelineCache,
+    TourismDestinationsCache,
+    TourismCampaignsCache,
   ],
-  daos: [NotificationsDao, EventsDao, WeddingDao],
+  daos: [NotificationsDao, EventsDao, WeddingDao, TourismDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -332,6 +413,10 @@ class AppDatabase extends _$AppDatabase {
             await m.createTable(weddingBudgetCache);
             await m.createTable(weddingTimelineCache);
           }
+          if (from < 5) {
+            await m.createTable(tourismDestinationsCache);
+            await m.createTable(tourismCampaignsCache);
+          }
         },
         beforeOpen: (details) async {
           await customStatement('PRAGMA foreign_keys = ON');
@@ -342,6 +427,7 @@ class AppDatabase extends _$AppDatabase {
   NotificationsDao get notificationsDao => NotificationsDao(this);
   EventsDao get eventsDao => EventsDao(this);
   WeddingDao get weddingDao => WeddingDao(this);
+  TourismDao get tourismDao => TourismDao(this);
 
   static QueryExecutor _openConnection() {
     return LazyDatabase(() async {

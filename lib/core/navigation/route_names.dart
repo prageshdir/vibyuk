@@ -69,5 +69,21 @@ abstract final class RouteNames {
   static const String weddingTimeline = '/wedding/timeline';
   static const String weddingAnalytics = '/wedding/analytics';
 
+  // Tourism
+  static const String tourism = '/tourism';
+  static const String tourismDestinations = '/tourism/destinations';
+  static const String tourismDestinationDetail = '/tourism/destinations/:id';
+  static String tourismDestinationDetailPath(String id) => '/tourism/destinations/$id';
+  static const String tourismDestinationGallery = '/tourism/destinations/:id/gallery';
+  static String tourismDestinationGalleryPath(String id) => '/tourism/destinations/$id/gallery';
+  static const String tourismCampaigns = '/tourism/campaigns';
+  static const String tourismCampaignDetail = '/tourism/campaigns/:id';
+  static String tourismCampaignDetailPath(String id) => '/tourism/campaigns/$id';
+  static const String famTrips = '/tourism/fam-trips';
+  static const String famTripDetail = '/tourism/fam-trips/:id';
+  static String famTripDetailPath(String id) => '/tourism/fam-trips/$id';
+  static const String tourismCollaborations = '/tourism/collaborations';
+  static const String tourismAnalyticsDashboard = '/tourism/analytics';
+
   RouteNames._();
 }
