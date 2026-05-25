@@ -35,9 +35,13 @@ abstract final class ApiEndpoints {
 
   // Notifications
   static const String notifications = '/notifications';
+  static String notification(String id) => '/notifications/$id';
   static String markNotificationRead(String id) => '/notifications/$id/read';
   static const String markAllNotificationsRead = '/notifications/read-all';
   static const String registerDeviceToken = '/notifications/device-tokens';
+  static String unregisterDeviceToken(String token) =>
+      '/notifications/device-tokens/$token';
+  static const String notificationPreferences = '/notifications/preferences';
 
   // Media
   static const String uploadMedia = '/media/upload';

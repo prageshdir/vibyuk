@@ -38,6 +38,10 @@ abstract final class RouteNames {
   static const String settings = '/settings';
   static const String notifications = '/notifications';
 
+  // Notifications
+  static const String notificationDetail = '/notifications/:id';
+  static const String notificationPreferences = '/notifications/preferences';
+
   // Misc
   static const String search = '/search';
 

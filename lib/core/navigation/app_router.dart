@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibyuk/core/navigation/guards/auth_guard.dart';
 import 'package:vibyuk/core/navigation/route_names.dart';
+import 'package:vibyuk/features/notifications/presentation/blocs/notification_center/notification_center_bloc.dart';
+import 'package:vibyuk/features/notifications/presentation/blocs/notification_preferences/notification_preferences_bloc.dart';
+import 'package:vibyuk/features/notifications/presentation/screens/notification_center_screen.dart';
+import 'package:vibyuk/features/notifications/presentation/screens/notification_preferences_screen.dart';
 
 // Placeholder screens — replaced by feature modules as they are built
 class _PlaceholderScreen extends StatelessWidget {
@@ -24,7 +30,10 @@ class AppRouter {
 
   final AuthGuard _authGuard;
 
-  late final GoRouter router = GoRouter(
+  late final GoRouter router = _buildRouter();
+
+  GoRouter _buildRouter() {
+    final router = GoRouter(
     initialLocation: RouteNames.splash,
     debugLogDiagnostics: true,
     redirect: _authGuard.redirect,
@@ -179,10 +188,30 @@ class AppRouter {
       GoRoute(
         path: RouteNames.notifications,
         name: 'notifications',
-        builder: (_, __) => const _PlaceholderScreen(title: 'Notifications'),
+        builder: (_, __) => MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (_) => GetIt.instance<NotificationCenterBloc>(),
+            ),
+          ],
+          child: const NotificationCenterScreen(),
+        ),
+        routes: [
+          GoRoute(
+            path: 'preferences',
+            name: 'notification-preferences',
+            builder: (_, __) => BlocProvider(
+              create: (_) =>
+                  GetIt.instance<NotificationPreferencesBloc>(),
+              child: const NotificationPreferencesScreen(),
+            ),
+          ),
+        ],
       ),
     ],
-  );
+    );
+    return router;
+  }
 }
 
 class _ScaffoldWithNavBar extends StatelessWidget {
