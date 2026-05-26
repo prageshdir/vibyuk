@@ -244,7 +244,7 @@ class _AnalyticsContent extends StatelessWidget {
               AdminStatCard(
                 label: 'Total Revenue',
                 value: '\$${_fmt(analytics.totalRevenue.toInt())}',
-                icon: Icons.attach_money_rounded,
+                icon: Icons.currency_rupee_rounded,
                 color: const Color(0xFF4CAF50),
               ),
               AdminStatCard(

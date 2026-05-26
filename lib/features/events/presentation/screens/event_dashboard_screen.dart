@@ -149,7 +149,7 @@ class _DashboardView extends StatelessWidget {
                         _StatCard(
                           title: 'Revenue',
                           value: currencyFormat.format(analytics.totalRevenue),
-                          icon: Icons.attach_money,
+                          icon: Icons.currency_rupee_rounded,
                           color: Colors.green,
                         ),
                         _StatCard(

@@ -238,7 +238,7 @@ class _OverviewTab extends StatelessWidget {
         ),
         Expanded(
           child: _QuickStat(
-            icon: Icons.attach_money,
+            icon: Icons.currency_rupee_rounded,
             value: destination.formattedCost,
             label: 'Avg/Day',
           ),
@@ -300,7 +300,7 @@ class _OverviewTab extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.attach_money, color: AppColors.primary),
+          const Icon(Icons.currency_rupee_rounded, color: AppColors.primary),
           const SizedBox(width: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
