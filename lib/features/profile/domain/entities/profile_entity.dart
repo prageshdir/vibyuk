@@ -77,8 +77,8 @@ class CreatorInfo extends Equatable {
 
   String get rateDisplay {
     if (hourlyRateFrom == null) return 'Rate on request';
-    if (hourlyRateTo == null) return 'From £${hourlyRateFrom!.toInt()}/hr';
-    return '£${hourlyRateFrom!.toInt()} – £${hourlyRateTo!.toInt()}/hr';
+    if (hourlyRateTo == null) return 'From ₹${hourlyRateFrom!.toInt()}/hr';
+    return '₹${hourlyRateFrom!.toInt()} – ₹${hourlyRateTo!.toInt()}/hr';
   }
 
   String get responseRateDisplay =>

@@ -33,7 +33,7 @@ class AiRecommendationModel extends AiRecommendation {
       matchReasons: List<String>.from(json['match_reasons'] as List),
       tags: List<String>.from(json['tags'] as List),
       estimatedBudget: (json['estimated_budget'] as num).toDouble(),
-      currency: json['currency'] as String? ?? 'GBP',
+      currency: json['currency'] as String? ?? 'INR',
       portfolioHighlights:
           List<String>.from(json['portfolio_highlights'] as List),
       rating: (json['rating'] as num).toDouble(),

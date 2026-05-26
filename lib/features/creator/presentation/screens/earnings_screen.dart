@@ -62,7 +62,7 @@ class _EarningsScreenState extends State<EarningsScreen> {
                                 color: Colors.white70, fontSize: 13)),
                         const SizedBox(height: 4),
                         Text(
-                          '£${earnings.availableBalance.toStringAsFixed(2)}',
+                          '₹${earnings.availableBalance.toStringAsFixed(2)}',
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 32,
@@ -74,12 +74,12 @@ class _EarningsScreenState extends State<EarningsScreen> {
                             _EarningsStat(
                                 label: 'Pending',
                                 value:
-                                    '£${earnings.pendingPayout.toStringAsFixed(0)}'),
+                                    '₹${earnings.pendingPayout.toStringAsFixed(0)}'),
                             const SizedBox(width: 24),
                             _EarningsStat(
                                 label: 'Lifetime',
                                 value:
-                                    '£${earnings.lifetimeEarnings.toStringAsFixed(0)}'),
+                                    '₹${earnings.lifetimeEarnings.toStringAsFixed(0)}'),
                           ],
                         ),
                         const SizedBox(height: 16),
@@ -177,7 +177,7 @@ class _EarningsScreenState extends State<EarningsScreen> {
       builder: (_) => AlertDialog(
         title: const Text('Request Payout'),
         content: Text(
-            'Request payout of £${earnings.availableBalance.toStringAsFixed(2)} to your registered bank account?'),
+            'Request payout of ₹${earnings.availableBalance.toStringAsFixed(2)} to your registered bank account?'),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(context),
@@ -243,7 +243,7 @@ class _PayoutTile extends StatelessWidget {
         backgroundColor: statusColor.withOpacity(0.12),
         child: Icon(Icons.currency_pound_rounded, color: statusColor),
       ),
-      title: Text('£${payout.amount.toStringAsFixed(2)}',
+      title: Text('₹${payout.amount.toStringAsFixed(2)}',
           style: theme.textTheme.titleSmall
               ?.copyWith(fontWeight: FontWeight.w700)),
       subtitle: Text(

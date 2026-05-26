@@ -22,7 +22,7 @@ class AnalyticsDashboardEntity extends Equatable {
   final List<CategoryStat> topCategories;
   final String period;
 
-  String get totalSpendDisplay => '£${totalSpend.toStringAsFixed(0)}';
+  String get totalSpendDisplay => '₹${totalSpend.toStringAsFixed(0)}';
   String get avgRatingDisplay => avgRating.toStringAsFixed(1);
 
   @override

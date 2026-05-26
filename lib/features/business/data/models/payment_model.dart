@@ -4,7 +4,7 @@ class PaymentModel {
   const PaymentModel({
     required this.id,
     required this.amount,
-    this.currency = 'GBP',
+    this.currency = 'INR',
     required this.status,
     required this.type,
     required this.description,
@@ -26,7 +26,7 @@ class PaymentModel {
   factory PaymentModel.fromJson(Map<String, dynamic> json) => PaymentModel(
         id: json['id'] as String,
         amount: (json['amount'] as num).toDouble(),
-        currency: json['currency'] as String? ?? 'GBP',
+        currency: json['currency'] as String? ?? 'INR',
         status: json['status'] as String? ?? 'pending',
         type: json['type'] as String? ?? 'booking',
         description: json['description'] as String? ?? '',

@@ -73,7 +73,7 @@ class AiPricingSuggestionModel extends AiPricingSuggestion {
       suggestedPrice: (json['suggested_price'] as num).toDouble(),
       minPrice: (json['min_price'] as num).toDouble(),
       maxPrice: (json['max_price'] as num).toDouble(),
-      currency: json['currency'] as String? ?? 'GBP',
+      currency: json['currency'] as String? ?? 'INR',
       confidence: PricingConfidence.values.firstWhere(
         (e) => e.name == json['confidence'],
         orElse: () => PricingConfidence.medium,

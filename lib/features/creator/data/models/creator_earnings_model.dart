@@ -69,7 +69,7 @@ class EarningsPeriodModel {
         periodEnd: json['period_end'] as String,
         amount: (json['amount'] as num).toDouble(),
         bookingCount: json['booking_count'] as int? ?? 0,
-        currency: json['currency'] as String? ?? 'GBP',
+        currency: json['currency'] as String? ?? 'INR',
       );
 
   EarningsPeriodEntity toEntity() => EarningsPeriodEntity(
@@ -103,7 +103,7 @@ class PayoutModel {
   factory PayoutModel.fromJson(Map<String, dynamic> json) => PayoutModel(
         id: json['id'] as String,
         amount: (json['amount'] as num).toDouble(),
-        currency: json['currency'] as String? ?? 'GBP',
+        currency: json['currency'] as String? ?? 'INR',
         status: json['status'] as String? ?? 'pending',
         requestedAt: json['requested_at'] as String,
         completedAt: json['completed_at'] as String?,

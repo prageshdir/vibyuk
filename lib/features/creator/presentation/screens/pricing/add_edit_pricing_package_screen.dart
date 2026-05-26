@@ -26,7 +26,7 @@ class _AddEditPricingPackageScreenState
   final _inclusionCtrl = TextEditingController();
 
   PackageType _packageType = PackageType.basic;
-  String _currency = 'GBP';
+  String _currency = 'INR';
   bool _isActive = true;
   List<String> _inclusions = [];
 

@@ -96,7 +96,7 @@ class _AiAnalyticsScreenState extends State<AiAnalyticsScreen> {
                           dataPoints: data.revenueTimeline,
                           lineColor: AppColors.primary,
                           label: 'Revenue',
-                          unit: '£',
+                          unit: '₹',
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -214,7 +214,7 @@ class _KpiRow extends StatelessWidget {
         Expanded(
           child: _KpiCard(
             label: 'Revenue',
-            value: '£${_formatNumber(analytics.totalRevenue)}',
+            value: '₹${_formatNumber(analytics.totalRevenue)}',
             trend: analytics.revenueTrend,
             changePercent: analytics.revenueGrowthRate,
             color: AppColors.primary,
@@ -236,7 +236,7 @@ class _KpiRow extends StatelessWidget {
         Expanded(
           child: _KpiCard(
             label: 'Avg Value',
-            value: '£${analytics.avgBookingValue.toStringAsFixed(0)}',
+            value: '₹${analytics.avgBookingValue.toStringAsFixed(0)}',
             trend: MetricTrend.stable,
             changePercent: 0,
             color: AppColors.secondary,
@@ -418,7 +418,7 @@ class _GaugesRow extends StatelessWidget {
               AiPerformanceGauge(
                 value: analytics.projectedRevenue,
                 maxValue: analytics.totalRevenue * 1.5,
-                label: '£${_fmt(analytics.projectedRevenue)}',
+                label: '₹${_fmt(analytics.projectedRevenue)}',
                 sublabel: 'Projected',
                 color: AppColors.secondary,
               ),
@@ -602,7 +602,7 @@ class _TopCreatorsSection extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '£${creator.revenue.toStringAsFixed(0)}',
+                    '₹${creator.revenue.toStringAsFixed(0)}',
                     style: const TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,

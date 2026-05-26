@@ -67,7 +67,7 @@ class _SpendLineChartState extends State<SpendLineChart> {
                 getTitlesWidget: (value, _) => Padding(
                   padding: const EdgeInsets.only(right: 4),
                   child: Text(
-                    '£${value.toInt()}',
+                    '₹${value.toInt()}',
                     style: const TextStyle(
                       color: AppColors.textSecondary,
                       fontSize: 10,
@@ -108,7 +108,7 @@ class _SpendLineChartState extends State<SpendLineChart> {
             touchTooltipData: LineTouchTooltipData(
               getTooltipItems: (spots) => spots.map((spot) {
                 return LineTooltipItem(
-                  '£${spot.y.toStringAsFixed(0)}',
+                  '₹${spot.y.toStringAsFixed(0)}',
                   const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,

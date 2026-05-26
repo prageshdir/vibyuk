@@ -48,7 +48,7 @@ class CampaignApplicationModel {
         portfolioItemIds:
             (json['portfolio_item_ids'] as List?)?.cast<String>() ?? [],
         proposedRate: (json['proposed_rate'] as num).toDouble(),
-        currency: json['currency'] as String? ?? 'GBP',
+        currency: json['currency'] as String? ?? 'INR',
         status: json['status'] as String? ?? 'pending',
         rejectionReason: json['rejection_reason'] as String?,
         appliedAt: json['applied_at'] as String,

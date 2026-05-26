@@ -196,7 +196,7 @@ class _SummaryBanner extends StatelessWidget {
                 style: TextStyle(color: Colors.white70, fontSize: 12),
               ),
               Text(
-                '£${totalSpend.toStringAsFixed(2)}',
+                '₹${totalSpend.toStringAsFixed(2)}',
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w800,

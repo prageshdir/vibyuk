@@ -21,9 +21,9 @@ class _ApplyToCampaignScreenState extends State<ApplyToCampaignScreen> {
   final _formKey = GlobalKey<FormState>();
   final _coverLetterCtrl = TextEditingController();
   final _rateCtrl = TextEditingController();
-  String _currency = 'GBP';
+  String _currency = 'INR';
 
-  static const _currencies = ['GBP', 'USD', 'EUR'];
+  static const _currencies = ['INR', 'USD', 'GBP'];
 
   @override
   void dispose() {

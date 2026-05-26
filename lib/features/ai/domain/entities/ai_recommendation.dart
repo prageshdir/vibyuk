@@ -38,7 +38,7 @@ class AiRecommendation extends Equatable {
     required this.matchReasons,
     required this.tags,
     required this.estimatedBudget,
-    this.currency = 'GBP',
+    this.currency = 'INR',
     required this.portfolioHighlights,
     required this.rating,
     required this.totalBookings,

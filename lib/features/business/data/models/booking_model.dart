@@ -11,7 +11,7 @@ class BookingModel {
     required this.scheduledAt,
     this.completedAt,
     required this.price,
-    this.currency = 'GBP',
+    this.currency = 'INR',
     this.notes,
     this.cancellationReason,
     this.creator,
@@ -45,7 +45,7 @@ class BookingModel {
             ? DateTime.parse(json['completed_at'] as String)
             : null,
         price: (json['price'] as num).toDouble(),
-        currency: json['currency'] as String? ?? 'GBP',
+        currency: json['currency'] as String? ?? 'INR',
         notes: json['notes'] as String?,
         cancellationReason: json['cancellation_reason'] as String?,
         creator: json['creator'] != null

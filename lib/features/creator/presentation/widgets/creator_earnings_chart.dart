@@ -49,7 +49,7 @@ class CreatorEarningsChart extends StatelessWidget {
                 showTitles: true,
                 reservedSize: 48,
                 getTitlesWidget: (v, _) => Text(
-                  '£${v.toInt()}',
+                  '₹${v.toInt()}',
                   style: const TextStyle(fontSize: 10, color: Colors.grey),
                 ),
               ),
@@ -101,7 +101,7 @@ class CreatorEarningsChart extends StatelessWidget {
             touchTooltipData: LineTouchTooltipData(
               getTooltipItems: (spots) => spots
                   .map((s) => LineTooltipItem(
-                        '£${s.y.toStringAsFixed(0)}',
+                        '₹${s.y.toStringAsFixed(0)}',
                         const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w700),

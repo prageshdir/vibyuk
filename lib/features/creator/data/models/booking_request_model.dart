@@ -53,7 +53,7 @@ class BookingRequestModel {
         packageId: json['package_id'] as String,
         packageTitle: json['package_title'] as String,
         offeredPrice: (json['offered_price'] as num).toDouble(),
-        currency: json['currency'] as String? ?? 'GBP',
+        currency: json['currency'] as String? ?? 'INR',
         requestedDeliveryDate: json['requested_delivery_date'] as String,
         message: json['message'] as String?,
         status: json['status'] as String? ?? 'pending',

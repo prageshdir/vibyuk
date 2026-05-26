@@ -55,7 +55,7 @@ class _NegotiationScreenState extends State<NegotiationScreen> {
           type: _selectedType,
           message: message.isEmpty ? null : message,
           offeredPrice: price,
-          currency: 'GBP',
+          currency: 'INR',
         ));
 
     _messageCtrl.clear();

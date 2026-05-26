@@ -269,7 +269,7 @@ class _WelcomeScreen extends StatelessWidget {
     return switch (ctx) {
       AiChatContext.general => [
           'What creators are available for a corporate event?',
-          'Help me plan a birthday party with a budget of £2000',
+          'Help me plan a birthday party with a budget of ₹2,00,000',
           'What\'s trending in event entertainment this season?',
           'How do I get the best ROI from my event budget?',
         ],

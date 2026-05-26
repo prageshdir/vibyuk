@@ -32,7 +32,7 @@ class BookingEntity extends Equatable {
     required this.scheduledAt,
     this.completedAt,
     required this.price,
-    this.currency = 'GBP',
+    this.currency = 'INR',
     this.notes,
     this.cancellationReason,
     this.creator,
@@ -55,7 +55,7 @@ class BookingEntity extends Equatable {
   final DateTime createdAt;
   final DateTime? updatedAt;
 
-  String get priceDisplay => '£${price.toStringAsFixed(2)}';
+  String get priceDisplay => '₹${price.toStringAsFixed(2)}';
 
   BookingEntity copyWith({BookingStatus? status, DateTime? completedAt}) =>
       BookingEntity(

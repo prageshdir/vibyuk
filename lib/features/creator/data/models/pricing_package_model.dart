@@ -39,7 +39,7 @@ class PricingPackageModel {
         title: json['title'] as String,
         description: json['description'] as String? ?? '',
         price: (json['price'] as num).toDouble(),
-        currency: json['currency'] as String? ?? 'GBP',
+        currency: json['currency'] as String? ?? 'INR',
         deliveryDays: json['delivery_days'] as int,
         inclusions: (json['inclusions'] as List?)?.cast<String>() ?? [],
         revisions: json['revisions'] as int? ?? 1,

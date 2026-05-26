@@ -76,7 +76,7 @@ class AiCampaignModel extends AiCampaign {
       objective: json['objective'] as String,
       targetAudience: json['target_audience'] as String,
       budget: (json['budget'] as num).toDouble(),
-      currency: json['currency'] as String? ?? 'GBP',
+      currency: json['currency'] as String? ?? 'INR',
       startDate: DateTime.parse(json['start_date'] as String),
       endDate: DateTime.parse(json['end_date'] as String),
       steps: (json['steps'] as List)

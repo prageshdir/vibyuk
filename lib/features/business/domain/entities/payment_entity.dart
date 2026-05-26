@@ -24,7 +24,7 @@ class PaymentEntity extends Equatable {
   const PaymentEntity({
     required this.id,
     required this.amount,
-    this.currency = 'GBP',
+    this.currency = 'INR',
     required this.status,
     required this.type,
     required this.description,
@@ -43,7 +43,7 @@ class PaymentEntity extends Equatable {
   final String? campaignId;
   final DateTime createdAt;
 
-  String get amountDisplay => '£${amount.toStringAsFixed(2)}';
+  String get amountDisplay => '₹${amount.toStringAsFixed(2)}';
 
   @override
   List<Object?> get props => [

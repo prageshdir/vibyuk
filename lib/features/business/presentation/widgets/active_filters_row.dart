@@ -86,10 +86,10 @@ class ActiveFiltersRow extends StatelessWidget {
 
     if (filters.minRate != null || filters.maxRate != null) {
       final label = filters.minRate != null && filters.maxRate != null
-          ? '£${filters.minRate!.toInt()}–£${filters.maxRate!.toInt()}/hr'
+          ? '₹${filters.minRate!.toInt()}–₹${filters.maxRate!.toInt()}/hr'
           : filters.minRate != null
-              ? '£${filters.minRate!.toInt()}+/hr'
-              : 'Up to £${filters.maxRate!.toInt()}/hr';
+              ? '₹${filters.minRate!.toInt()}+/hr'
+              : 'Up to ₹${filters.maxRate!.toInt()}/hr';
       chips.add(_FilterChip(
         label: label,
         onRemove: () => onFilterRemoved(

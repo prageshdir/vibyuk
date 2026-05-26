@@ -1,15 +1,53 @@
 import 'package:equatable/equatable.dart';
 
-enum CampaignStatus { draft, active, paused, completed, cancelled }
+enum CampaignType { standard, directBooking }
+
+extension CampaignTypeX on CampaignType {
+  String get label => switch (this) {
+        CampaignType.standard => 'Open Campaign',
+        CampaignType.directBooking => 'Direct Booking',
+      };
+  String get apiValue => switch (this) {
+        CampaignType.standard => 'standard',
+        CampaignType.directBooking => 'direct_booking',
+      };
+}
+
+enum CampaignStatus {
+  draft,
+  published,
+  applications,
+  inProgress,
+  completed,
+  archived,
+  paused,
+  cancelled,
+}
 
 extension CampaignStatusX on CampaignStatus {
   String get label => switch (this) {
         CampaignStatus.draft => 'Draft',
-        CampaignStatus.active => 'Active',
-        CampaignStatus.paused => 'Paused',
+        CampaignStatus.published => 'Published',
+        CampaignStatus.applications => 'Accepting Applications',
+        CampaignStatus.inProgress => 'In Progress',
         CampaignStatus.completed => 'Completed',
+        CampaignStatus.archived => 'Archived',
+        CampaignStatus.paused => 'Paused',
         CampaignStatus.cancelled => 'Cancelled',
       };
+
+  bool get isActive =>
+      this == CampaignStatus.published ||
+      this == CampaignStatus.applications ||
+      this == CampaignStatus.inProgress;
+
+  bool get canPublish => this == CampaignStatus.draft;
+
+  bool get canEdit =>
+      this == CampaignStatus.draft || this == CampaignStatus.paused;
+
+  bool get canArchive =>
+      this == CampaignStatus.completed || this == CampaignStatus.cancelled;
 }
 
 class CampaignEntity extends Equatable {
@@ -19,6 +57,7 @@ class CampaignEntity extends Equatable {
     this.description,
     required this.budget,
     required this.status,
+    this.campaignType = CampaignType.standard,
     required this.startDate,
     this.endDate,
     this.categories = const [],
@@ -34,6 +73,7 @@ class CampaignEntity extends Equatable {
   final String? description;
   final double budget;
   final CampaignStatus status;
+  final CampaignType campaignType;
   final DateTime startDate;
   final DateTime? endDate;
   final List<String> categories;
@@ -43,20 +83,24 @@ class CampaignEntity extends Equatable {
   final DateTime createdAt;
   final DateTime? updatedAt;
 
-  bool get isActive => status == CampaignStatus.active;
+  bool get isActive => status.isActive;
   bool get isDraft => status == CampaignStatus.draft;
-  bool get canPublish => status == CampaignStatus.draft;
-  bool get canEdit => status == CampaignStatus.draft || status == CampaignStatus.paused;
+  bool get canPublish => status.canPublish;
+  bool get canEdit => status.canEdit;
+  bool get isDirectBooking => campaignType == CampaignType.directBooking;
 
   double get bookingProgress =>
-      targetCreatorCount > 0 ? (bookedCount / targetCreatorCount).clamp(0.0, 1.0) : 0.0;
+      targetCreatorCount > 0
+          ? (bookedCount / targetCreatorCount).clamp(0.0, 1.0)
+          : 0.0;
 
   String get budgetDisplay => '₹${budget.toStringAsFixed(0)}';
 
   @override
   List<Object?> get props => [
-        id, title, description, budget, status, startDate, endDate,
-        categories, targetCreatorCount, bookedCount, metrics, createdAt, updatedAt,
+        id, title, description, budget, status, campaignType, startDate,
+        endDate, categories, targetCreatorCount, bookedCount, metrics,
+        createdAt, updatedAt,
       ];
 }
 

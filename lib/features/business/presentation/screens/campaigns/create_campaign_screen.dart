@@ -273,7 +273,7 @@ class _Step2 extends StatelessWidget {
         const SizedBox(height: 16),
         AppTextField(
           controller: budgetCtrl,
-          label: 'Total budget (£)',
+          label: 'Total budget (₹)',
           hint: '0.00',
           keyboardType:
               const TextInputType.numberWithOptions(decimal: true),
