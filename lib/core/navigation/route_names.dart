@@ -189,6 +189,7 @@ abstract final class RouteNames {
 
   // Subscriptions
   static const String subscriptionUpgrade = '/subscription/upgrade';
+  static const String businessSubscriptionUpgrade = '/business/subscription/upgrade';
 
   RouteNames._();
 }

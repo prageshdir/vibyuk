@@ -176,7 +176,9 @@ import 'package:vibyuk/features/wedding/presentation/screens/package_builder_scr
 import 'package:vibyuk/features/wedding/presentation/screens/budget_tracker_screen.dart';
 import 'package:vibyuk/features/wedding/presentation/screens/wedding_timeline_screen.dart';
 import 'package:vibyuk/features/wedding/presentation/screens/wedding_analytics_screen.dart';
+import 'package:vibyuk/features/subscriptions/domain/entities/subscription_entity.dart';
 import 'package:vibyuk/features/subscriptions/presentation/bloc/subscription_bloc.dart';
+import 'package:vibyuk/features/subscriptions/presentation/screens/business_upgrade_screen.dart';
 import 'package:vibyuk/features/subscriptions/presentation/screens/subscription_upgrade_screen.dart';
 
 class _PlaceholderScreen extends StatelessWidget {
@@ -1218,6 +1220,16 @@ class AppRouter {
           value: GetIt.instance<SubscriptionBloc>(),
           child: const SubscriptionUpgradeScreen(),
         ),
+      ),
+      GoRoute(
+        path: RouteNames.businessSubscriptionUpgrade,
+        name: 'business-subscription-upgrade',
+        builder: (_, state) {
+          final plan = state.extra is BusinessPlan
+              ? state.extra! as BusinessPlan
+              : BusinessPlan.free;
+          return BusinessUpgradeScreen(currentPlan: plan);
+        },
       ),
     ],
     );

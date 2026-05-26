@@ -47,4 +47,6 @@ void registerSubscriptionModule(GetIt sl) {
       cancelSubscription: sl<CancelSubscriptionUseCase>(),
     ),
   );
+
+  // TODO: Wire BusinessSubscriptionBloc when backend business plan API is ready
 }
