@@ -23,7 +23,7 @@ class _ApplyToCampaignScreenState extends State<ApplyToCampaignScreen> {
   final _rateCtrl = TextEditingController();
   String _currency = 'INR';
 
-  static const _currencies = ['INR', 'USD', 'GBP'];
+  static const _currencies = ['INR', 'USD'];
 
   @override
   void dispose() {

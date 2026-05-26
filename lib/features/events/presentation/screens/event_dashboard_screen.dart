@@ -96,7 +96,7 @@ class _DashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currencyFormat =
-        NumberFormat.currency(symbol: '\$', decimalDigits: 2);
+        NumberFormat.currency(symbol: '₹', decimalDigits: 2);
 
     return Scaffold(
       body: RefreshIndicator(

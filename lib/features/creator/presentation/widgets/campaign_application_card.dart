@@ -95,7 +95,7 @@ class CampaignApplicationCard extends StatelessWidget {
               const SizedBox(height: 12),
               Row(
                 children: [
-                  Icon(Icons.currency_pound_rounded,
+                  Icon(Icons.currency_rupee_rounded,
                       size: 14,
                       color: theme.colorScheme.onSurfaceVariant),
                   const SizedBox(width: 4),

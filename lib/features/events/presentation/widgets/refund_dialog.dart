@@ -33,7 +33,11 @@ class _RefundDialogState extends State<RefundDialog> {
   }
 
   String _formatAmount() {
-    final symbol = widget.currency == 'USD' ? '\$' : widget.currency;
+    final symbol = switch (widget.currency) {
+      'USD' => '\$',
+      'INR' => '₹',
+      _ => widget.currency,
+    };
     return NumberFormat.currency(symbol: symbol, decimalDigits: 2)
         .format(widget.amount);
   }

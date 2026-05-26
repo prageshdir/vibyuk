@@ -229,7 +229,7 @@ class _QuickActionsGrid extends StatelessWidget {
           label: 'Campaigns',
           route: RouteNames.creatorApplications),
       _ActionTile(
-          icon: Icons.currency_pound_rounded,
+          icon: Icons.currency_rupee_rounded,
           label: 'Earnings',
           route: RouteNames.creatorEarnings),
       _ActionTile(

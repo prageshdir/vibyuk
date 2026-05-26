@@ -151,7 +151,7 @@ class _EarningsScreenState extends State<EarningsScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.currency_pound_rounded,
+                  const Icon(Icons.currency_rupee_rounded,
                       size: 48, color: Colors.grey),
                   const SizedBox(height: 12),
                   Text(failure.message),
@@ -241,7 +241,7 @@ class _PayoutTile extends StatelessWidget {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: statusColor.withOpacity(0.12),
-        child: Icon(Icons.currency_pound_rounded, color: statusColor),
+        child: Icon(Icons.currency_rupee_rounded, color: statusColor),
       ),
       title: Text('₹${payout.amount.toStringAsFixed(2)}',
           style: theme.textTheme.titleSmall

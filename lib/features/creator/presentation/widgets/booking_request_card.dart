@@ -96,7 +96,7 @@ class BookingRequestCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 16),
                   _InfoItem(
-                    icon: Icons.currency_pound_rounded,
+                    icon: Icons.currency_rupee_rounded,
                     label: 'Offer',
                     value:
                         '${request.currency} ${request.offeredPrice.toStringAsFixed(0)}',

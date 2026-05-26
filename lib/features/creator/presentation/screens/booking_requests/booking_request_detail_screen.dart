@@ -217,7 +217,7 @@ class _RespondActionsState extends State<_RespondActions> {
                 controller: _priceCtrl,
                 label: 'Counter Offer Price',
                 keyboardType: TextInputType.number,
-                prefixIcon: const Icon(Icons.currency_pound_rounded, size: 18),
+                prefixIcon: const Icon(Icons.currency_rupee_rounded, size: 18),
               ),
               const SizedBox(height: 12),
               AppTextField(
