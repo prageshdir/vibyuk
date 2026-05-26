@@ -163,8 +163,9 @@ abstract final class ApiEndpoints {
   // Creator — Reviews
   static const String creatorReviewsMe = '/creator/me/reviews';
 
-  // Creator — KYC
+  // Creator — KYC & Bank Account
   static const String creatorKyc = '/creator/me/kyc';
+  static const String creatorBankAccount = '/creator/me/bank-account';
 
   // Booking Engine — Bookings
   static const String bookingEngineBookings = '/booking-engine/bookings';

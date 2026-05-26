@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:vibyuk/core/navigation/route_names.dart';
 import 'package:vibyuk/core/theme/app_colors.dart';
 import 'package:vibyuk/core/widgets/loaders/app_loader.dart';
 import 'package:vibyuk/features/creator/domain/entities/creator_earnings_entity.dart';
@@ -31,6 +33,13 @@ class _EarningsScreenState extends State<EarningsScreen> {
       appBar: AppBar(
         title: const Text('Earnings',
             style: TextStyle(fontWeight: FontWeight.w700)),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.account_balance_outlined),
+            tooltip: 'Bank account',
+            onPressed: () => context.push(RouteNames.creatorBankAccount),
+          ),
+        ],
       ),
       body: BlocBuilder<EarningsBloc, EarningsState>(
         builder: (context, state) => switch (state) {

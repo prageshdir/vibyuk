@@ -111,9 +111,10 @@ abstract final class RouteNames {
   static String applyToCampaign(String campaignId) =>
       '/creator/applications/apply/$campaignId';
 
-  // Creator — Reviews & KYC
+  // Creator — Reviews, KYC & Bank Account
   static const String creatorReviews = '/creator/reviews';
   static const String creatorKyc = '/creator/kyc';
+  static const String creatorBankAccount = '/creator/bank-account';
 
   // Creator — Public Profile
   static String creatorPublicProfile(String id) => '/creators/$id/preview';
