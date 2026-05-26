@@ -90,3 +90,48 @@ final class AuthErrorState extends AuthState {
   @override
   List<Object?> get props => [failure];
 }
+
+final class TwoFactorRequiredState extends AuthState {
+  final TwoFactorMethod method;
+
+  const TwoFactorRequiredState({required this.method});
+
+  @override
+  List<Object?> get props => [method];
+}
+
+final class TotpSetupLoadedState extends AuthState {
+  final TotpSetupEntity totpSetup;
+
+  const TotpSetupLoadedState({required this.totpSetup});
+
+  @override
+  List<Object?> get props => [totpSetup];
+}
+
+final class TotpEnabledState extends AuthState {
+  const TotpEnabledState();
+}
+
+final class TotpDisabledState extends AuthState {
+  const TotpDisabledState();
+}
+
+final class TotpVerifiedState extends AuthState {
+  final UserEntity user;
+
+  const TotpVerifiedState({required this.user});
+
+  @override
+  List<Object?> get props => [user];
+}
+
+final class AccountSuspendedState extends AuthState {
+  final String? reason;
+  final DateTime? suspendedAt;
+
+  const AccountSuspendedState({this.reason, this.suspendedAt});
+
+  @override
+  List<Object?> get props => [reason, suspendedAt];
+}

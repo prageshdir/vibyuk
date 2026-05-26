@@ -19,6 +19,11 @@ class UserModel with _$UserModel {
     @JsonKey(name: 'is_email_verified') @Default(false) bool isEmailVerified,
     @JsonKey(name: 'is_phone_verified') @Default(false) bool isPhoneVerified,
     @JsonKey(name: 'is_biometric_enabled') @Default(false) bool isBiometricEnabled,
+    @JsonKey(name: 'is_two_factor_enabled') @Default(false) bool isTwoFactorEnabled,
+    @JsonKey(name: 'two_factor_method') String? twoFactorMethod,
+    @JsonKey(name: 'is_suspended') @Default(false) bool isSuspended,
+    @JsonKey(name: 'suspension_reason') String? suspensionReason,
+    @JsonKey(name: 'suspended_at') DateTime? suspendedAt,
     @JsonKey(name: 'created_at') required DateTime createdAt,
     @JsonKey(name: 'updated_at') DateTime? updatedAt,
   }) = _UserModel;
@@ -36,6 +41,11 @@ class UserModel with _$UserModel {
         isEmailVerified: isEmailVerified,
         isPhoneVerified: isPhoneVerified,
         isBiometricEnabled: isBiometricEnabled,
+        isTwoFactorEnabled: isTwoFactorEnabled,
+        twoFactorMethod: TwoFactorMethod.fromString(twoFactorMethod),
+        isSuspended: isSuspended,
+        suspensionReason: suspensionReason,
+        suspendedAt: suspendedAt,
         createdAt: createdAt,
         updatedAt: updatedAt,
       );

@@ -8,6 +8,7 @@ import 'package:vibyuk/features/auth/data/dtos/reset_password_dto.dart';
 import 'package:vibyuk/features/auth/data/dtos/role_selection_dto.dart';
 import 'package:vibyuk/features/auth/data/models/auth_response_model.dart';
 import 'package:vibyuk/features/auth/data/models/user_model.dart';
+import 'package:vibyuk/features/auth/domain/entities/totp_setup_entity.dart';
 import 'package:vibyuk/features/auth/domain/entities/user_entity.dart';
 
 abstract interface class AuthRemoteDataSource {
@@ -23,6 +24,13 @@ abstract interface class AuthRemoteDataSource {
   Future<UserModel> getMe();
   Future<UserModel> selectRole(RoleSelectionDto dto);
   Future<void> logout();
+
+  // 2FA / TOTP
+  Future<TotpSetupEntity> getTotpSetup();
+  Future<void> enableTotp({required String totpCode});
+  Future<void> disableTotp({required String password});
+  Future<bool> verifyTotpToken({required String token});
+  Future<bool> verifyTotpRecovery({required String recoveryCode});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -126,6 +134,53 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> logout() async {
     await _dio.post(ApiEndpoints.logout);
+  }
+
+  @override
+  Future<TotpSetupEntity> getTotpSetup() async {
+    final response = await _dio.post(ApiEndpoints.twoFactorTotpSetup);
+    final data = _extractData(response);
+    return TotpSetupEntity(
+      secret: data['secret'] as String,
+      qrCodeUri: data['qr_code_uri'] as String,
+      recoveryCodes: (data['recovery_codes'] as List?)?.cast<String>() ?? [],
+    );
+  }
+
+  @override
+  Future<void> enableTotp({required String totpCode}) async {
+    await _dio.post(
+      ApiEndpoints.twoFactorTotpEnable,
+      data: {'totp_code': totpCode},
+    );
+  }
+
+  @override
+  Future<void> disableTotp({required String password}) async {
+    await _dio.post(
+      ApiEndpoints.twoFactorTotpDisable,
+      data: {'password': password},
+    );
+  }
+
+  @override
+  Future<bool> verifyTotpToken({required String token}) async {
+    final response = await _dio.post(
+      ApiEndpoints.twoFactorTotpVerify,
+      data: {'token': token},
+    );
+    final data = _extractData(response);
+    return data['verified'] as bool? ?? false;
+  }
+
+  @override
+  Future<bool> verifyTotpRecovery({required String recoveryCode}) async {
+    final response = await _dio.post(
+      ApiEndpoints.twoFactorTotpRecovery,
+      data: {'recovery_code': recoveryCode},
+    );
+    final data = _extractData(response);
+    return data['verified'] as bool? ?? false;
   }
 
   // Handles both {success: true, data: {...}} and bare response formats

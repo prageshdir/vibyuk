@@ -184,6 +184,10 @@ import 'package:vibyuk/features/subscriptions/presentation/screens/business_upgr
 import 'package:vibyuk/features/subscriptions/presentation/screens/subscription_upgrade_screen.dart';
 import 'package:vibyuk/features/influencer/presentation/blocs/influencer_campaign/influencer_campaign_bloc.dart';
 import 'package:vibyuk/features/influencer/presentation/screens/influencer_campaigns_screen.dart';
+import 'package:vibyuk/features/auth/presentation/screens/two_factor_setup_screen.dart';
+import 'package:vibyuk/features/auth/presentation/screens/two_factor_verify_screen.dart';
+import 'package:vibyuk/features/auth/presentation/screens/account_suspended_screen.dart';
+import 'package:vibyuk/features/auth/domain/entities/user_entity.dart' as auth_entities;
 
 class _PlaceholderScreen extends StatelessWidget {
   final String title;
@@ -288,6 +292,32 @@ class AppRouter {
         path: RouteNames.roleSelection,
         name: 'role-selection',
         builder: (_, __) => const RoleSelectionScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.twoFactorSetup,
+        name: '2fa-setup',
+        builder: (_, __) => const TwoFactorSetupScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.twoFactorVerify,
+        name: '2fa-verify',
+        builder: (_, state) {
+          final methodStr = state.uri.queryParameters['method'] ?? 'totp';
+          final method = auth_entities.TwoFactorMethod.fromString(methodStr) ??
+              auth_entities.TwoFactorMethod.totp;
+          return TwoFactorVerifyScreen(method: method);
+        },
+      ),
+      GoRoute(
+        path: RouteNames.accountSuspended,
+        name: 'account-suspended',
+        builder: (_, state) {
+          final reason = state.uri.queryParameters['reason'];
+          final suspendedAtStr = state.uri.queryParameters['suspended_at'];
+          final suspendedAt =
+              suspendedAtStr != null ? DateTime.tryParse(suspendedAtStr) : null;
+          return AccountSuspendedScreen(reason: reason, suspendedAt: suspendedAt);
+        },
       ),
 
       // Main shell with bottom navigation

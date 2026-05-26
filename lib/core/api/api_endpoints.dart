@@ -13,6 +13,11 @@ abstract final class ApiEndpoints {
   static const String verifyPhoneOtp = '/auth/phone/verify-otp';
   static const String selectRole = '/auth/role';
   static const String registerBiometric = '/auth/biometric/register';
+  static const String twoFactorTotpSetup = '/auth/2fa/totp/setup';
+  static const String twoFactorTotpEnable = '/auth/2fa/totp/enable';
+  static const String twoFactorTotpDisable = '/auth/2fa/totp/disable';
+  static const String twoFactorTotpVerify = '/auth/2fa/totp/verify';
+  static const String twoFactorTotpRecovery = '/auth/2fa/totp/recovery';
 
   // User / Profile
   static const String me = '/users/me';

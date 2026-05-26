@@ -20,6 +20,10 @@ class AuthGuard {
       return '${RouteNames.login}?redirect=${Uri.encodeComponent(location)}';
     }
 
+    // Allow 2FA and suspension routes even with a valid session —
+    // user is mid-auth and needs to complete these steps.
+    if (_isPostLoginRoute(location)) return null;
+
     // Authenticated user landing on auth routes → send home
     if (hasSession && isAuthRoute) {
       return RouteNames.home;
@@ -32,6 +36,12 @@ class AuthGuard {
     return path.startsWith('/auth') ||
         path == RouteNames.splash ||
         path == RouteNames.onboarding;
+  }
+
+  bool _isPostLoginRoute(String path) {
+    return path == RouteNames.twoFactorVerify ||
+        path == RouteNames.twoFactorSetup ||
+        path == RouteNames.accountSuspended;
   }
 
   bool _isPublicRoute(String path) {

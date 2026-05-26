@@ -58,6 +58,12 @@ class SettingsScreen extends StatelessWidget {
                   ),
                 ),
                 SettingsTile(
+                  icon: Icons.security_rounded,
+                  title: 'Two-Factor Authentication',
+                  subtitle: 'Add an extra layer of security',
+                  onTap: () => context.push(RouteNames.twoFactorSetup),
+                ),
+                SettingsTile(
                   icon: Icons.manage_accounts_outlined,
                   title: 'Account Settings',
                   subtitle: 'Privacy, data, and account management',

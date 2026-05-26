@@ -2,11 +2,15 @@ import 'package:equatable/equatable.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:vibyuk/core/base/base_bloc.dart';
 import 'package:vibyuk/core/error/failures.dart';
+import 'package:vibyuk/features/auth/domain/entities/totp_setup_entity.dart';
 import 'package:vibyuk/features/auth/domain/entities/user_entity.dart';
 import 'package:vibyuk/features/auth/domain/usecases/biometric_login_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/check_session_use_case.dart';
+import 'package:vibyuk/features/auth/domain/usecases/disable_totp_use_case.dart';
+import 'package:vibyuk/features/auth/domain/usecases/enable_totp_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/forgot_password_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/get_current_user_use_case.dart';
+import 'package:vibyuk/features/auth/domain/usecases/get_totp_setup_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/login_with_email_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/login_with_google_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/logout_use_case.dart';
@@ -17,6 +21,7 @@ import 'package:vibyuk/features/auth/domain/usecases/select_role_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/send_phone_otp_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/verify_email_otp_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/verify_phone_otp_use_case.dart';
+import 'package:vibyuk/features/auth/domain/usecases/verify_totp_use_case.dart';
 import 'package:vibyuk/core/base/use_case.dart';
 
 part 'auth_event.dart';
@@ -39,6 +44,11 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
     required BiometricLoginUseCase biometricLogin,
     required LogoutUseCase logout,
     required GoogleSignIn googleSignIn,
+    required GetTotpSetupUseCase getTotpSetup,
+    required EnableTotpUseCase enableTotp,
+    required DisableTotpUseCase disableTotp,
+    required VerifyTotpUseCase verifyTotp,
+    required VerifyTotpRecoveryUseCase verifyTotpRecovery,
   })  : _checkSession = checkSession,
         _loginWithEmail = loginWithEmail,
         _loginWithGoogle = loginWithGoogle,
@@ -54,6 +64,11 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
         _biometricLogin = biometricLogin,
         _logout = logout,
         _googleSignIn = googleSignIn,
+        _getTotpSetup = getTotpSetup,
+        _enableTotp = enableTotp,
+        _disableTotp = disableTotp,
+        _verifyTotp = verifyTotp,
+        _verifyTotpRecovery = verifyTotpRecovery,
         super(const AuthInitialState()) {
     on<CheckSessionEvent>(_onCheckSession);
     on<LoginWithEmailEvent>(_onLoginWithEmail);
@@ -69,6 +84,11 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
     on<BiometricLoginEvent>(_onBiometricLogin);
     on<LogoutEvent>(_onLogout);
     on<AuthErrorClearedEvent>(_onErrorCleared);
+    on<GetTotpSetupEvent>(_onGetTotpSetup);
+    on<EnableTotpEvent>(_onEnableTotp);
+    on<DisableTotpEvent>(_onDisableTotp);
+    on<VerifyTotpEvent>(_onVerifyTotp);
+    on<VerifyTotpRecoveryEvent>(_onVerifyTotpRecovery);
   }
 
   final CheckSessionUseCase _checkSession;
@@ -86,6 +106,11 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
   final BiometricLoginUseCase _biometricLogin;
   final LogoutUseCase _logout;
   final GoogleSignIn _googleSignIn;
+  final GetTotpSetupUseCase _getTotpSetup;
+  final EnableTotpUseCase _enableTotp;
+  final DisableTotpUseCase _disableTotp;
+  final VerifyTotpUseCase _verifyTotp;
+  final VerifyTotpRecoveryUseCase _verifyTotpRecovery;
 
   Future<void> _onCheckSession(
     CheckSessionEvent event,
@@ -311,9 +336,106 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
     emit(const UnauthenticatedState());
   }
 
+  Future<void> _onGetTotpSetup(
+    GetTotpSetupEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(const AuthLoadingState(message: 'Preparing setup...'));
+    final result = await _getTotpSetup(const NoParams());
+    result.fold(
+      (failure) => emit(AuthErrorState(failure: failure)),
+      (setup) => emit(TotpSetupLoadedState(totpSetup: setup)),
+    );
+  }
+
+  Future<void> _onEnableTotp(
+    EnableTotpEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(const AuthLoadingState(message: 'Enabling 2FA...'));
+    final result = await _enableTotp(EnableTotpParams(totpCode: event.totpCode));
+    result.fold(
+      (failure) => emit(AuthErrorState(failure: failure)),
+      (_) => emit(const TotpEnabledState()),
+    );
+  }
+
+  Future<void> _onDisableTotp(
+    DisableTotpEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(const AuthLoadingState(message: 'Disabling 2FA...'));
+    final result = await _disableTotp(DisableTotpParams(password: event.password));
+    result.fold(
+      (failure) => emit(AuthErrorState(failure: failure)),
+      (_) => emit(const TotpDisabledState()),
+    );
+  }
+
+  Future<void> _onVerifyTotp(
+    VerifyTotpEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(const AuthLoadingState(message: 'Verifying code...'));
+    final result = await _verifyTotp(VerifyTotpParams(token: event.token));
+    await result.fold(
+      (failure) async => emit(AuthErrorState(failure: failure)),
+      (verified) async {
+        if (!verified) {
+          emit(const AuthErrorState(
+            failure: AuthFailure(message: 'Invalid code. Please try again.'),
+          ));
+          return;
+        }
+        final userResult = await _getCurrentUser();
+        userResult.fold(
+          (_) => emit(const UnauthenticatedState()),
+          (user) => emit(TotpVerifiedState(user: user)),
+        );
+      },
+    );
+  }
+
+  Future<void> _onVerifyTotpRecovery(
+    VerifyTotpRecoveryEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(const AuthLoadingState(message: 'Verifying recovery code...'));
+    final result = await _verifyTotpRecovery(
+      VerifyTotpRecoveryParams(recoveryCode: event.recoveryCode),
+    );
+    await result.fold(
+      (failure) async => emit(AuthErrorState(failure: failure)),
+      (verified) async {
+        if (!verified) {
+          emit(const AuthErrorState(
+            failure: AuthFailure(message: 'Invalid recovery code.'),
+          ));
+          return;
+        }
+        final userResult = await _getCurrentUser();
+        userResult.fold(
+          (_) => emit(const UnauthenticatedState()),
+          (user) => emit(_resolveAuthenticatedState(user)),
+        );
+      },
+    );
+  }
+
   AuthState _resolveAuthenticatedState(UserEntity user) {
+    if (user.isSuspended) {
+      return AccountSuspendedState(
+        reason: user.suspensionReason,
+        suspendedAt: user.suspendedAt,
+      );
+    }
     if (!user.hasRole) {
       return RoleSelectionRequiredState(user: user);
+    }
+    if (user.isTwoFactorEnabled) {
+      return TwoFactorRequiredState(
+        method: user.twoFactorMethod ?? TwoFactorMethod.totp,
+      );
     }
     return AuthenticatedState(user: user);
   }

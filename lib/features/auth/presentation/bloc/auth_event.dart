@@ -131,3 +131,43 @@ final class LogoutEvent extends AuthEvent {
 final class AuthErrorClearedEvent extends AuthEvent {
   const AuthErrorClearedEvent();
 }
+
+final class GetTotpSetupEvent extends AuthEvent {
+  const GetTotpSetupEvent();
+}
+
+final class EnableTotpEvent extends AuthEvent {
+  final String totpCode;
+
+  const EnableTotpEvent({required this.totpCode});
+
+  @override
+  List<Object?> get props => [totpCode];
+}
+
+final class DisableTotpEvent extends AuthEvent {
+  final String password;
+
+  const DisableTotpEvent({required this.password});
+
+  @override
+  List<Object?> get props => [password];
+}
+
+final class VerifyTotpEvent extends AuthEvent {
+  final String token;
+
+  const VerifyTotpEvent({required this.token});
+
+  @override
+  List<Object?> get props => [token];
+}
+
+final class VerifyTotpRecoveryEvent extends AuthEvent {
+  final String recoveryCode;
+
+  const VerifyTotpRecoveryEvent({required this.recoveryCode});
+
+  @override
+  List<Object?> get props => [recoveryCode];
+}

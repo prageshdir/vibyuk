@@ -10,6 +10,7 @@ import 'package:vibyuk/features/auth/data/dtos/register_request_dto.dart';
 import 'package:vibyuk/features/auth/data/dtos/reset_password_dto.dart';
 import 'package:vibyuk/features/auth/data/dtos/role_selection_dto.dart';
 import 'package:vibyuk/features/auth/domain/entities/auth_session_entity.dart';
+import 'package:vibyuk/features/auth/domain/entities/totp_setup_entity.dart';
 import 'package:vibyuk/features/auth/domain/entities/user_entity.dart';
 import 'package:vibyuk/features/auth/domain/repositories/auth_repository.dart';
 
@@ -240,6 +241,52 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
     return safeCall(
       () => _local.isBiometricEnabled(),
       context: 'AuthRepository.isBiometricEnabled',
+    );
+  }
+
+  @override
+  Future<Either<Failure, TotpSetupEntity>> getTotpSetup() async {
+    return safeCall(
+      () => _remote.getTotpSetup(),
+      context: 'AuthRepository.getTotpSetup',
+    );
+  }
+
+  @override
+  Future<Either<Failure, Unit>> enableTotp({required String totpCode}) async {
+    return safeCall(
+      () async {
+        await _remote.enableTotp(totpCode: totpCode);
+        return unit;
+      },
+      context: 'AuthRepository.enableTotp',
+    );
+  }
+
+  @override
+  Future<Either<Failure, Unit>> disableTotp({required String password}) async {
+    return safeCall(
+      () async {
+        await _remote.disableTotp(password: password);
+        return unit;
+      },
+      context: 'AuthRepository.disableTotp',
+    );
+  }
+
+  @override
+  Future<Either<Failure, bool>> verifyTotpToken({required String token}) async {
+    return safeCall(
+      () => _remote.verifyTotpToken(token: token),
+      context: 'AuthRepository.verifyTotpToken',
+    );
+  }
+
+  @override
+  Future<Either<Failure, bool>> verifyTotpRecovery({required String recoveryCode}) async {
+    return safeCall(
+      () => _remote.verifyTotpRecovery(recoveryCode: recoveryCode),
+      context: 'AuthRepository.verifyTotpRecovery',
     );
   }
 

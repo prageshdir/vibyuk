@@ -13,6 +13,9 @@ abstract final class RouteNames {
   static const String verifyEmail = '/auth/verify-email';
   static const String phoneOtp = '/auth/phone-otp';
   static const String roleSelection = '/auth/role-selection';
+  static const String twoFactorSetup = '/auth/2fa/setup';
+  static const String twoFactorVerify = '/auth/2fa/verify';
+  static const String accountSuspended = '/auth/suspended';
 
   // Home (tab shell)
   static const String home = '/home';

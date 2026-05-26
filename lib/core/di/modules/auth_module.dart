@@ -10,8 +10,11 @@ import 'package:vibyuk/features/auth/data/repositories/auth_repository_impl.dart
 import 'package:vibyuk/features/auth/domain/repositories/auth_repository.dart';
 import 'package:vibyuk/features/auth/domain/usecases/biometric_login_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/check_session_use_case.dart';
+import 'package:vibyuk/features/auth/domain/usecases/disable_totp_use_case.dart';
+import 'package:vibyuk/features/auth/domain/usecases/enable_totp_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/forgot_password_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/get_current_user_use_case.dart';
+import 'package:vibyuk/features/auth/domain/usecases/get_totp_setup_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/login_with_email_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/login_with_google_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/logout_use_case.dart';
@@ -22,6 +25,7 @@ import 'package:vibyuk/features/auth/domain/usecases/select_role_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/send_phone_otp_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/verify_email_otp_use_case.dart';
 import 'package:vibyuk/features/auth/domain/usecases/verify_phone_otp_use_case.dart';
+import 'package:vibyuk/features/auth/domain/usecases/verify_totp_use_case.dart';
 import 'package:vibyuk/features/auth/presentation/bloc/auth_bloc.dart';
 
 void registerAuthModule(GetIt sl) {
@@ -68,6 +72,11 @@ void registerAuthModule(GetIt sl) {
   sl.registerLazySingleton(
     () => CheckBiometricAvailabilityUseCase(sl<LocalAuthentication>(), sl<AuthRepository>()),
   );
+  sl.registerLazySingleton(() => GetTotpSetupUseCase(sl<AuthRepository>()));
+  sl.registerLazySingleton(() => EnableTotpUseCase(sl<AuthRepository>()));
+  sl.registerLazySingleton(() => DisableTotpUseCase(sl<AuthRepository>()));
+  sl.registerLazySingleton(() => VerifyTotpUseCase(sl<AuthRepository>()));
+  sl.registerLazySingleton(() => VerifyTotpRecoveryUseCase(sl<AuthRepository>()));
 
   // BLoC — factory so each provision gets a fresh instance
   sl.registerFactory<AuthBloc>(
@@ -87,6 +96,11 @@ void registerAuthModule(GetIt sl) {
       biometricLogin: sl<BiometricLoginUseCase>(),
       logout: sl<LogoutUseCase>(),
       googleSignIn: sl<GoogleSignIn>(),
+      getTotpSetup: sl<GetTotpSetupUseCase>(),
+      enableTotp: sl<EnableTotpUseCase>(),
+      disableTotp: sl<DisableTotpUseCase>(),
+      verifyTotp: sl<VerifyTotpUseCase>(),
+      verifyTotpRecovery: sl<VerifyTotpRecoveryUseCase>(),
     ),
   );
 }

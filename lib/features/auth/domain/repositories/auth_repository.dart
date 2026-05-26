@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:vibyuk/core/error/failures.dart';
 import 'package:vibyuk/features/auth/domain/entities/auth_session_entity.dart';
+import 'package:vibyuk/features/auth/domain/entities/totp_setup_entity.dart';
 import 'package:vibyuk/features/auth/domain/entities/user_entity.dart';
 
 abstract interface class AuthRepository {
@@ -67,4 +68,11 @@ abstract interface class AuthRepository {
   });
 
   Future<Either<Failure, bool>> isBiometricEnabled();
+
+  // 2FA / TOTP
+  Future<Either<Failure, TotpSetupEntity>> getTotpSetup();
+  Future<Either<Failure, Unit>> enableTotp({required String totpCode});
+  Future<Either<Failure, Unit>> disableTotp({required String password});
+  Future<Either<Failure, bool>> verifyTotpToken({required String token});
+  Future<Either<Failure, bool>> verifyTotpRecovery({required String recoveryCode});
 }

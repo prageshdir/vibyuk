@@ -17,6 +17,23 @@ enum UserRole {
   }
 }
 
+enum TwoFactorMethod {
+  totp,
+  sms;
+
+  String get displayName => switch (this) {
+        TwoFactorMethod.totp => 'Authenticator App (TOTP)',
+        TwoFactorMethod.sms => 'SMS',
+      };
+
+  String get serverValue => name;
+
+  static TwoFactorMethod? fromString(String? value) {
+    if (value == null) return null;
+    return TwoFactorMethod.values.where((m) => m.serverValue == value).firstOrNull;
+  }
+}
+
 class UserEntity extends Equatable {
   final String id;
   final String email;
@@ -28,6 +45,11 @@ class UserEntity extends Equatable {
   final bool isEmailVerified;
   final bool isPhoneVerified;
   final bool isBiometricEnabled;
+  final bool isTwoFactorEnabled;
+  final TwoFactorMethod? twoFactorMethod;
+  final bool isSuspended;
+  final String? suspensionReason;
+  final DateTime? suspendedAt;
   final DateTime createdAt;
   final DateTime? updatedAt;
 
@@ -42,6 +64,11 @@ class UserEntity extends Equatable {
     this.isEmailVerified = false,
     this.isPhoneVerified = false,
     this.isBiometricEnabled = false,
+    this.isTwoFactorEnabled = false,
+    this.twoFactorMethod,
+    this.isSuspended = false,
+    this.suspensionReason,
+    this.suspendedAt,
     required this.createdAt,
     this.updatedAt,
   });
@@ -64,6 +91,11 @@ class UserEntity extends Equatable {
     bool? isEmailVerified,
     bool? isPhoneVerified,
     bool? isBiometricEnabled,
+    bool? isTwoFactorEnabled,
+    TwoFactorMethod? twoFactorMethod,
+    bool? isSuspended,
+    String? suspensionReason,
+    DateTime? suspendedAt,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -78,6 +110,11 @@ class UserEntity extends Equatable {
       isEmailVerified: isEmailVerified ?? this.isEmailVerified,
       isPhoneVerified: isPhoneVerified ?? this.isPhoneVerified,
       isBiometricEnabled: isBiometricEnabled ?? this.isBiometricEnabled,
+      isTwoFactorEnabled: isTwoFactorEnabled ?? this.isTwoFactorEnabled,
+      twoFactorMethod: twoFactorMethod ?? this.twoFactorMethod,
+      isSuspended: isSuspended ?? this.isSuspended,
+      suspensionReason: suspensionReason ?? this.suspensionReason,
+      suspendedAt: suspendedAt ?? this.suspendedAt,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -95,6 +132,11 @@ class UserEntity extends Equatable {
         isEmailVerified,
         isPhoneVerified,
         isBiometricEnabled,
+        isTwoFactorEnabled,
+        twoFactorMethod,
+        isSuspended,
+        suspensionReason,
+        suspendedAt,
         createdAt,
         updatedAt,
       ];
