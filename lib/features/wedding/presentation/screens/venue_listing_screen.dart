@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vibyuk/features/wedding/presentation/blocs/wedding_marketplace/wedding_marketplace_bloc.dart';
 import 'package:vibyuk/features/wedding/presentation/widgets/venue_card.dart';
 
@@ -79,7 +80,7 @@ class _VenueListingScreenState extends State<VenueListingScreen> {
                         padding: const EdgeInsets.only(bottom: 8),
                         child: VenueCard(
                           venue: venues[i],
-                          onTap: () {},
+                          onTap: () => context.push('/wedding/venues/${venues[i].id}'),
                         ),
                       );
                     },

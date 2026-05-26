@@ -48,5 +48,4 @@ void registerSubscriptionModule(GetIt sl) {
     ),
   );
 
-  // TODO: Wire BusinessSubscriptionBloc when backend business plan API is ready
 }

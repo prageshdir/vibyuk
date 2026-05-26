@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
+import 'package:vibyuk/core/navigation/app_router.dart';
 import 'package:vibyuk/core/socket/socket_service.dart';
 import 'package:vibyuk/features/chat/data/datasources/chat_local_data_source.dart';
 import 'package:vibyuk/features/chat/data/datasources/chat_remote_data_source.dart';
@@ -28,7 +29,7 @@ void registerChatModule(GetIt sl) {
 
   // ── Notifications ─────────────────────────────────────────────────────────
   sl.registerLazySingleton<ChatNotificationService>(
-      () => ChatNotificationService(FirebaseMessaging.instance));
+      () => ChatNotificationService(FirebaseMessaging.instance, sl<AppRouter>()));
 
   // ── Data Sources ──────────────────────────────────────────────────────────
   sl.registerLazySingleton<ChatRemoteDataSource>(
