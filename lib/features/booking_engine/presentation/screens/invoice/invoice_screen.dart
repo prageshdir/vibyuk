@@ -267,7 +267,7 @@ class _InvoiceView extends StatelessWidget {
                             Expanded(
                                 flex: 2,
                                 child: Text(
-                                    '${invoice.currency} ${item.total.toStringAsFixed(2)}',
+                                    '₹${item.total.toStringAsFixed(2)}',
                                     textAlign: TextAlign.right,
                                     style: theme.textTheme.bodySmall?.copyWith(
                                         fontWeight: FontWeight.w600))),
@@ -295,30 +295,30 @@ class _InvoiceView extends StatelessWidget {
               children: [
                 _TotalRow(
                   label: 'Subtotal',
-                  value: '${invoice.currency} ${invoice.subtotal.toStringAsFixed(2)}',
+                  value: '₹${invoice.subtotal.toStringAsFixed(2)}',
                 ),
                 const SizedBox(height: 8),
                 if (invoice.hasGstBreakdown) ...[
                   if (invoice.isInterState) ...[
                     _TotalRow(
                       label: 'IGST (${(invoice.taxRate * 100).toStringAsFixed(0)}%)',
-                      value: '${invoice.currency} ${invoice.igst.toStringAsFixed(2)}',
+                      value: '₹${invoice.igst.toStringAsFixed(2)}',
                     ),
                   ] else ...[
                     _TotalRow(
                       label: 'CGST (${(invoice.taxRate * 50).toStringAsFixed(1)}%)',
-                      value: '${invoice.currency} ${invoice.cgst.toStringAsFixed(2)}',
+                      value: '₹${invoice.cgst.toStringAsFixed(2)}',
                     ),
                     const SizedBox(height: 6),
                     _TotalRow(
                       label: 'SGST (${(invoice.taxRate * 50).toStringAsFixed(1)}%)',
-                      value: '${invoice.currency} ${invoice.sgst.toStringAsFixed(2)}',
+                      value: '₹${invoice.sgst.toStringAsFixed(2)}',
                     ),
                   ],
                 ] else ...[
                   _TotalRow(
                     label: 'GST (${(invoice.taxRate * 100).toStringAsFixed(0)}%)',
-                    value: '${invoice.currency} ${invoice.taxAmount.toStringAsFixed(2)}',
+                    value: '₹${invoice.taxAmount.toStringAsFixed(2)}',
                   ),
                 ],
                 const Padding(
@@ -327,7 +327,7 @@ class _InvoiceView extends StatelessWidget {
                 ),
                 _TotalRow(
                   label: 'Total',
-                  value: '${invoice.currency} ${invoice.total.toStringAsFixed(2)}',
+                  value: '₹${invoice.total.toStringAsFixed(2)}',
                   isBold: true,
                 ),
               ],
