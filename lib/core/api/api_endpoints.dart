@@ -285,6 +285,8 @@ abstract final class ApiEndpoints {
   static const String adminReports = '/admin/reports';
   static String adminReport(String id) => '/admin/reports/$id';
   static String adminReportHandle(String id) => '/admin/reports/$id/handle';
+  static const String adminAnnouncements = '/admin/announcements';
+  static const String adminAnnouncementSend = '/admin/announcements/send';
   // Tourism
   static const String tourismDestinations = '/tourism/destinations';
   static String tourismDestination(String id) => '/tourism/destinations/$id';

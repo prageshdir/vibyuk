@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 class NotificationPreferences extends Equatable {
   final bool pushEnabled;
   final bool emailEnabled;
+  final bool smsEnabled;
   final bool bookingAlerts;
   final bool chatAlerts;
   final bool paymentAlerts;
@@ -19,6 +20,7 @@ class NotificationPreferences extends Equatable {
   const NotificationPreferences({
     this.pushEnabled = true,
     this.emailEnabled = true,
+    this.smsEnabled = false,
     this.bookingAlerts = true,
     this.chatAlerts = true,
     this.paymentAlerts = true,
@@ -38,6 +40,7 @@ class NotificationPreferences extends Equatable {
   NotificationPreferences copyWith({
     bool? pushEnabled,
     bool? emailEnabled,
+    bool? smsEnabled,
     bool? bookingAlerts,
     bool? chatAlerts,
     bool? paymentAlerts,
@@ -54,6 +57,7 @@ class NotificationPreferences extends Equatable {
     return NotificationPreferences(
       pushEnabled: pushEnabled ?? this.pushEnabled,
       emailEnabled: emailEnabled ?? this.emailEnabled,
+      smsEnabled: smsEnabled ?? this.smsEnabled,
       bookingAlerts: bookingAlerts ?? this.bookingAlerts,
       chatAlerts: chatAlerts ?? this.chatAlerts,
       paymentAlerts: paymentAlerts ?? this.paymentAlerts,
@@ -73,6 +77,7 @@ class NotificationPreferences extends Equatable {
   List<Object?> get props => [
         pushEnabled,
         emailEnabled,
+        smsEnabled,
         bookingAlerts,
         chatAlerts,
         paymentAlerts,

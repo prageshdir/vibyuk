@@ -161,6 +161,9 @@ abstract final class RouteNames {
   static const String adminVerifications = '/admin/verifications';
   static const String adminAnalytics = '/admin/analytics';
   static const String adminReports = '/admin/reports';
+  static const String adminAnnouncements = '/admin/announcements';
+  static const String adminFeeConfig = '/admin/fees';
+  static const String adminFinancial = '/admin/financial';
   // Wedding
   static const String weddingDashboard = '/wedding';
   static const String weddingMarketplace = '/wedding/marketplace';

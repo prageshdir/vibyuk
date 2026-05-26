@@ -126,6 +126,9 @@ import 'package:vibyuk/features/admin/presentation/screens/admin_analytics_scree
 import 'package:vibyuk/features/admin/presentation/screens/admin_dashboard_screen.dart';
 import 'package:vibyuk/features/admin/presentation/screens/admin_disputes_screen.dart';
 import 'package:vibyuk/features/admin/presentation/screens/admin_moderation_screen.dart';
+import 'package:vibyuk/features/admin/presentation/screens/admin_announcements_screen.dart';
+import 'package:vibyuk/features/admin/presentation/screens/admin_fee_config_screen.dart';
+import 'package:vibyuk/features/admin/presentation/screens/admin_financial_screen.dart';
 import 'package:vibyuk/features/admin/presentation/screens/admin_reports_screen.dart';
 import 'package:vibyuk/features/admin/presentation/screens/admin_verification_screen.dart';
 import 'package:vibyuk/features/events/domain/entities/event_entity.dart';
@@ -1102,6 +1105,23 @@ class AppRouter {
         builder: (_, __) => BlocProvider(
           create: (_) => sl<AdminReportsBloc>(),
           child: const AdminReportsScreen(),
+        ),
+      ),
+      GoRoute(
+        path: RouteNames.adminAnnouncements,
+        name: 'admin-announcements',
+        builder: (_, __) => const AdminAnnouncementsScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.adminFeeConfig,
+        name: 'admin-fee-config',
+        builder: (_, __) => const AdminFeeConfigScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.adminFinancial,
+        name: 'admin-financial',
+        builder: (_, __) => const AdminFinancialScreen(),
+      ),
       // ── Wedding Ecosystem ────────────────────────────────────────────────────
       GoRoute(
         path: '/wedding',

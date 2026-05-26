@@ -128,6 +128,16 @@ class _PreferencesForm extends StatelessWidget {
             preferences.copyWith(emailEnabled: v),
           ),
         ),
+        _PreferenceTile(
+          title: 'SMS Notifications',
+          subtitle: 'Receive critical alerts via SMS',
+          icon: Icons.sms_outlined,
+          value: preferences.smsEnabled,
+          onChanged: (v) => _update(
+            context,
+            preferences.copyWith(smsEnabled: v),
+          ),
+        ),
         const Divider(height: 1),
         _SectionHeader(title: 'Alert Types'),
         _PreferenceTile(
