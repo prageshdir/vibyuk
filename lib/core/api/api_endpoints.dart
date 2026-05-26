@@ -298,4 +298,23 @@ abstract final class ApiEndpoints {
   static const String subscription = '/subscriptions/me';
   static const String subscriptionOrders = '/subscriptions/orders';
   static const String subscriptionVerify = '/subscriptions/verify';
+
+  // Influencer Marketing
+  static const String influencerCampaigns = '/influencer/campaigns';
+  static String influencerCampaign(String id) => '/influencer/campaigns/$id';
+  static String publishInfluencerCampaign(String id) =>
+      '/influencer/campaigns/$id/publish';
+  static String influencerCampaignDeliverables(String id) =>
+      '/influencer/campaigns/$id/deliverables';
+  static String influencerDeliverable(String cId, String dId) =>
+      '/influencer/campaigns/$cId/deliverables/$dId';
+  static String approveDeliverable(String cId, String dId) =>
+      '/influencer/campaigns/$cId/deliverables/$dId/approve';
+  static String requestRevision(String cId, String dId) =>
+      '/influencer/campaigns/$cId/deliverables/$dId/request-revision';
+  static String markDeliverablePublished(String cId, String dId) =>
+      '/influencer/campaigns/$cId/deliverables/$dId/publish';
+  static String influencerCampaignAnalytics(String id) =>
+      '/influencer/campaigns/$id/analytics';
+  static const String influencerSearch = '/influencer/search';
 }

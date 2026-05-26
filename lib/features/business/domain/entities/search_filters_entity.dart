@@ -20,6 +20,24 @@ extension SortByX on SortBy {
       };
 }
 
+enum InfluencerPlatform { instagram, youtube, tiktok, twitter }
+
+extension InfluencerPlatformX on InfluencerPlatform {
+  String get label => switch (this) {
+        InfluencerPlatform.instagram => 'Instagram',
+        InfluencerPlatform.youtube => 'YouTube',
+        InfluencerPlatform.tiktok => 'TikTok',
+        InfluencerPlatform.twitter => 'Twitter / X',
+      };
+
+  String get apiValue => switch (this) {
+        InfluencerPlatform.instagram => 'instagram',
+        InfluencerPlatform.youtube => 'youtube',
+        InfluencerPlatform.tiktok => 'tiktok',
+        InfluencerPlatform.twitter => 'twitter',
+      };
+}
+
 class SearchFiltersEntity extends Equatable {
   const SearchFiltersEntity({
     this.categories = const [],
@@ -30,6 +48,11 @@ class SearchFiltersEntity extends Equatable {
     this.isVerifiedOnly = false,
     this.sortBy = SortBy.relevant,
     this.availability,
+    this.languages = const [],
+    this.platforms = const [],
+    this.minFollowers,
+    this.maxFollowers,
+    this.minEngagementRate,
   });
 
   const SearchFiltersEntity.empty() : this();
@@ -43,6 +66,13 @@ class SearchFiltersEntity extends Equatable {
   final SortBy sortBy;
   final String? availability;
 
+  // Influencer-specific filters (SRS §Influencer Marketing)
+  final List<String> languages;
+  final List<InfluencerPlatform> platforms;
+  final int? minFollowers;
+  final int? maxFollowers;
+  final double? minEngagementRate;
+
   bool get isEmpty =>
       categories.isEmpty &&
       minRate == null &&
@@ -51,7 +81,12 @@ class SearchFiltersEntity extends Equatable {
       minRating == null &&
       !isVerifiedOnly &&
       sortBy == SortBy.relevant &&
-      availability == null;
+      availability == null &&
+      languages.isEmpty &&
+      platforms.isEmpty &&
+      minFollowers == null &&
+      maxFollowers == null &&
+      minEngagementRate == null;
 
   int get activeFilterCount {
     var count = 0;
@@ -61,6 +96,10 @@ class SearchFiltersEntity extends Equatable {
     if (minRating != null) count++;
     if (isVerifiedOnly) count++;
     if (availability != null) count++;
+    if (languages.isNotEmpty) count++;
+    if (platforms.isNotEmpty) count++;
+    if (minFollowers != null || maxFollowers != null) count++;
+    if (minEngagementRate != null) count++;
     return count;
   }
 
@@ -73,6 +112,11 @@ class SearchFiltersEntity extends Equatable {
     bool? isVerifiedOnly,
     SortBy? sortBy,
     String? availability,
+    List<String>? languages,
+    List<InfluencerPlatform>? platforms,
+    int? minFollowers,
+    int? maxFollowers,
+    double? minEngagementRate,
   }) =>
       SearchFiltersEntity(
         categories: categories ?? this.categories,
@@ -83,6 +127,11 @@ class SearchFiltersEntity extends Equatable {
         isVerifiedOnly: isVerifiedOnly ?? this.isVerifiedOnly,
         sortBy: sortBy ?? this.sortBy,
         availability: availability ?? this.availability,
+        languages: languages ?? this.languages,
+        platforms: platforms ?? this.platforms,
+        minFollowers: minFollowers ?? this.minFollowers,
+        maxFollowers: maxFollowers ?? this.maxFollowers,
+        minEngagementRate: minEngagementRate ?? this.minEngagementRate,
       );
 
   SearchFiltersEntity clearRateRange() => copyWith(minRate: null, maxRate: null);
@@ -91,5 +140,6 @@ class SearchFiltersEntity extends Equatable {
   List<Object?> get props => [
         categories, minRate, maxRate, location, minRating,
         isVerifiedOnly, sortBy, availability,
+        languages, platforms, minFollowers, maxFollowers, minEngagementRate,
       ];
 }

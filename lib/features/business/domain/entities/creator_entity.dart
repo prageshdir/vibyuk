@@ -51,8 +51,8 @@ class CreatorEntity extends Equatable {
 
   String get rateDisplay {
     if (hourlyRateFrom == null) return 'Rate on request';
-    if (hourlyRateTo == null) return '£${hourlyRateFrom!.toStringAsFixed(0)}/hr';
-    return '£${hourlyRateFrom!.toStringAsFixed(0)}–${hourlyRateTo!.toStringAsFixed(0)}/hr';
+    if (hourlyRateTo == null) return '₹${hourlyRateFrom!.toStringAsFixed(0)}/hr';
+    return '₹${hourlyRateFrom!.toStringAsFixed(0)}–${hourlyRateTo!.toStringAsFixed(0)}/hr';
   }
 
   bool get isAvailable => availability == 'available' || availability == null;

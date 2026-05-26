@@ -51,7 +51,7 @@ class CampaignEntity extends Equatable {
   double get bookingProgress =>
       targetCreatorCount > 0 ? (bookedCount / targetCreatorCount).clamp(0.0, 1.0) : 0.0;
 
-  String get budgetDisplay => '£${budget.toStringAsFixed(0)}';
+  String get budgetDisplay => '₹${budget.toStringAsFixed(0)}';
 
   @override
   List<Object?> get props => [

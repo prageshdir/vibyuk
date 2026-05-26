@@ -180,6 +180,8 @@ import 'package:vibyuk/features/subscriptions/domain/entities/subscription_entit
 import 'package:vibyuk/features/subscriptions/presentation/bloc/subscription_bloc.dart';
 import 'package:vibyuk/features/subscriptions/presentation/screens/business_upgrade_screen.dart';
 import 'package:vibyuk/features/subscriptions/presentation/screens/subscription_upgrade_screen.dart';
+import 'package:vibyuk/features/influencer/presentation/blocs/influencer_campaign/influencer_campaign_bloc.dart';
+import 'package:vibyuk/features/influencer/presentation/screens/influencer_campaigns_screen.dart';
 
 class _PlaceholderScreen extends StatelessWidget {
   final String title;
@@ -1230,6 +1232,15 @@ class AppRouter {
               : BusinessPlan.free;
           return BusinessUpgradeScreen(currentPlan: plan);
         },
+      ),
+      GoRoute(
+        path: RouteNames.influencerCampaigns,
+        name: 'influencer-campaigns',
+        builder: (_, __) => BlocProvider(
+          create: (_) => sl<InfluencerCampaignBloc>()
+            ..add(const LoadInfluencerCampaignsEvent()),
+          child: const InfluencerCampaignsScreen(),
+        ),
       ),
     ],
     );

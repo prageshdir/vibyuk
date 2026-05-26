@@ -191,5 +191,8 @@ abstract final class RouteNames {
   static const String subscriptionUpgrade = '/subscription/upgrade';
   static const String businessSubscriptionUpgrade = '/business/subscription/upgrade';
 
+  // Influencer Marketing
+  static const String influencerCampaigns = '/influencer/campaigns';
+
   RouteNames._();
 }

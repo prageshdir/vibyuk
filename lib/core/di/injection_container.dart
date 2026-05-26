@@ -21,6 +21,7 @@ import 'package:vibyuk/features/notifications/di/notification_module.dart';
 import 'package:vibyuk/features/tourism/di/tourism_module.dart';
 import 'package:vibyuk/features/wedding/di/wedding_module.dart';
 import 'package:vibyuk/features/subscriptions/di/subscription_module.dart';
+import 'package:vibyuk/core/di/modules/influencer_module.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -50,6 +51,7 @@ Future<void> configureDependencies() async {
   registerAiModule(sl);
   registerAdminModule(sl);
   registerSubscriptionModule(sl);
+  registerInfluencerModule(sl);
 
   // Bootstrap services
   await sl<ConnectivityHelper>().initialize();
