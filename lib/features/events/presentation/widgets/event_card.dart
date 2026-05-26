@@ -274,7 +274,7 @@ class _PriceCapacityRow extends StatelessWidget {
     final minPrice = event.minTicketPrice;
     final priceText = (minPrice == null || minPrice == 0)
         ? 'Free'
-        : 'From ${NumberFormat.currency(symbol: '${event.currency} ', decimalDigits: 2).format(minPrice)}';
+        : 'From ${NumberFormat.currency(symbol: '₹', decimalDigits: 0).format(minPrice)}';
     final isFree = minPrice == null || minPrice == 0;
 
     return Row(

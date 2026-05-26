@@ -170,7 +170,7 @@ class _AnalyticsChartWidgetState extends State<AnalyticsChartWidget> {
   }
 
   Widget _buildSummaryRow(BuildContext context) {
-    final revenue = NumberFormat.currency(symbol: '\$', decimalDigits: 0)
+    final revenue = NumberFormat.currency(symbol: '₹', decimalDigits: 0)
         .format(widget.analytics.totalRevenue);
     final occupancy =
         '${(widget.analytics.occupancyRate * 100).toStringAsFixed(0)}%';
