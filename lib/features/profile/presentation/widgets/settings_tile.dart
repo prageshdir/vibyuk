@@ -78,7 +78,7 @@ class SettingsTile extends StatelessWidget {
           Divider(
             height: 1,
             indent: 72,
-            color: theme.colorScheme.outlineVariant.withOpacity(0.5),
+            color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5),
           ),
       ],
     );
@@ -115,7 +115,7 @@ class SettingsSection extends StatelessWidget {
         ),
         Container(
           decoration: BoxDecoration(
-            color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
+            color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(16),
           ),
           margin: const EdgeInsets.symmetric(horizontal: 16),

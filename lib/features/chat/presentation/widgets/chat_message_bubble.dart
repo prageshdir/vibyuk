@@ -108,7 +108,7 @@ class _TheirTextBubble extends StatelessWidget {
           if (showAvatar)
             CircleAvatar(
               radius: 14,
-              backgroundColor: AppColors.primary.withOpacity(0.15),
+              backgroundColor: AppColors.primary.withValues(alpha: 0.15),
               backgroundImage: message.senderAvatarUrl != null
                   ? NetworkImage(message.senderAvatarUrl!)
                   : null,
@@ -177,7 +177,7 @@ class _SystemMessage extends StatelessWidget {
             color: Theme.of(context)
                 .colorScheme
                 .surfaceVariant
-                .withOpacity(0.7),
+                .withValues(alpha: 0.7),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(

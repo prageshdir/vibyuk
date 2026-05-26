@@ -26,13 +26,13 @@ class BiometricButton extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                color: AppColors.primary.withOpacity(0.3),
+                color: AppColors.primary.withValues(alpha: 0.3),
                 width: 2,
               ),
               gradient: LinearGradient(
                 colors: [
                   AppColors.primaryContainer,
-                  AppColors.primaryContainer.withOpacity(0.5),
+                  AppColors.primaryContainer.withValues(alpha: 0.5),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,

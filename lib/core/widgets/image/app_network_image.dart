@@ -94,7 +94,7 @@ class AppNetworkImage extends StatelessWidget {
       return Container(
         width: width,
         height: height,
-        color: color.withOpacity(0.15),
+        color: color.withValues(alpha: 0.15),
         alignment: Alignment.center,
         child: Text(
           fallbackInitials![0].toUpperCase(),
@@ -114,7 +114,7 @@ class AppNetworkImage extends StatelessWidget {
       alignment: Alignment.center,
       child: Icon(
         fallbackIcon,
-        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.3),
         size: (height ?? 40) * 0.4,
       ),
     );

@@ -255,7 +255,7 @@ class _StatusCard extends StatelessWidget {
               children: [
                 Text(
                   'Status',
-                  style: TextStyle(color: fg.withOpacity(0.7), fontSize: 12),
+                  style: TextStyle(color: fg.withValues(alpha: 0.7), fontSize: 12),
                 ),
                 const SizedBox(height: 2),
                 Text(

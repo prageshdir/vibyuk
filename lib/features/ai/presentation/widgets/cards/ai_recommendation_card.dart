@@ -32,11 +32,11 @@ class AiRecommendationCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           color: Theme.of(context).cardColor,
           border: Border.all(
-            color: AppColors.primary.withOpacity(0.08),
+            color: AppColors.primary.withValues(alpha: 0.08),
           ),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withOpacity(0.06),
+              color: AppColors.primary.withValues(alpha: 0.06),
               blurRadius: 20,
               offset: const Offset(0, 4),
             ),
@@ -55,8 +55,8 @@ class AiRecommendationCard extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    AppColors.primary.withOpacity(0.06),
-                    AppColors.tertiary.withOpacity(0.04),
+                    AppColors.primary.withValues(alpha: 0.06),
+                    AppColors.tertiary.withValues(alpha: 0.04),
                   ],
                 ),
               ),
@@ -144,10 +144,10 @@ class AiRecommendationCard extends StatelessWidget {
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
-                          color: scoreColor.withOpacity(0.12),
+                          color: scoreColor.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                            color: scoreColor.withOpacity(0.4),
+                            color: scoreColor.withValues(alpha: 0.4),
                           ),
                         ),
                         child: Text(

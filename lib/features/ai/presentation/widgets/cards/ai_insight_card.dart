@@ -27,10 +27,10 @@ class AiInsightCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           color: Theme.of(context).cardColor,
-          border: Border.all(color: config.borderColor.withOpacity(0.3)),
+          border: Border.all(color: config.borderColor.withValues(alpha: 0.3)),
           boxShadow: [
             BoxShadow(
-              color: config.accentColor.withOpacity(0.08),
+              color: config.accentColor.withValues(alpha: 0.08),
               blurRadius: 16,
               offset: const Offset(0, 4),
             ),
@@ -58,7 +58,7 @@ class AiInsightCard extends StatelessWidget {
                         height: 36,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: config.accentColor.withOpacity(0.12),
+                          color: config.accentColor.withValues(alpha: 0.12),
                         ),
                         child: Icon(
                           config.icon,
@@ -130,7 +130,7 @@ class AiInsightCard extends StatelessWidget {
                             child: LinearProgressIndicator(
                               value: insight.impactScore! / 100,
                               minHeight: 5,
-                              backgroundColor: config.accentColor.withOpacity(0.12),
+                              backgroundColor: config.accentColor.withValues(alpha: 0.12),
                               valueColor:
                                   AlwaysStoppedAnimation(config.accentColor),
                             ),
@@ -199,7 +199,7 @@ class _PriorityBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Text(

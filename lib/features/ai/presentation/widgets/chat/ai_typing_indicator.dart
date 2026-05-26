@@ -82,8 +82,8 @@ class _AiTypingIndicatorState extends State<AiTypingIndicator>
                         height: 7,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.primary.withOpacity(
-                            0.4 + 0.6 * bounce.clamp(0.0, 1.0),
+                          color: AppColors.primary.withValues(
+                            alpha: 0.4 + 0.6 * bounce.clamp(0.0, 1.0),
                           ),
                         ),
                       ),

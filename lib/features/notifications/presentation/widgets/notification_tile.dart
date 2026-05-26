@@ -29,7 +29,7 @@ class NotificationTile extends StatelessWidget {
         onTap: onTap,
         child: Container(
           color: isUnread
-              ? AppColors.primaryContainer.withOpacity(0.3)
+              ? AppColors.primaryContainer.withValues(alpha: 0.3)
               : Colors.transparent,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           child: Row(
@@ -124,7 +124,7 @@ class _TypeIcon extends StatelessWidget {
       width: 44,
       height: 44,
       decoration: BoxDecoration(
-        color: _bgColor.withOpacity(0.15),
+        color: _bgColor.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Icon(_icon, size: 22, color: _bgColor),

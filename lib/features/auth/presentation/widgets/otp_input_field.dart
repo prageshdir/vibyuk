@@ -126,8 +126,8 @@ class _OtpInputFieldState extends State<OtpInputField> {
               ),
               filled: true,
               fillColor: _controllers[index].text.isNotEmpty
-                  ? AppColors.primaryContainer.withOpacity(0.3)
-                  : theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
+                  ? AppColors.primaryContainer.withValues(alpha: 0.3)
+                  : theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
             ),
             onChanged: (value) => _onChanged(value, index),
           ),

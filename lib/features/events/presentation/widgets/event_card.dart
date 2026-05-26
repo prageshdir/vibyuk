@@ -160,7 +160,7 @@ class _StatusBadge extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: _statusColor().withOpacity(0.9),
+          color: _statusColor().withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
@@ -185,7 +185,7 @@ class _SoldOutRibbon extends StatelessWidget {
       right: 0,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 6),
-        color: Colors.red.withOpacity(0.85),
+        color: Colors.red.withValues(alpha: 0.85),
         child: const Text(
           'SOLD OUT',
           textAlign: TextAlign.center,

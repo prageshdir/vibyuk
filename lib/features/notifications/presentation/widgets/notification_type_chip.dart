@@ -21,7 +21,7 @@ class NotificationTypeChip extends StatelessWidget {
         vertical: compact ? 2 : 4,
       ),
       decoration: BoxDecoration(
-        color: config.color.withOpacity(0.12),
+        color: config.color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Row(

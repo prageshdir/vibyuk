@@ -28,12 +28,12 @@ class AdminUserCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: user.isHighRisk
-                ? const Color(0xFFFF5C6B).withOpacity(0.3)
-                : theme.colorScheme.outline.withOpacity(0.08),
+                ? const Color(0xFFFF5C6B).withValues(alpha: 0.3)
+                : theme.colorScheme.outline.withValues(alpha: 0.08),
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -66,7 +66,7 @@ class AdminUserCard extends StatelessWidget {
                   Text(
                     user.email,
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurface.withOpacity(0.5),
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -85,7 +85,7 @@ class AdminUserCard extends StatelessWidget {
                         '${user.flagCount}',
                         user.isHighRisk
                             ? const Color(0xFFFF5C6B)
-                            : theme.colorScheme.onSurface.withOpacity(0.4),
+                            : theme.colorScheme.onSurface.withValues(alpha: 0.4),
                       ),
                       const SizedBox(width: 8),
                       _chip(
@@ -158,7 +158,7 @@ class _Avatar extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 24,
-          backgroundColor: const Color(0xFF7B2FFF).withOpacity(0.15),
+          backgroundColor: const Color(0xFF7B2FFF).withValues(alpha: 0.15),
           backgroundImage:
               user.avatarUrl != null ? NetworkImage(user.avatarUrl!) : null,
           child: user.avatarUrl == null

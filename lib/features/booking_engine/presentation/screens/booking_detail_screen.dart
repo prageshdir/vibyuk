@@ -152,7 +152,7 @@ class _OverviewTab extends StatelessWidget {
               gradient: LinearGradient(
                 colors: [
                   AppColors.primary,
-                  AppColors.primary.withOpacity(0.7)
+                  AppColors.primary.withValues(alpha: 0.7)
                 ],
               ),
               borderRadius: BorderRadius.circular(16),
@@ -176,7 +176,7 @@ class _OverviewTab extends StatelessWidget {
                 const Spacer(),
                 CircleAvatar(
                   radius: 28,
-                  backgroundColor: Colors.white.withOpacity(0.2),
+                  backgroundColor: Colors.white.withValues(alpha: 0.2),
                   backgroundImage: booking.businessLogoUrl != null
                       ? NetworkImage(booking.businessLogoUrl!)
                       : null,

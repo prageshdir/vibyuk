@@ -61,7 +61,7 @@ class _AdminUserActionSheetState extends State<AdminUserActionSheet> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: theme.colorScheme.outline.withOpacity(0.3),
+              color: theme.colorScheme.outline.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -81,7 +81,7 @@ class _AdminUserActionSheetState extends State<AdminUserActionSheet> {
                 Text(
                   'Select Action',
                   style: theme.textTheme.labelMedium?.copyWith(
-                    color: theme.colorScheme.onSurface.withOpacity(0.5),
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -96,7 +96,7 @@ class _AdminUserActionSheetState extends State<AdminUserActionSheet> {
                     Text(
                       'Suspension Duration',
                       style: theme.textTheme.labelMedium?.copyWith(
-                        color: theme.colorScheme.onSurface.withOpacity(0.5),
+                        color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -210,10 +210,10 @@ class _ActionGrid extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             decoration: BoxDecoration(
-              color: sel ? color : color.withOpacity(0.08),
+              color: sel ? color : color.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: sel ? color : color.withOpacity(0.2),
+                color: sel ? color : color.withValues(alpha: 0.2),
               ),
             ),
             child: Row(

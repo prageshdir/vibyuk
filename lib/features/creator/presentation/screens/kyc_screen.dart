@@ -167,7 +167,7 @@ class _KycScreenState extends State<KycScreen> {
         iconColor: Colors.green,
         title: 'Identity Verified',
         subtitle: 'Your identity has been successfully verified.',
-        backgroundColor: Colors.green.withOpacity(0.08),
+        backgroundColor: Colors.green.withValues(alpha: 0.08),
       );
     }
 
@@ -178,7 +178,7 @@ class _KycScreenState extends State<KycScreen> {
         title: 'Under Review',
         subtitle:
             'Your documents are being reviewed. This usually takes 1–2 business days.',
-        backgroundColor: Colors.orange.withOpacity(0.08),
+        backgroundColor: Colors.orange.withValues(alpha: 0.08),
       );
     }
 
@@ -190,9 +190,9 @@ class _KycScreenState extends State<KycScreen> {
             margin: const EdgeInsets.only(bottom: 16),
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: theme.colorScheme.errorContainer.withOpacity(0.3),
+              color: theme.colorScheme.errorContainer.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: theme.colorScheme.error.withOpacity(0.4)),
+              border: Border.all(color: theme.colorScheme.error.withValues(alpha: 0.4)),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,

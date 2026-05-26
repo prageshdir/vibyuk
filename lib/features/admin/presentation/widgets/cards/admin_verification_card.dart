@@ -25,11 +25,11 @@ class AdminVerificationCard extends StatelessWidget {
           color: theme.cardColor,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: theme.colorScheme.outline.withOpacity(0.08),
+            color: theme.colorScheme.outline.withValues(alpha: 0.08),
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -39,7 +39,7 @@ class AdminVerificationCard extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 22,
-              backgroundColor: const Color(0xFF00D9C0).withOpacity(0.15),
+              backgroundColor: const Color(0xFF00D9C0).withValues(alpha: 0.15),
               backgroundImage: verification.userAvatarUrl != null
                   ? NetworkImage(verification.userAvatarUrl!)
                   : null,
@@ -82,20 +82,20 @@ class AdminVerificationCard extends StatelessWidget {
                       Icon(
                         Icons.description_outlined,
                         size: 12,
-                        color: theme.colorScheme.onSurface.withOpacity(0.4),
+                        color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
                       ),
                       const SizedBox(width: 3),
                       Text(
                         '${verification.documents.length} doc${verification.documents.length != 1 ? 's' : ''}',
                         style: theme.textTheme.labelSmall?.copyWith(
-                          color: theme.colorScheme.onSurface.withOpacity(0.4),
+                          color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
                         ),
                       ),
                       const SizedBox(width: 8),
                       Icon(
                         Icons.schedule_rounded,
                         size: 12,
-                        color: theme.colorScheme.onSurface.withOpacity(0.4),
+                        color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
                       ),
                       const SizedBox(width: 3),
                       Text(
@@ -103,7 +103,7 @@ class AdminVerificationCard extends StatelessWidget {
                         style: theme.textTheme.labelSmall?.copyWith(
                           color: verification.daysPending > 3
                               ? const Color(0xFFFFB020)
-                              : theme.colorScheme.onSurface.withOpacity(0.4),
+                              : theme.colorScheme.onSurface.withValues(alpha: 0.4),
                           fontWeight: verification.daysPending > 3
                               ? FontWeight.w700
                               : FontWeight.normal,
@@ -149,7 +149,7 @@ class _TypeChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(

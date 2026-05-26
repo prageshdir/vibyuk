@@ -39,14 +39,14 @@ class AiPricingCard extends StatelessWidget {
           color: Theme.of(context).cardColor,
           border: Border.all(
             color: isActive
-                ? AppColors.primary.withOpacity(0.6)
-                : AppColors.outline.withOpacity(0.2),
+                ? AppColors.primary.withValues(alpha: 0.6)
+                : AppColors.outline.withValues(alpha: 0.2),
             width: isActive ? 1.5 : 1,
           ),
           boxShadow: isActive
               ? [
                   BoxShadow(
-                    color: AppColors.primary.withOpacity(0.15),
+                    color: AppColors.primary.withValues(alpha: 0.15),
                     blurRadius: 24,
                     offset: const Offset(0, 6),
                   ),
@@ -75,7 +75,7 @@ class AiPricingCard extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: confidenceColor.withOpacity(0.12),
+                    color: confidenceColor.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -142,10 +142,10 @@ class AiPricingCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: AppColors.tertiary.withOpacity(0.06),
+                color: AppColors.tertiary.withValues(alpha: 0.06),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: AppColors.tertiary.withOpacity(0.15),
+                  color: AppColors.tertiary.withValues(alpha: 0.15),
                 ),
               ),
               child: Row(
@@ -235,8 +235,8 @@ class _PriceRangeBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(3),
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.warning.withOpacity(0.4),
-                    AppColors.success.withOpacity(0.4),
+                    AppColors.warning.withValues(alpha: 0.4),
+                    AppColors.success.withValues(alpha: 0.4),
                   ],
                 ),
               ),

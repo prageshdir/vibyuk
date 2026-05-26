@@ -50,7 +50,7 @@ class AdminStatusBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final bg = style == AdminBadgeStyle.filled
         ? color
-        : color.withOpacity(0.12);
+        : color.withValues(alpha: 0.12);
     final fg = style == AdminBadgeStyle.filled ? Colors.white : color;
 
     return Container(

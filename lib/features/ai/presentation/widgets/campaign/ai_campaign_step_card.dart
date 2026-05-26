@@ -37,16 +37,16 @@ class AiCampaignStepCard extends StatelessWidget {
                   Container(
                     width: 2,
                     height: 12,
-                    color: AppColors.outline.withOpacity(0.3),
+                    color: AppColors.outline.withValues(alpha: 0.3),
                   ),
                 Container(
                   width: 32,
                   height: 32,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: statusConfig.color.withOpacity(0.12),
+                    color: statusConfig.color.withValues(alpha: 0.12),
                     border: Border.all(
-                      color: statusConfig.color.withOpacity(0.5),
+                      color: statusConfig.color.withValues(alpha: 0.5),
                       width: 1.5,
                     ),
                   ),
@@ -60,7 +60,7 @@ class AiCampaignStepCard extends StatelessWidget {
                   Container(
                     width: 2,
                     height: 40,
-                    color: AppColors.outline.withOpacity(0.3),
+                    color: AppColors.outline.withValues(alpha: 0.3),
                   ),
               ],
             ),
@@ -76,8 +76,8 @@ class AiCampaignStepCard extends StatelessWidget {
                   color: Theme.of(context).cardColor,
                   border: Border.all(
                     color: step.status == CampaignStepStatus.inProgress
-                        ? AppColors.primary.withOpacity(0.3)
-                        : AppColors.outline.withOpacity(0.12),
+                        ? AppColors.primary.withValues(alpha: 0.3)
+                        : AppColors.outline.withValues(alpha: 0.12),
                   ),
                 ),
                 padding: const EdgeInsets.all(12),
@@ -92,7 +92,7 @@ class AiCampaignStepCard extends StatelessWidget {
                             vertical: 3,
                           ),
                           decoration: BoxDecoration(
-                            color: typeConfig.color.withOpacity(0.1),
+                            color: typeConfig.color.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Row(

@@ -67,7 +67,7 @@ class _AdminVerificationReviewSheetState
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.outline.withOpacity(0.3),
+                  color: theme.colorScheme.outline.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -83,14 +83,14 @@ class _AdminVerificationReviewSheetState
             Text(
               widget.verification.userName,
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.5),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
               ),
             ),
             const SizedBox(height: 20),
             Text(
               'Documents',
               style: theme.textTheme.labelMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.5),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -121,7 +121,7 @@ class _AdminVerificationReviewSheetState
                             Text(
                               'Expires ${doc.expiryDate!.year}-${doc.expiryDate!.month.toString().padLeft(2, '0')}-${doc.expiryDate!.day.toString().padLeft(2, '0')}',
                               style: theme.textTheme.labelSmall?.copyWith(
-                                color: theme.colorScheme.onSurface.withOpacity(0.4),
+                                color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
                               ),
                             ),
                         ],
@@ -140,7 +140,7 @@ class _AdminVerificationReviewSheetState
             Text(
               'Decision',
               style: theme.textTheme.labelMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.5),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -245,10 +245,10 @@ class _DecisionButton extends StatelessWidget {
           duration: const Duration(milliseconds: 180),
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            color: selected ? color : color.withOpacity(0.07),
+            color: selected ? color : color.withValues(alpha: 0.07),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: selected ? color : color.withOpacity(0.2),
+              color: selected ? color : color.withValues(alpha: 0.2),
             ),
           ),
           child: Column(

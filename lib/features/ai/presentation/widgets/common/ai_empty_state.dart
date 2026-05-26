@@ -34,12 +34,12 @@ class AiEmptyState extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    AppColors.primary.withOpacity(0.15),
-                    AppColors.tertiary.withOpacity(0.15),
+                    AppColors.primary.withValues(alpha: 0.15),
+                    AppColors.tertiary.withValues(alpha: 0.15),
                   ],
                 ),
                 border: Border.all(
-                  color: AppColors.primary.withOpacity(0.2),
+                  color: AppColors.primary.withValues(alpha: 0.2),
                 ),
               ),
               child: Icon(

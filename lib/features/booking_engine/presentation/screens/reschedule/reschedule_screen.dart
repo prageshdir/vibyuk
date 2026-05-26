@@ -149,9 +149,9 @@ class _RequestForm extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.08),
+              color: Colors.blue.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.blue.withOpacity(0.25)),
+              border: Border.all(color: Colors.blue.withValues(alpha: 0.25)),
             ),
             child: Row(
               children: [
@@ -180,7 +180,7 @@ class _RequestForm extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               decoration: BoxDecoration(
                 border: Border.all(
-                    color: theme.colorScheme.outline.withOpacity(0.5)),
+                    color: theme.colorScheme.outline.withValues(alpha: 0.5)),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(

@@ -117,10 +117,10 @@ class _InvoiceView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: statusColor.withOpacity(0.12),
+                    color: statusColor.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                        color: statusColor.withOpacity(0.3)),
+                        color: statusColor.withValues(alpha: 0.3)),
                   ),
                   child: Text(statusLabel,
                       style: TextStyle(
@@ -437,17 +437,17 @@ class _DateChip extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: (isAlert ? Colors.red : isSuccess ? Colors.green : Colors.grey)
-            .withOpacity(0.08),
+            .withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-            color: color.withOpacity(0.2)),
+            color: color.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label,
               style: theme.textTheme.labelSmall
-                  ?.copyWith(color: color.withOpacity(0.7))),
+                  ?.copyWith(color: color.withValues(alpha: 0.7))),
           Text('${date.day}/${date.month}/${date.year}',
               style: theme.textTheme.bodySmall
                   ?.copyWith(fontWeight: FontWeight.w600, color: color)),

@@ -62,8 +62,8 @@ class _AiGradientHeaderState extends State<AiGradientHeader>
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.black.withOpacity(0.1),
-                    Colors.black.withOpacity(0.4),
+                    Colors.black.withValues(alpha: 0.1),
+                    Colors.black.withValues(alpha: 0.4),
                   ],
                 ),
               ),
@@ -90,10 +90,10 @@ class _AiGradientHeaderState extends State<AiGradientHeader>
                               vertical: 3,
                             ),
                             decoration: BoxDecoration(
-                              color: AppColors.tertiary.withOpacity(0.2),
+                              color: AppColors.tertiary.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(
-                                color: AppColors.tertiary.withOpacity(0.6),
+                                color: AppColors.tertiary.withValues(alpha: 0.6),
                               ),
                             ),
                             child: Row(
@@ -137,7 +137,7 @@ class _AiGradientHeaderState extends State<AiGradientHeader>
                       Text(
                         widget.subtitle,
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.75),
+                          color: Colors.white.withValues(alpha: 0.75),
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
                         ),
@@ -181,8 +181,8 @@ class _MeshGradientPainter extends CustomPainter {
     final orb1Y = size.height * (0.3 + 0.2 * math.cos(t * 2 * math.pi));
     paint.shader = RadialGradient(
       colors: [
-        AppColors.secondary.withOpacity(0.5),
-        AppColors.secondary.withOpacity(0),
+        AppColors.secondary.withValues(alpha: 0.5),
+        AppColors.secondary.withValues(alpha: 0),
       ],
     ).createShader(Rect.fromCircle(
       center: Offset(orb1X, orb1Y),
@@ -196,8 +196,8 @@ class _MeshGradientPainter extends CustomPainter {
     final orb2Y = size.height * (0.5 + 0.3 * math.sin(t * 2 * math.pi + 1));
     paint.shader = RadialGradient(
       colors: [
-        AppColors.tertiary.withOpacity(0.4),
-        AppColors.tertiary.withOpacity(0),
+        AppColors.tertiary.withValues(alpha: 0.4),
+        AppColors.tertiary.withValues(alpha: 0),
       ],
     ).createShader(Rect.fromCircle(
       center: Offset(orb2X, orb2Y),

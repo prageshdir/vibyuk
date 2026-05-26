@@ -301,7 +301,7 @@ class _CampaignTypeSelector extends StatelessWidget {
                 width: isSelected ? 2 : 1,
               ),
               color: isSelected
-                  ? AppColors.primaryContainer.withOpacity(0.3)
+                  ? AppColors.primaryContainer.withValues(alpha: 0.3)
                   : Colors.transparent,
             ),
             child: Row(

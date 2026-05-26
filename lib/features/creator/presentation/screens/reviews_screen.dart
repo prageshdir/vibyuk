@@ -136,7 +136,7 @@ class _RatingSummary extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       decoration: BoxDecoration(
-        color: theme.colorScheme.primaryContainer.withOpacity(0.4),
+        color: theme.colorScheme.primaryContainer.withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -223,7 +223,7 @@ class _SummaryDimension extends StatelessWidget {
               value: score / 5.0,
               minHeight: 4,
               backgroundColor:
-                  theme.colorScheme.onSurfaceVariant.withOpacity(0.15),
+                  theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.15),
             ),
           ),
         ),

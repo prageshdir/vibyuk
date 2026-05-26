@@ -97,7 +97,7 @@ class _SplashScreenState extends State<SplashScreen>
                       borderRadius: BorderRadius.circular(28),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withOpacity(0.4),
+                          color: AppColors.primary.withValues(alpha: 0.4),
                           blurRadius: 32,
                           spreadRadius: 4,
                         ),
@@ -128,7 +128,7 @@ class _SplashScreenState extends State<SplashScreen>
                   Text(
                     'Create. Collaborate. Vibe.',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.6),
+                      color: Colors.white.withValues(alpha: 0.6),
                       fontSize: 14,
                       letterSpacing: 0.5,
                     ),
@@ -139,7 +139,7 @@ class _SplashScreenState extends State<SplashScreen>
                     height: 24,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: Colors.white.withOpacity(0.4),
+                      color: Colors.white.withValues(alpha: 0.4),
                     ),
                   ),
                 ],

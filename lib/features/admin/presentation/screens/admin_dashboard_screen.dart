@@ -160,11 +160,11 @@ class _QuickAccessCard extends StatelessWidget {
           color: theme.cardColor,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: color.withOpacity(0.15),
+            color: color.withValues(alpha: 0.15),
           ),
           boxShadow: [
             BoxShadow(
-              color: color.withOpacity(0.08),
+              color: color.withValues(alpha: 0.08),
               blurRadius: 16,
               offset: const Offset(0, 4),
             ),
@@ -180,7 +180,7 @@ class _QuickAccessCard extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [color, color.withOpacity(0.7)],
+                  colors: [color, color.withValues(alpha: 0.7)],
                 ),
                 borderRadius: BorderRadius.circular(14),
               ),
@@ -197,7 +197,7 @@ class _QuickAccessCard extends StatelessWidget {
             Text(
               subtitle,
               style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.45),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.45),
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

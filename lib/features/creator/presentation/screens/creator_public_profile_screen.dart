@@ -86,7 +86,7 @@ class _ProfileView extends StatelessWidget {
                 if (profile.coverImageUrl != null)
                   Image.network(profile.coverImageUrl!, fit: BoxFit.cover)
                 else
-                  Container(color: AppColors.primary.withOpacity(0.3)),
+                  Container(color: AppColors.primary.withValues(alpha: 0.3)),
                 const DecoratedBox(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -372,7 +372,7 @@ class _Stat extends StatelessWidget {
 class _VerticalDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(width: 1, height: 40, color: Colors.grey.withOpacity(0.3));
+    return Container(width: 1, height: 40, color: Colors.grey.withValues(alpha: 0.3));
   }
 }
 
@@ -390,9 +390,9 @@ class _AvailabilityBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

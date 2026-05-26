@@ -33,13 +33,13 @@ class RoleCard extends StatelessWidget {
               ? LinearGradient(
                   colors: [
                     AppColors.primaryContainer,
-                    AppColors.primaryContainer.withOpacity(0.5),
+                    AppColors.primaryContainer.withValues(alpha: 0.5),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 )
               : null,
-          color: isSelected ? null : theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
+          color: isSelected ? null : theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
         ),
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -99,7 +99,7 @@ class RoleCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? AppColors.primary.withOpacity(0.1)
+                            ? AppColors.primary.withValues(alpha: 0.1)
                             : theme.colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(20),
                       ),

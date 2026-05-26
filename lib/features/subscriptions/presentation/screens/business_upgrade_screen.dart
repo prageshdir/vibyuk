@@ -77,7 +77,7 @@ class _BusinessHeader extends StatelessWidget {
             gradient: LinearGradient(
               colors: [
                 theme.colorScheme.primary,
-                theme.colorScheme.primary.withOpacity(0.6),
+                theme.colorScheme.primary.withValues(alpha: 0.6),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -137,14 +137,14 @@ class BusinessPlanCard extends StatelessWidget {
           color: isCurrentPlan
               ? theme.colorScheme.primary
               : isHighlighted
-                  ? theme.colorScheme.primary.withOpacity(0.4)
-                  : theme.colorScheme.outline.withOpacity(0.2),
+                  ? theme.colorScheme.primary.withValues(alpha: 0.4)
+                  : theme.colorScheme.outline.withValues(alpha: 0.2),
           width: isCurrentPlan ? 2 : 1,
         ),
         boxShadow: isHighlighted
             ? [
                 BoxShadow(
-                  color: theme.colorScheme.primary.withOpacity(0.12),
+                  color: theme.colorScheme.primary.withValues(alpha: 0.12),
                   blurRadius: 16,
                   offset: const Offset(0, 4),
                 ),
@@ -208,12 +208,12 @@ class _BusinessPlanHeader extends StatelessWidget {
                 ? LinearGradient(
                     colors: [
                       theme.colorScheme.primary,
-                      theme.colorScheme.primary.withOpacity(0.8),
+                      theme.colorScheme.primary.withValues(alpha: 0.8),
                     ],
                   )
                 : null,
         color: !isEnterprise && !isHighlighted
-            ? theme.colorScheme.surfaceVariant.withOpacity(0.4)
+            ? theme.colorScheme.surfaceVariant.withValues(alpha: 0.4)
             : null,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
       ),
@@ -229,7 +229,7 @@ class _BusinessPlanHeader extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.25),
+                      color: Colors.white.withValues(alpha: 0.25),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
@@ -256,7 +256,7 @@ class _BusinessPlanHeader extends StatelessWidget {
                   plan.formattedPrice,
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: isHighlighted || isEnterprise
-                        ? Colors.white.withOpacity(0.9)
+                        ? Colors.white.withValues(alpha: 0.9)
                         : theme.colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w500,
                   ),
@@ -266,7 +266,7 @@ class _BusinessPlanHeader extends StatelessWidget {
                   '${(plan.commissionRate * 100).toStringAsFixed(0)}% commission',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: isHighlighted || isEnterprise
-                        ? Colors.white.withOpacity(0.75)
+                        ? Colors.white.withValues(alpha: 0.75)
                         : theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
@@ -278,10 +278,10 @@ class _BusinessPlanHeader extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(20),
                 border:
-                    Border.all(color: Colors.white.withOpacity(0.5)),
+                    Border.all(color: Colors.white.withValues(alpha: 0.5)),
               ),
               child: Text(
                 'Current',

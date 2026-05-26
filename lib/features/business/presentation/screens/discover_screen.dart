@@ -290,9 +290,9 @@ class _CompareBanner extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        color: theme.colorScheme.primaryContainer.withOpacity(0.6),
+        color: theme.colorScheme.primaryContainer.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: theme.colorScheme.primary.withOpacity(0.3)),
+        border: Border.all(color: theme.colorScheme.primary.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
