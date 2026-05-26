@@ -10,6 +10,7 @@ class CreatorProfileModel {
     this.coverImageUrl,
     this.categories = const [],
     this.skills = const [],
+    this.languagesSpoken = const [],
     this.socialLinks = const [],
     this.location,
     this.website,
@@ -32,6 +33,7 @@ class CreatorProfileModel {
   final String? coverImageUrl;
   final List<String> categories;
   final List<String> skills;
+  final List<String> languagesSpoken;
   final List<SocialLinkModel> socialLinks;
   final String? location;
   final String? website;
@@ -55,6 +57,7 @@ class CreatorProfileModel {
         coverImageUrl: json['cover_image_url'] as String?,
         categories: (json['categories'] as List?)?.cast<String>() ?? [],
         skills: (json['skills'] as List?)?.cast<String>() ?? [],
+        languagesSpoken: (json['languages_spoken'] as List?)?.cast<String>() ?? [],
         socialLinks: (json['social_links'] as List?)
                 ?.map((e) =>
                     SocialLinkModel.fromJson(e as Map<String, dynamic>))
@@ -82,6 +85,7 @@ class CreatorProfileModel {
         coverImageUrl: coverImageUrl,
         categories: categories,
         skills: skills,
+        languagesSpoken: languagesSpoken,
         socialLinks: socialLinks.map((e) => e.toEntity()).toList(),
         location: location,
         website: website,

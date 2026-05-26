@@ -13,6 +13,7 @@ class CreatorProfileEntity extends Equatable {
   final String? coverImageUrl;
   final List<String> categories;
   final List<String> skills;
+  final List<String> languagesSpoken;
   final List<SocialLinkEntity> socialLinks;
   final String? location;
   final String? website;
@@ -35,6 +36,7 @@ class CreatorProfileEntity extends Equatable {
     this.coverImageUrl,
     required this.categories,
     required this.skills,
+    this.languagesSpoken = const [],
     required this.socialLinks,
     this.location,
     this.website,
@@ -61,6 +63,7 @@ class CreatorProfileEntity extends Equatable {
         coverImageUrl,
         categories,
         skills,
+        languagesSpoken,
         socialLinks,
         location,
         website,
