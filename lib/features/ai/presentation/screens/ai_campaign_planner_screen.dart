@@ -153,10 +153,14 @@ class _CampaignListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusColor = switch (campaign.status) {
-      CampaignStatus.active => AppColors.success,
+      CampaignStatus.active ||
+      CampaignStatus.published ||
+      CampaignStatus.applications ||
+      CampaignStatus.inProgress =>
+        AppColors.success,
       CampaignStatus.draft => AppColors.warning,
       CampaignStatus.paused => AppColors.textSecondary,
-      CampaignStatus.completed => AppColors.tertiary,
+      CampaignStatus.completed || CampaignStatus.archived => AppColors.tertiary,
       CampaignStatus.cancelled => AppColors.error,
     };
 

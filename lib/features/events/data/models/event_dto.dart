@@ -30,7 +30,7 @@ class EventDto with _$EventDto {
     @JsonKey(name: 'ticket_types') @Default([]) List<TicketTypeDto> ticketTypes,
     @JsonKey(name: 'total_capacity') @Default(0) int totalCapacity,
     @JsonKey(name: 'sold_tickets') @Default(0) int soldTickets,
-    @Default('USD') String currency,
+    @Default('INR') String currency,
     @Default([]) List<String> tags,
     @JsonKey(name: 'is_featured') @Default(false) bool isFeatured,
     @JsonKey(name: 'created_at') required DateTime createdAt,

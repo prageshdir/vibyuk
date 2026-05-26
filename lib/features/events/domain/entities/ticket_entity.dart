@@ -41,7 +41,7 @@ class TicketEntity extends Equatable {
     required this.qrData,
     this.status = TicketStatus.active,
     required this.paidAmount,
-    this.currency = 'USD',
+    this.currency = 'INR',
     required this.purchasedAt,
     this.checkedInAt,
     this.refundId,

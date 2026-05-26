@@ -25,7 +25,7 @@ class TicketDto with _$TicketDto {
     @JsonKey(name: 'qr_data') @Default('') String qrData,
     @Default('active') String status,
     @JsonKey(name: 'paid_amount') @Default(0.0) double paidAmount,
-    @Default('USD') String currency,
+    @Default('INR') String currency,
     @JsonKey(name: 'purchased_at') required DateTime purchasedAt,
     @JsonKey(name: 'checked_in_at') DateTime? checkedInAt,
     @JsonKey(name: 'refund_id') String? refundId,

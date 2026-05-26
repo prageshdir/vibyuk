@@ -343,8 +343,8 @@ class _AnalyticsContent extends StatelessWidget {
   }
 
   String _formatValue(double v, String? unit) {
-    if (unit == '\$' || unit == 'USD') {
-      return '\$${_fmt(v.toInt())}';
+    if (unit == '₹' || unit == 'INR') {
+      return '₹${_fmt(v.toInt())}';
     }
     if (unit == '%') return '${v.toStringAsFixed(1)}%';
     return _fmt(v.toInt());

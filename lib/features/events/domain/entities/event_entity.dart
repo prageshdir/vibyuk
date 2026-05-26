@@ -54,7 +54,7 @@ class EventEntity extends Equatable {
     this.ticketTypes = const [],
     this.totalCapacity = 0,
     this.soldTickets = 0,
-    this.currency = 'USD',
+    this.currency = 'INR',
     this.tags = const [],
     this.isFeatured = false,
     required this.createdAt,
