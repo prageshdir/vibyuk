@@ -40,6 +40,8 @@ class DiscoveryBloc extends BaseBloc<DiscoveryEvent, DiscoveryState> {
     on<ClearFiltersEvent>(_onClearFilters);
     on<ToggleSaveCreatorEvent>(_onToggleSave);
     on<LoadSavedCreatorsEvent>(_onLoadSaved);
+    on<ToggleCompareCreatorEvent>(_onToggleCompare);
+    on<ClearComparisonEvent>(_onClearComparison);
   }
 
   final SearchCreatorsUseCase _searchCreators;
@@ -175,6 +177,26 @@ class DiscoveryBloc extends BaseBloc<DiscoveryEvent, DiscoveryState> {
         currentPage: page.currentPage,
       )),
     );
+  }
+
+  void _onToggleCompare(
+      ToggleCompareCreatorEvent event, Emitter<DiscoveryState> emit) {
+    if (state is! DiscoveryLoadedState) return;
+    final loaded = state as DiscoveryLoadedState;
+    final current = List<String>.from(loaded.selectedForComparison);
+    if (current.contains(event.creatorId)) {
+      current.remove(event.creatorId);
+    } else if (current.length < 3) {
+      current.add(event.creatorId);
+    }
+    emit(loaded.copyWith(selectedForComparison: current));
+  }
+
+  void _onClearComparison(
+      ClearComparisonEvent event, Emitter<DiscoveryState> emit) {
+    if (state is! DiscoveryLoadedState) return;
+    final loaded = state as DiscoveryLoadedState;
+    emit(loaded.copyWith(selectedForComparison: []));
   }
 
   @override

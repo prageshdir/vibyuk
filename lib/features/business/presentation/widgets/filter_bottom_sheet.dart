@@ -40,11 +40,19 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   late bool _verifiedOnly;
   late SortBy _sortBy;
   late String? _location;
+  late List<String> _selectedLanguages;
+  late List<InfluencerPlatform> _selectedPlatforms;
+  late RangeValues _followerRange;
 
   static const _allCategories = [
     'Photography', 'Videography', 'Influencer', 'Music',
     'Fitness', 'Beauty', 'Tech', 'Food', 'Travel', 'Lifestyle',
     'Fashion', 'Gaming', 'Sports', 'Comedy',
+  ];
+
+  static const _allLanguages = [
+    'English', 'Hindi', 'Tamil', 'Telugu', 'Kannada',
+    'Malayalam', 'Marathi', 'Bengali', 'Punjabi', 'Gujarati',
   ];
 
   @override
@@ -54,22 +62,36 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     _minRating = widget.initialFilters.minRating ?? 0.0;
     _priceRange = RangeValues(
       widget.initialFilters.minRate ?? 0,
-      widget.initialFilters.maxRate ?? 1000,
+      widget.initialFilters.maxRate ?? 50000,
     );
     _verifiedOnly = widget.initialFilters.isVerifiedOnly;
     _sortBy = widget.initialFilters.sortBy;
     _location = widget.initialFilters.location;
+    _selectedLanguages = List.from(widget.initialFilters.languages);
+    _selectedPlatforms = List.from(widget.initialFilters.platforms);
+    _followerRange = RangeValues(
+      (widget.initialFilters.minFollowers ?? 0).toDouble(),
+      (widget.initialFilters.maxFollowers ?? 1000000).toDouble(),
+    );
   }
 
   void _apply() {
     final filters = SearchFiltersEntity(
       categories: _selectedCategories,
       minRate: _priceRange.start > 0 ? _priceRange.start : null,
-      maxRate: _priceRange.end < 1000 ? _priceRange.end : null,
+      maxRate: _priceRange.end < 50000 ? _priceRange.end : null,
       location: _location?.isEmpty == true ? null : _location,
       minRating: _minRating > 0 ? _minRating : null,
       isVerifiedOnly: _verifiedOnly,
       sortBy: _sortBy,
+      languages: _selectedLanguages,
+      platforms: _selectedPlatforms,
+      minFollowers: _followerRange.start > 0
+          ? _followerRange.start.toInt()
+          : null,
+      maxFollowers: _followerRange.end < 1000000
+          ? _followerRange.end.toInt()
+          : null,
     );
     widget.onApply(filters);
     Navigator.pop(context);
@@ -79,10 +101,13 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     setState(() {
       _selectedCategories = [];
       _minRating = 0.0;
-      _priceRange = const RangeValues(0, 1000);
+      _priceRange = const RangeValues(0, 50000);
       _verifiedOnly = false;
       _sortBy = SortBy.relevant;
       _location = null;
+      _selectedLanguages = [];
+      _selectedPlatforms = [];
+      _followerRange = const RangeValues(0, 1000000);
     });
   }
 
@@ -159,6 +184,35 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   _VerifiedSection(
                     value: _verifiedOnly,
                     onChanged: (v) => setState(() => _verifiedOnly = v),
+                  ),
+                  const _Divider(),
+                  _LanguageSection(
+                    all: _allLanguages,
+                    selected: _selectedLanguages,
+                    onToggle: (lang) => setState(() {
+                      if (_selectedLanguages.contains(lang)) {
+                        _selectedLanguages.remove(lang);
+                      } else {
+                        _selectedLanguages.add(lang);
+                      }
+                    }),
+                  ),
+                  const _Divider(),
+                  _PlatformSection(
+                    selected: _selectedPlatforms,
+                    onToggle: (p) => setState(() {
+                      if (_selectedPlatforms.contains(p)) {
+                        _selectedPlatforms.remove(p);
+                      } else {
+                        _selectedPlatforms.add(p);
+                      }
+                    }),
+                  ),
+                  const _Divider(),
+                  _FollowerRangeSection(
+                    range: _followerRange,
+                    onChanged: (v) =>
+                        setState(() => _followerRange = v),
                   ),
                 ],
               ),
@@ -318,7 +372,7 @@ class _PriceRangeSection extends StatelessWidget {
             children: [
               _SectionTitle(title: 'Hourly rate'),
               Text(
-                '£${range.start.toInt()} – £${range.end.toInt()}',
+                '₹${range.start.toInt()} – ₹${range.end.toInt()}',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: AppColors.primary,
                   fontWeight: FontWeight.w600,
@@ -329,8 +383,8 @@ class _PriceRangeSection extends StatelessWidget {
           RangeSlider(
             values: range,
             min: 0,
-            max: 1000,
-            divisions: 20,
+            max: 50000,
+            divisions: 50,
             activeColor: AppColors.primary,
             inactiveColor: AppColors.outlineVariant,
             onChanged: onChanged,
@@ -338,8 +392,8 @@ class _PriceRangeSection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('£0', style: theme.textTheme.bodySmall?.copyWith(color: AppColors.textSecondary)),
-              Text('£1,000+', style: theme.textTheme.bodySmall?.copyWith(color: AppColors.textSecondary)),
+              Text('₹0', style: theme.textTheme.bodySmall?.copyWith(color: AppColors.textSecondary)),
+              Text('₹50,000+', style: theme.textTheme.bodySmall?.copyWith(color: AppColors.textSecondary)),
             ],
           ),
         ],
@@ -442,6 +496,155 @@ class _SectionTitle extends StatelessWidget {
       style: Theme.of(context).textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.w700,
           ),
+    );
+  }
+}
+
+class _LanguageSection extends StatelessWidget {
+  final List<String> all;
+  final List<String> selected;
+  final ValueChanged<String> onToggle;
+
+  const _LanguageSection({
+    required this.all,
+    required this.selected,
+    required this.onToggle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _SectionTitle(title: 'Languages'),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: all.map((lang) {
+              final isSelected = selected.contains(lang);
+              return FilterChip(
+                label: Text(lang),
+                selected: isSelected,
+                onSelected: (_) => onToggle(lang),
+                selectedColor: AppColors.primaryContainer,
+                checkmarkColor: AppColors.primary,
+                labelStyle: TextStyle(
+                  color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                  fontSize: 13,
+                ),
+                side: BorderSide(
+                  color: isSelected ? AppColors.primary : AppColors.outlineVariant,
+                ),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PlatformSection extends StatelessWidget {
+  final List<InfluencerPlatform> selected;
+  final ValueChanged<InfluencerPlatform> onToggle;
+
+  const _PlatformSection({
+    required this.selected,
+    required this.onToggle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _SectionTitle(title: 'Platforms'),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: InfluencerPlatform.values.map((p) {
+              final isSelected = selected.contains(p);
+              return FilterChip(
+                label: Text(p.label),
+                selected: isSelected,
+                onSelected: (_) => onToggle(p),
+                selectedColor: AppColors.primaryContainer,
+                checkmarkColor: AppColors.primary,
+                labelStyle: TextStyle(
+                  color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                  fontSize: 13,
+                ),
+                side: BorderSide(
+                  color: isSelected ? AppColors.primary : AppColors.outlineVariant,
+                ),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FollowerRangeSection extends StatelessWidget {
+  final RangeValues range;
+  final ValueChanged<RangeValues> onChanged;
+
+  const _FollowerRangeSection({required this.range, required this.onChanged});
+
+  String _formatK(double n) => n >= 1000000
+      ? '${(n / 1000000).toStringAsFixed(1)}M'
+      : n >= 1000
+          ? '${(n / 1000).toStringAsFixed(0)}K'
+          : n.toStringAsFixed(0);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _SectionTitle(title: 'Follower count'),
+              Text(
+                '${_formatK(range.start)} – ${_formatK(range.end)}',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          RangeSlider(
+            values: range,
+            min: 0,
+            max: 1000000,
+            divisions: 20,
+            activeColor: AppColors.primary,
+            inactiveColor: AppColors.outlineVariant,
+            onChanged: onChanged,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('0', style: theme.textTheme.bodySmall
+                  ?.copyWith(color: AppColors.textSecondary)),
+              Text('1M+', style: theme.textTheme.bodySmall
+                  ?.copyWith(color: AppColors.textSecondary)),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

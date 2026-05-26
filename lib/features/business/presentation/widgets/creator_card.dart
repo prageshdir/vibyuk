@@ -7,12 +7,16 @@ class CreatorCard extends StatelessWidget {
   final CreatorEntity creator;
   final VoidCallback? onTap;
   final VoidCallback? onSaveTap;
+  final VoidCallback? onCompareTap;
+  final bool isSelectedForComparison;
 
   const CreatorCard({
     super.key,
     required this.creator,
     this.onTap,
     this.onSaveTap,
+    this.onCompareTap,
+    this.isSelectedForComparison = false,
   });
 
   @override
@@ -98,6 +102,38 @@ class CreatorCard extends StatelessWidget {
                       children: creator.categories.take(2).map((c) {
                         return _CategoryChip(label: c);
                       }).toList(),
+                    ),
+                  ],
+                  if (onCompareTap != null) ...[
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 28,
+                      child: OutlinedButton.icon(
+                        onPressed: onCompareTap,
+                        icon: Icon(
+                          isSelectedForComparison
+                              ? Icons.check_circle_outline
+                              : Icons.compare_arrows_rounded,
+                          size: 13,
+                        ),
+                        label: Text(
+                          isSelectedForComparison ? 'Selected' : 'Compare',
+                          style: const TextStyle(fontSize: 11),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          visualDensity: VisualDensity.compact,
+                          side: BorderSide(
+                            color: isSelectedForComparison
+                                ? AppColors.primary
+                                : AppColors.outlineVariant,
+                          ),
+                          foregroundColor: isSelectedForComparison
+                              ? AppColors.primary
+                              : AppColors.textSecondary,
+                        ),
+                      ),
                     ),
                   ],
                 ],

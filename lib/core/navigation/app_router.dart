@@ -15,6 +15,7 @@ import 'package:vibyuk/features/auth/presentation/screens/role_selection_screen.
 import 'package:vibyuk/features/auth/presentation/screens/splash_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/verify_email_screen.dart';
 // Business
+import 'package:vibyuk/features/business/domain/entities/creator_entity.dart';
 import 'package:vibyuk/features/business/domain/entities/payment_entity.dart';
 import 'package:vibyuk/features/business/presentation/blocs/analytics/analytics_bloc.dart';
 import 'package:vibyuk/features/business/presentation/blocs/booking/booking_bloc.dart';
@@ -37,6 +38,7 @@ import 'package:vibyuk/features/business/presentation/screens/payment_analytics_
 import 'package:vibyuk/features/business/presentation/screens/payment_detail_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/payment_overview_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/saved_creators_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/creator_comparison_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/team_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/transaction_history_screen.dart';
 // Creator
@@ -327,6 +329,30 @@ class AppRouter {
                     return BlocProvider(
                       create: (_) => sl<DiscoveryBloc>(),
                       child: CreatorDetailScreen(creatorId: id),
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: 'compare',
+                  name: 'creator-comparison',
+                  builder: (context, state) {
+                    final ids = state.extra is List<String>
+                        ? state.extra! as List<String>
+                        : <String>[];
+                    // NOTE: comparison loads creator data from cached discovery state
+                    return BlocProvider(
+                      create: (_) => sl<DiscoveryBloc>(),
+                      child: Builder(
+                        builder: (ctx) {
+                          final discoveryState = ctx.read<DiscoveryBloc>().state;
+                          final creators = discoveryState is DiscoveryLoadedState
+                              ? discoveryState.creators
+                                  .where((c) => ids.contains(c.id))
+                                  .toList()
+                              : <CreatorEntity>[];
+                          return CreatorComparisonScreen(creators: creators);
+                        },
+                      ),
                     );
                   },
                 ),

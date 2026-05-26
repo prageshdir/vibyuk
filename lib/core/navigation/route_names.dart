@@ -194,5 +194,8 @@ abstract final class RouteNames {
   // Influencer Marketing
   static const String influencerCampaigns = '/influencer/campaigns';
 
+  // Creator Comparison
+  static const String creatorComparison = '/discover/compare';
+
   RouteNames._();
 }

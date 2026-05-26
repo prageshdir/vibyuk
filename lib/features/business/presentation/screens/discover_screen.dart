@@ -95,7 +95,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   List<Widget> _buildBody(BuildContext context, DiscoveryState state) {
     return switch (state) {
-      DiscoveryInitialState(:final featuredCreators) => [
+      DiscoveryInitialState(:final featuredCreators, :final trendingCreators) => [
           if (featuredCreators.isNotEmpty) ...[
             const SliverToBoxAdapter(
               child: Padding(
@@ -109,6 +109,28 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             ),
             SliverToBoxAdapter(
               child: _FeaturedCarousel(creators: featuredCreators),
+            ),
+          ],
+          if (trendingCreators.isNotEmpty) ...[
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+                child: Row(
+                  children: [
+                    Icon(Icons.trending_up_rounded,
+                        size: 18, color: Colors.orange),
+                    SizedBox(width: 6),
+                    Text(
+                      'Trending Now',
+                      style: TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: _TrendingCreatorsList(creators: trendingCreators),
             ),
           ],
           const SliverToBoxAdapter(
@@ -127,7 +149,25 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             child: Center(child: AppLoader()),
           ),
         ],
-      DiscoveryLoadedState(:final creators, :final hasMore, :final isLoadingMore) => [
+      DiscoveryLoadedState(
+          :final creators,
+          :final hasMore,
+          :final isLoadingMore,
+          :final selectedForComparison,
+        ) => [
+          if (selectedForComparison.isNotEmpty)
+            SliverToBoxAdapter(
+              child: _CompareBanner(
+                count: selectedForComparison.length,
+                onCompare: () => context.push(
+                  '/discover/compare',
+                  extra: selectedForComparison,
+                ),
+                onClear: () => context
+                    .read<DiscoveryBloc>()
+                    .add(const ClearComparisonEvent()),
+              ),
+            ),
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
             sliver: creators.isEmpty
@@ -145,6 +185,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         final creator = creators[index];
+                        final isSelected = selectedForComparison
+                            .contains(creator.id);
                         return CreatorCard(
                           creator: creator,
                           onTap: () => context.push(
@@ -155,6 +197,14 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                                 creatorId: creator.id,
                                 currentlySaved: creator.isSaved,
                               )),
+                          onCompareTap: (selectedForComparison.length < 3 ||
+                                  isSelected)
+                              ? () => context
+                                  .read<DiscoveryBloc>()
+                                  .add(ToggleCompareCreatorEvent(
+                                      creatorId: creator.id))
+                              : null,
+                          isSelectedForComparison: isSelected,
                         );
                       },
                       childCount: creators.length,
@@ -221,6 +271,130 @@ class _AppBar extends StatelessWidget {
       ],
     );
   }
+}
+
+class _CompareBanner extends StatelessWidget {
+  const _CompareBanner({
+    required this.count,
+    required this.onCompare,
+    required this.onClear,
+  });
+  final int count;
+  final VoidCallback onCompare;
+  final VoidCallback onClear;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.primaryContainer.withOpacity(0.6),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: theme.colorScheme.primary.withOpacity(0.3)),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.compare_arrows_rounded,
+              size: 18, color: theme.colorScheme.primary),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              '$count creator${count == 1 ? '' : 's'} selected'
+              '${count < 2 ? ' — add ${2 - count} more' : ''}',
+              style: theme.textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          if (count >= 2)
+            TextButton(
+              onPressed: onCompare,
+              style: TextButton.styleFrom(
+                  visualDensity: VisualDensity.compact,
+                  padding: const EdgeInsets.symmetric(horizontal: 10)),
+              child: const Text('Compare'),
+            ),
+          IconButton(
+            icon: const Icon(Icons.close, size: 16),
+            onPressed: onClear,
+            visualDensity: VisualDensity.compact,
+            padding: EdgeInsets.zero,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TrendingCreatorsList extends StatelessWidget {
+  const _TrendingCreatorsList({required this.creators});
+  final List<CreatorEntity> creators;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 76,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        itemCount: creators.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 12),
+        itemBuilder: (context, index) {
+          final creator = creators[index];
+          return GestureDetector(
+            onTap: () =>
+                context.push('/discover/creators/${creator.id}'),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 28,
+                  backgroundImage: creator.avatarUrl != null
+                      ? NetworkImage(creator.avatarUrl!)
+                      : null,
+                  child: creator.avatarUrl == null
+                      ? Text(creator.initials,
+                          style: const TextStyle(fontWeight: FontWeight.w700))
+                      : null,
+                ),
+                const SizedBox(width: 8),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(creator.displayName,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 13)),
+                    if (creator.categories.isNotEmpty)
+                      Text(creator.categories.first,
+                          style: TextStyle(
+                              fontSize: 11,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant)),
+                    Text('${_formatK(creator.followersCount)} followers',
+                        style: TextStyle(
+                            fontSize: 11,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurfaceVariant)),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  String _formatK(int n) => n >= 1000000
+      ? '${(n / 1000000).toStringAsFixed(1)}M'
+      : n >= 1000
+          ? '${(n / 1000).toStringAsFixed(0)}K'
+          : '$n';
 }
 
 class _FeaturedCarousel extends StatelessWidget {

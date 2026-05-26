@@ -65,3 +65,16 @@ class LoadSavedCreatorsEvent extends DiscoveryEvent {
   @override
   List<Object?> get props => [];
 }
+
+class ToggleCompareCreatorEvent extends DiscoveryEvent {
+  const ToggleCompareCreatorEvent({required this.creatorId});
+  final String creatorId;
+  @override
+  List<Object?> get props => [creatorId];
+}
+
+class ClearComparisonEvent extends DiscoveryEvent {
+  const ClearComparisonEvent();
+  @override
+  List<Object?> get props => [];
+}

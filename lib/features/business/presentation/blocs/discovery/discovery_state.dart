@@ -7,12 +7,14 @@ sealed class DiscoveryState extends Equatable {
 class DiscoveryInitialState extends DiscoveryState {
   const DiscoveryInitialState({
     this.featuredCreators = const [],
+    this.trendingCreators = const [],
     this.recentSearches = const [],
   });
   final List<CreatorEntity> featuredCreators;
+  final List<CreatorEntity> trendingCreators;
   final List<String> recentSearches;
   @override
-  List<Object?> get props => [featuredCreators, recentSearches];
+  List<Object?> get props => [featuredCreators, trendingCreators, recentSearches];
 }
 
 class DiscoveryLoadingState extends DiscoveryState {
@@ -30,6 +32,7 @@ class DiscoveryLoadedState extends DiscoveryState {
     required this.hasMore,
     this.isLoadingMore = false,
     this.totalItems = 0,
+    this.selectedForComparison = const [],
   });
 
   final List<CreatorEntity> creators;
@@ -39,6 +42,11 @@ class DiscoveryLoadedState extends DiscoveryState {
   final bool hasMore;
   final bool isLoadingMore;
   final int totalItems;
+  final List<String> selectedForComparison;
+
+  bool isSelectedForComparison(String creatorId) =>
+      selectedForComparison.contains(creatorId);
+  bool get canAddToComparison => selectedForComparison.length < 3;
 
   DiscoveryLoadedState copyWith({
     List<CreatorEntity>? creators,
@@ -46,6 +54,7 @@ class DiscoveryLoadedState extends DiscoveryState {
     int? currentPage,
     bool? isLoadingMore,
     int? totalItems,
+    List<String>? selectedForComparison,
   }) =>
       DiscoveryLoadedState(
         creators: creators ?? this.creators,
@@ -55,11 +64,14 @@ class DiscoveryLoadedState extends DiscoveryState {
         hasMore: hasMore ?? this.hasMore,
         isLoadingMore: isLoadingMore ?? this.isLoadingMore,
         totalItems: totalItems ?? this.totalItems,
+        selectedForComparison:
+            selectedForComparison ?? this.selectedForComparison,
       );
 
   @override
   List<Object?> get props => [
-        creators, query, filters, currentPage, hasMore, isLoadingMore, totalItems
+        creators, query, filters, currentPage, hasMore, isLoadingMore,
+        totalItems, selectedForComparison,
       ];
 }
 
