@@ -24,7 +24,9 @@ class _CreatorOnboardingScreenState extends State<CreatorOnboardingScreen> {
   final _bioCtrl = TextEditingController();
   final _locationCtrl = TextEditingController();
   final _websiteCtrl = TextEditingController();
+  final _langCtrl = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final _selectedLanguages = <String>[];
 
   OnboardingStep _currentStep = OnboardingStep.basicInfo;
 
@@ -35,6 +37,7 @@ class _CreatorOnboardingScreenState extends State<CreatorOnboardingScreen> {
     _bioCtrl.dispose();
     _locationCtrl.dispose();
     _websiteCtrl.dispose();
+    _langCtrl.dispose();
     super.dispose();
   }
 
@@ -86,7 +89,21 @@ class _CreatorOnboardingScreenState extends State<CreatorOnboardingScreen> {
                     bioCtrl: _bioCtrl,
                     locationCtrl: _locationCtrl,
                     websiteCtrl: _websiteCtrl,
+                    langCtrl: _langCtrl,
+                    selectedLanguages: _selectedLanguages,
                     formKey: _formKey,
+                    onLanguageAdd: (lang) {
+                      final trimmed = lang.trim();
+                      if (trimmed.isNotEmpty &&
+                          !_selectedLanguages.contains(trimmed)) {
+                        setState(() {
+                          _selectedLanguages.add(trimmed);
+                          _langCtrl.clear();
+                        });
+                      }
+                    },
+                    onLanguageRemove: (lang) =>
+                        setState(() => _selectedLanguages.remove(lang)),
                     onNext: () {
                       if (_formKey.currentState!.validate()) {
                         context.read<CreatorProfileBloc>().add(
@@ -101,6 +118,9 @@ class _CreatorOnboardingScreenState extends State<CreatorOnboardingScreen> {
                                 website: _websiteCtrl.text.trim().isEmpty
                                     ? null
                                     : _websiteCtrl.text.trim(),
+                                languagesSpoken: _selectedLanguages.isNotEmpty
+                                    ? List.unmodifiable(_selectedLanguages)
+                                    : null,
                               ),
                             );
                       }
@@ -167,7 +187,11 @@ class _BasicInfoStep extends StatelessWidget {
     required this.bioCtrl,
     required this.locationCtrl,
     required this.websiteCtrl,
+    required this.langCtrl,
+    required this.selectedLanguages,
     required this.formKey,
+    required this.onLanguageAdd,
+    required this.onLanguageRemove,
     required this.onNext,
   });
 
@@ -175,7 +199,11 @@ class _BasicInfoStep extends StatelessWidget {
   final TextEditingController bioCtrl;
   final TextEditingController locationCtrl;
   final TextEditingController websiteCtrl;
+  final TextEditingController langCtrl;
+  final List<String> selectedLanguages;
   final GlobalKey<FormState> formKey;
+  final ValueChanged<String> onLanguageAdd;
+  final ValueChanged<String> onLanguageRemove;
   final VoidCallback onNext;
 
   @override
@@ -219,6 +247,47 @@ class _BasicInfoStep extends StatelessWidget {
             prefixIcon: const Icon(Icons.link_rounded, size: 20),
             keyboardType: TextInputType.url,
           ),
+          const SizedBox(height: 20),
+          Text('Languages spoken',
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge
+                  ?.copyWith(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: AppTextField(
+                  controller: langCtrl,
+                  label: 'Add language',
+                  hint: 'e.g. Hindi, English',
+                  textInputAction: TextInputAction.done,
+                  onFieldSubmitted: onLanguageAdd,
+                ),
+              ),
+              const SizedBox(width: 8),
+              IconButton.filled(
+                icon: const Icon(Icons.add_rounded),
+                onPressed: () => onLanguageAdd(langCtrl.text),
+              ),
+            ],
+          ),
+          if (selectedLanguages.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: selectedLanguages
+                  .map((l) => Chip(
+                        label: Text(l,
+                            style: const TextStyle(fontSize: 13)),
+                        deleteIcon:
+                            const Icon(Icons.close_rounded, size: 16),
+                        onDeleted: () => onLanguageRemove(l),
+                      ))
+                  .toList(),
+            ),
+          ],
           const SizedBox(height: 32),
           BlocBuilder<CreatorProfileBloc, CreatorProfileState>(
             builder: (context, state) => FilledButton(

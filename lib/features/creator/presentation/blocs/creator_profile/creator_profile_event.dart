@@ -25,6 +25,7 @@ class UpdateCreatorProfileEvent extends CreatorProfileEvent {
     this.website,
     this.categories,
     this.skills,
+    this.languagesSpoken,
     this.socialLinks,
   });
   final String displayName;
@@ -33,10 +34,11 @@ class UpdateCreatorProfileEvent extends CreatorProfileEvent {
   final String? website;
   final List<String>? categories;
   final List<String>? skills;
+  final List<String>? languagesSpoken;
   final List<SocialLinkEntity>? socialLinks;
   @override
   List<Object?> get props =>
-      [displayName, bio, location, website, categories, skills, socialLinks];
+      [displayName, bio, location, website, categories, skills, languagesSpoken, socialLinks];
 }
 
 class UploadProfileImageEvent extends CreatorProfileEvent {

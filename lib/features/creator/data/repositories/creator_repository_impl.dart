@@ -69,6 +69,7 @@ class CreatorRepositoryImpl extends BaseRepository implements CreatorRepository 
     String? website,
     List<String>? categories,
     List<String>? skills,
+    List<String>? languagesSpoken,
     List<SocialLinkEntity>? socialLinks,
   }) =>
       safeCall(() async {
@@ -79,6 +80,7 @@ class CreatorRepositoryImpl extends BaseRepository implements CreatorRepository 
           if (website != null) 'website': website,
           if (categories != null) 'categories': categories,
           if (skills != null) 'skills': skills,
+          if (languagesSpoken != null) 'languages_spoken': languagesSpoken,
           if (socialLinks != null)
             'social_links': socialLinks
                 .map((l) => {

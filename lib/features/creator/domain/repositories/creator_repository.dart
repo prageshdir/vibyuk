@@ -23,6 +23,7 @@ abstract class CreatorRepository {
     String? website,
     List<String>? categories,
     List<String>? skills,
+    List<String>? languagesSpoken,
     List<SocialLinkEntity>? socialLinks,
   });
   Future<Either<Failure, String>> uploadProfileImage({required String filePath});

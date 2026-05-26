@@ -76,6 +76,7 @@ class CreatorProfileBloc
       website: event.website,
       categories: event.categories,
       skills: event.skills,
+      languagesSpoken: event.languagesSpoken,
       socialLinks: event.socialLinks,
     ));
     result.fold(
