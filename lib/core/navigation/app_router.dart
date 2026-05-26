@@ -13,6 +13,7 @@ import 'package:vibyuk/features/auth/presentation/screens/phone_otp_screen.dart'
 import 'package:vibyuk/features/auth/presentation/screens/register_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/role_selection_screen.dart';
+import 'package:vibyuk/features/auth/presentation/screens/onboarding_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/splash_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/verify_email_screen.dart';
 // Business
@@ -262,7 +263,7 @@ class AppRouter {
       GoRoute(
         path: RouteNames.onboarding,
         name: 'onboarding',
-        builder: (_, __) => const _PlaceholderScreen(title: 'Onboarding'),
+        builder: (_, __) => const OnboardingScreen(),
       ),
 
       // Auth routes
