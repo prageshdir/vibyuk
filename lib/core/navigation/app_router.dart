@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:vibyuk/core/di/injection_container.dart';
 import 'package:vibyuk/core/navigation/guards/auth_guard.dart';
 import 'package:vibyuk/core/navigation/route_names.dart';
+import 'package:vibyuk/features/home/presentation/screens/home_screen.dart';
 // Auth
 import 'package:vibyuk/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/login_screen.dart';
@@ -343,8 +344,7 @@ class AppRouter {
             GoRoute(
               path: RouteNames.home,
               name: 'home',
-              builder: (_, __) =>
-                  const _PlaceholderScreen(title: 'Home'),
+              builder: (_, __) => const HomeScreen(),
             ),
           ]),
           StatefulShellBranch(routes: [
