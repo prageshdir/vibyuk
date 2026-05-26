@@ -32,6 +32,7 @@ import 'package:vibyuk/features/business/presentation/screens/campaigns/campaign
 import 'package:vibyuk/features/business/presentation/screens/campaigns/create_campaign_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/creator_detail_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/discover_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/search_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/invoice_screen.dart' as biz_invoice;
 import 'package:vibyuk/features/business/presentation/screens/notification_center_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/payment_analytics_screen.dart';
@@ -60,6 +61,7 @@ import 'package:vibyuk/features/creator/presentation/screens/campaign_applicatio
 import 'package:vibyuk/features/creator/presentation/screens/campaign_applications/campaign_applications_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/creator_analytics_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/creator_dashboard_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/edit_creator_profile_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/creator_public_profile_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/bank_account_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/earnings_screen.dart';
@@ -479,7 +481,10 @@ class AppRouter {
       GoRoute(
         path: RouteNames.search,
         name: 'search',
-        builder: (_, __) => const _PlaceholderScreen(title: 'Search'),
+        builder: (_, __) => BlocProvider(
+          create: (_) => sl<DiscoveryBloc>(),
+          child: const SearchScreen(),
+        ),
       ),
       GoRoute(
         path: RouteNames.notifications,
@@ -615,7 +620,7 @@ class AppRouter {
         name: 'edit-creator-profile',
         builder: (context, _) => BlocProvider(
           create: (_) => sl<CreatorProfileBloc>(),
-          child: const _PlaceholderScreen(title: 'Edit Profile'),
+          child: const EditCreatorProfileScreen(),
         ),
       ),
 
