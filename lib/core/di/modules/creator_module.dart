@@ -33,6 +33,7 @@ import 'package:vibyuk/features/creator/domain/usecases/profile/get_public_creat
 import 'package:vibyuk/features/creator/domain/usecases/profile/update_creator_profile_use_case.dart';
 import 'package:vibyuk/features/creator/domain/usecases/profile/upload_profile_image_use_case.dart';
 import 'package:vibyuk/features/creator/domain/usecases/reviews/get_reviews_use_case.dart';
+import 'package:vibyuk/features/creator/domain/usecases/reviews/respond_to_review_use_case.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/availability/availability_bloc.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/booking_requests/booking_requests_bloc.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/campaign_applications/campaign_applications_bloc.dart';
@@ -99,6 +100,7 @@ void registerCreatorModule(GetIt sl) {
 
   // ── Use Cases — Reviews ───────────────────────────────────────────────────
   sl.registerLazySingleton(() => GetReviewsUseCase(sl()));
+  sl.registerLazySingleton(() => RespondToReviewUseCase(sl()));
 
   // ── Use Cases — KYC ──────────────────────────────────────────────────────
   sl.registerLazySingleton(() => GetKycStatusUseCase(sl()));
@@ -156,7 +158,10 @@ void registerCreatorModule(GetIt sl) {
         withdraw: sl(),
       ));
 
-  sl.registerFactory(() => ReviewsBloc(getReviews: sl()));
+  sl.registerFactory(() => ReviewsBloc(
+        getReviews: sl(),
+        respondToReview: sl(),
+      ));
 
   sl.registerFactory(() => KycBloc(
         getKycStatus: sl(),

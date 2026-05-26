@@ -254,7 +254,7 @@ class _ProfileView extends StatelessWidget {
                     final preview = state.reviews.take(3).toList();
                     return Column(
                       children: preview
-                          .map((r) => ReviewCardFactory.fromEntity(r))
+                          .map((r) => ReviewCard(review: r))
                           .toList(),
                     );
                   }

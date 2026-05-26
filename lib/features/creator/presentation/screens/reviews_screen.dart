@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vibyuk/core/widgets/loaders/app_loader.dart';
+import 'package:vibyuk/features/creator/domain/entities/review_entity.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/reviews/reviews_bloc.dart';
 import 'package:vibyuk/features/creator/presentation/widgets/creator_empty_state.dart';
 import 'package:vibyuk/features/creator/presentation/widgets/review_card.dart';
@@ -70,7 +71,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                                   child: Center(child: AppLoader(size: 24)),
                                 );
                               }
-                              return ReviewCardFactory.fromEntity(reviews[i]);
+                              return ReviewCard(review: reviews[i]);
                             },
                           ),
                         ),
@@ -103,15 +104,33 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
 
 class _RatingSummary extends StatelessWidget {
   const _RatingSummary({required this.reviews});
-  final List reviews;
+  final List<ReviewEntity> reviews;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final avg = reviews.isEmpty
         ? 0.0
-        : reviews.fold<double>(0, (s, r) => s + (r.rating as double)) /
+        : reviews.fold<double>(0, (s, r) => s + r.effectiveRating) /
             reviews.length;
+
+    final withDimensions =
+        reviews.where((r) => r.dimensions != null).toList();
+    final avgProf = withDimensions.isEmpty
+        ? null
+        : withDimensions.fold<double>(
+                0, (s, r) => s + r.dimensions!.professionalism) /
+            withDimensions.length;
+    final avgQuality = withDimensions.isEmpty
+        ? null
+        : withDimensions.fold<double>(
+                0, (s, r) => s + r.dimensions!.quality) /
+            withDimensions.length;
+    final avgTime = withDimensions.isEmpty
+        ? null
+        : withDimensions.fold<double>(
+                0, (s, r) => s + r.dimensions!.timeliness) /
+            withDimensions.length;
 
     return Container(
       margin: const EdgeInsets.all(16),
@@ -121,6 +140,7 @@ class _RatingSummary extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
             children: [
@@ -149,20 +169,69 @@ class _RatingSummary extends StatelessWidget {
             ],
           ),
           const SizedBox(width: 24),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('${reviews.length} Review${reviews.length == 1 ? '' : 's'}',
-                  style: theme.textTheme.titleMedium
-                      ?.copyWith(fontWeight: FontWeight.w700)),
-              const SizedBox(height: 4),
-              Text('Based on completed bookings',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant)),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                    '${reviews.length} Review${reviews.length == 1 ? '' : 's'}',
+                    style: theme.textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w700)),
+                const SizedBox(height: 4),
+                Text('Based on completed bookings',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant)),
+                if (avgProf != null) ...[
+                  const SizedBox(height: 10),
+                  _SummaryDimension(
+                      label: 'Professionalism', score: avgProf),
+                  const SizedBox(height: 3),
+                  _SummaryDimension(label: 'Quality', score: avgQuality!),
+                  const SizedBox(height: 3),
+                  _SummaryDimension(
+                      label: 'Timeliness', score: avgTime!),
+                ],
+              ],
+            ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _SummaryDimension extends StatelessWidget {
+  const _SummaryDimension({required this.label, required this.score});
+  final String label;
+  final double score;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Row(
+      children: [
+        SizedBox(
+          width: 100,
+          child: Text(label,
+              style: theme.textTheme.labelSmall
+                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+        ),
+        Expanded(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(3),
+            child: LinearProgressIndicator(
+              value: score / 5.0,
+              minHeight: 4,
+              backgroundColor:
+                  theme.colorScheme.onSurfaceVariant.withOpacity(0.15),
+            ),
+          ),
+        ),
+        const SizedBox(width: 6),
+        Text(score.toStringAsFixed(1),
+            style: theme.textTheme.labelSmall
+                ?.copyWith(fontWeight: FontWeight.w700)),
+      ],
     );
   }
 }

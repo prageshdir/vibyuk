@@ -55,6 +55,10 @@ abstract interface class CreatorRemoteDataSource {
 
   // Reviews
   Future<Map<String, dynamic>> getReviews(int page, int pageSize);
+  Future<Map<String, dynamic>> respondToReview({
+    required String reviewId,
+    required String response,
+  });
 
   // KYC
   Future<Map<String, dynamic>> getKycStatus();
@@ -279,6 +283,18 @@ class CreatorRemoteDataSourceImpl implements CreatorRemoteDataSource {
   Future<Map<String, dynamic>> getReviews(int page, int pageSize) async {
     final r = await _dio.get(ApiEndpoints.creatorReviewsMe,
         queryParameters: {'page': page, 'page_size': pageSize});
+    return _data(r);
+  }
+
+  @override
+  Future<Map<String, dynamic>> respondToReview({
+    required String reviewId,
+    required String response,
+  }) async {
+    final r = await _dio.post(
+      '${ApiEndpoints.creatorReviewsMe}/$reviewId/respond',
+      data: {'response': response},
+    );
     return _data(r);
   }
 

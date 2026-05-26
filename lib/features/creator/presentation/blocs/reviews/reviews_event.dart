@@ -15,3 +15,14 @@ class LoadMoreReviewsEvent extends ReviewsEvent {
   @override
   List<Object?> get props => [];
 }
+
+class RespondToReviewEvent extends ReviewsEvent {
+  const RespondToReviewEvent({
+    required this.reviewId,
+    required this.response,
+  });
+  final String reviewId;
+  final String response;
+  @override
+  List<Object?> get props => [reviewId, response];
+}

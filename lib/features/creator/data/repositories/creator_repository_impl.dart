@@ -426,6 +426,17 @@ class CreatorRepositoryImpl extends BaseRepository implements CreatorRepository 
         );
       });
 
+  @override
+  Future<Either<Failure, ReviewEntity>> respondToReview({
+    required String reviewId,
+    required String response,
+  }) =>
+      safeCall(() async {
+        final data =
+            await _remote.respondToReview(reviewId: reviewId, response: response);
+        return ReviewModel.fromJson(data).toEntity();
+      });
+
   // ── KYC ────────────────────────────────────────────────────────────────────
 
   @override

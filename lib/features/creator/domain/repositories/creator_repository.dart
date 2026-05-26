@@ -142,6 +142,11 @@ abstract class CreatorRepository {
     required int pageSize,
   });
 
+  Future<Either<Failure, ReviewEntity>> respondToReview({
+    required String reviewId,
+    required String response,
+  });
+
   // ── KYC ───────────────────────────────────────────────────────────────────
   Future<Either<Failure, KycEntity>> getKycStatus();
   Future<Either<Failure, KycEntity>> submitKyc({
