@@ -22,6 +22,7 @@ class AppTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final FocusNode? focusNode;
   final String? initialValue;
+  final TextCapitalization textCapitalization;
 
   const AppTextField({
     super.key,
@@ -45,6 +46,7 @@ class AppTextField extends StatefulWidget {
     this.inputFormatters,
     this.focusNode,
     this.initialValue,
+    this.textCapitalization = TextCapitalization.none,
   });
 
   @override
@@ -74,6 +76,7 @@ class _AppTextFieldState extends State<AppTextField> {
       onChanged: widget.onChanged,
       onFieldSubmitted: widget.onFieldSubmitted,
       onTap: widget.onTap,
+      textCapitalization: widget.textCapitalization,
       decoration: InputDecoration(
         labelText: widget.label,
         hintText: widget.hint,
