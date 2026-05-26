@@ -1,6 +1,37 @@
 import 'package:equatable/equatable.dart';
 
-enum KycDocumentType { passport, driversLicense, nationalId }
+enum KycDocumentType { aadhaarCard, panCard, passport, driversLicense, voterId }
+
+extension KycDocumentTypeX on KycDocumentType {
+  String get label => switch (this) {
+        KycDocumentType.aadhaarCard => 'Aadhaar Card',
+        KycDocumentType.panCard => 'PAN Card',
+        KycDocumentType.passport => 'Passport',
+        KycDocumentType.driversLicense => "Driver's Licence",
+        KycDocumentType.voterId => 'Voter ID',
+      };
+
+  String get apiValue => switch (this) {
+        KycDocumentType.aadhaarCard => 'aadhaar_card',
+        KycDocumentType.panCard => 'pan_card',
+        KycDocumentType.passport => 'passport',
+        KycDocumentType.driversLicense => 'drivers_license',
+        KycDocumentType.voterId => 'voter_id',
+      };
+
+  bool get requiresBackSide => this == KycDocumentType.aadhaarCard ||
+      this == KycDocumentType.driversLicense ||
+      this == KycDocumentType.voterId;
+
+  static KycDocumentType? fromString(String? value) => switch (value) {
+        'aadhaar_card' => KycDocumentType.aadhaarCard,
+        'pan_card' => KycDocumentType.panCard,
+        'passport' => KycDocumentType.passport,
+        'drivers_license' => KycDocumentType.driversLicense,
+        'voter_id' => KycDocumentType.voterId,
+        _ => null,
+      };
+}
 
 enum KycVerificationStatus { notSubmitted, pendingReview, approved, rejected }
 

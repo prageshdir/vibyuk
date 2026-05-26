@@ -41,12 +41,7 @@ class KycModel {
           (e) => e.name == status,
           orElse: () => KycVerificationStatus.notSubmitted,
         ),
-        documentType: documentType != null
-            ? KycDocumentType.values.firstWhere(
-                (e) => e.name == documentType,
-                orElse: () => KycDocumentType.passport,
-              )
-            : null,
+        documentType: KycDocumentTypeX.fromString(documentType),
         documentFrontUrl: documentFrontUrl,
         documentBackUrl: documentBackUrl,
         selfieUrl: selfieUrl,
