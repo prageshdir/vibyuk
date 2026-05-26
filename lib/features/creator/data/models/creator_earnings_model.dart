@@ -7,6 +7,7 @@ class CreatorEarningsModel {
     required this.pendingPayout,
     required this.availableBalance,
     required this.lifetimeEarnings,
+    this.totalTdsDeducted = 0.0,
     this.earningsHistory = const [],
     this.recentPayouts = const [],
   });
@@ -16,6 +17,7 @@ class CreatorEarningsModel {
   final double pendingPayout;
   final double availableBalance;
   final double lifetimeEarnings;
+  final double totalTdsDeducted;
   final List<EarningsPeriodModel> earningsHistory;
   final List<PayoutModel> recentPayouts;
 
@@ -26,6 +28,7 @@ class CreatorEarningsModel {
         pendingPayout: (json['pending_payout'] as num?)?.toDouble() ?? 0.0,
         availableBalance: (json['available_balance'] as num?)?.toDouble() ?? 0.0,
         lifetimeEarnings: (json['lifetime_earnings'] as num?)?.toDouble() ?? 0.0,
+        totalTdsDeducted: (json['total_tds_deducted'] as num?)?.toDouble() ?? 0.0,
         earningsHistory: (json['earnings_history'] as List?)
                 ?.map((e) =>
                     EarningsPeriodModel.fromJson(e as Map<String, dynamic>))
@@ -43,6 +46,7 @@ class CreatorEarningsModel {
         pendingPayout: pendingPayout,
         availableBalance: availableBalance,
         lifetimeEarnings: lifetimeEarnings,
+        totalTdsDeducted: totalTdsDeducted,
         earningsHistory: earningsHistory.map((e) => e.toEntity()).toList(),
         recentPayouts: recentPayouts.map((e) => e.toEntity()).toList(),
       );
@@ -85,34 +89,44 @@ class PayoutModel {
   const PayoutModel({
     required this.id,
     required this.amount,
+    this.tdsDeducted = 0.0,
     required this.currency,
     required this.status,
     required this.requestedAt,
     this.completedAt,
     this.bankLast4,
+    this.utrNumber,
+    this.ifscCode,
   });
 
   final String id;
   final double amount;
+  final double tdsDeducted;
   final String currency;
   final String status;
   final String requestedAt;
   final String? completedAt;
   final String? bankLast4;
+  final String? utrNumber;
+  final String? ifscCode;
 
   factory PayoutModel.fromJson(Map<String, dynamic> json) => PayoutModel(
         id: json['id'] as String,
         amount: (json['amount'] as num).toDouble(),
+        tdsDeducted: (json['tds_deducted'] as num?)?.toDouble() ?? 0.0,
         currency: json['currency'] as String? ?? 'INR',
         status: json['status'] as String? ?? 'pending',
         requestedAt: json['requested_at'] as String,
         completedAt: json['completed_at'] as String?,
         bankLast4: json['bank_last4'] as String?,
+        utrNumber: json['utr_number'] as String?,
+        ifscCode: json['ifsc_code'] as String?,
       );
 
   PayoutEntity toEntity() => PayoutEntity(
         id: id,
         amount: amount,
+        tdsDeducted: tdsDeducted,
         currency: currency,
         status: PayoutStatus.values.firstWhere(
           (e) => e.name == status,
@@ -121,5 +135,7 @@ class PayoutModel {
         requestedAt: DateTime.parse(requestedAt),
         completedAt: completedAt != null ? DateTime.parse(completedAt!) : null,
         bankLast4: bankLast4,
+        utrNumber: utrNumber,
+        ifscCode: ifscCode,
       );
 }

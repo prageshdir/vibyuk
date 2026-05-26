@@ -80,6 +80,13 @@ class _EarningsScreenState extends State<EarningsScreen> {
                                 label: 'Lifetime',
                                 value:
                                     '₹${earnings.lifetimeEarnings.toStringAsFixed(0)}'),
+                            if (earnings.totalTdsDeducted > 0) ...[
+                              const SizedBox(width: 24),
+                              _EarningsStat(
+                                  label: 'TDS Deducted',
+                                  value:
+                                      '₹${earnings.totalTdsDeducted.toStringAsFixed(0)}'),
+                            ],
                           ],
                         ),
                         const SizedBox(height: 16),
@@ -243,11 +250,28 @@ class _PayoutTile extends StatelessWidget {
         backgroundColor: statusColor.withOpacity(0.12),
         child: Icon(Icons.currency_rupee_rounded, color: statusColor),
       ),
-      title: Text('₹${payout.amount.toStringAsFixed(2)}',
-          style: theme.textTheme.titleSmall
-              ?.copyWith(fontWeight: FontWeight.w700)),
-      subtitle: Text(
-          '${payout.requestedAt.day}/${payout.requestedAt.month}/${payout.requestedAt.year}'),
+      title: Text(
+        payout.tdsDeducted > 0
+            ? '₹${payout.netAmount.toStringAsFixed(2)} (net)'
+            : '₹${payout.amount.toStringAsFixed(2)}',
+        style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+              '${payout.requestedAt.day}/${payout.requestedAt.month}/${payout.requestedAt.year}'),
+          if (payout.tdsDeducted > 0)
+            Text('TDS: ₹${payout.tdsDeducted.toStringAsFixed(2)}',
+                style: theme.textTheme.bodySmall
+                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+          if (payout.utrNumber != null)
+            Text('UTR: ${payout.utrNumber}',
+                style: theme.textTheme.bodySmall
+                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+        ],
+      ),
+      isThreeLine: payout.tdsDeducted > 0 || payout.utrNumber != null,
       trailing: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
