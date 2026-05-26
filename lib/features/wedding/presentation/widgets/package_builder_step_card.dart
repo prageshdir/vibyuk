@@ -62,7 +62,7 @@ class PackageBuilderStepCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
-                              'Save \$${package.savingsAmount.toStringAsFixed(0)}',
+                              'Save ₹${package.savingsAmount.toStringAsFixed(0)}',
                               style: const TextStyle(
                                 fontSize: 10,
                                 color: Colors.green,
@@ -77,7 +77,7 @@ class PackageBuilderStepCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        '\$${package.effectivePrice.toStringAsFixed(0)}',
+                        '₹${package.effectivePrice.toStringAsFixed(0)}',
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: isSelected ? theme.colorScheme.primary : null,
@@ -85,7 +85,7 @@ class PackageBuilderStepCard extends StatelessWidget {
                       ),
                       if (package.discountedPrice != null)
                         Text(
-                          '\$${package.totalPrice.toStringAsFixed(0)}',
+                          '₹${package.totalPrice.toStringAsFixed(0)}',
                           style: theme.textTheme.bodySmall?.copyWith(
                             decoration: TextDecoration.lineThrough,
                             color: theme.colorScheme.onSurface.withValues(alpha: 0.5),

@@ -23,6 +23,7 @@ class TeamBloc extends BaseBloc<TeamEvent, TeamState> {
         super(const TeamInitialState()) {
     on<LoadTeamEvent>(_onLoad);
     on<InviteTeamMemberEvent>(_onInvite);
+    on<BulkInviteTeamMembersEvent>(_onBulkInvite);
     on<RemoveTeamMemberEvent>(_onRemove);
     on<UpdateTeamMemberRoleEvent>(_onUpdateRole);
   }
@@ -58,6 +59,30 @@ class TeamBloc extends BaseBloc<TeamEvent, TeamState> {
         emit(MemberInvitedState(member: member));
       },
     );
+  }
+
+  Future<void> _onBulkInvite(
+      BulkInviteTeamMembersEvent event, Emitter<TeamState> emit) async {
+    emit(const TeamLoadingState());
+    final failedEmails = <String>[];
+    int successCount = 0;
+
+    for (final email in event.emails) {
+      final result = await _inviteTeamMember(
+          InviteTeamMemberParams(email: email, role: event.role));
+      result.fold(
+        (_) => failedEmails.add(email),
+        (member) {
+          _cachedMembers = [..._cachedMembers, member];
+          successCount++;
+        },
+      );
+    }
+
+    emit(BulkInvitedState(
+      successCount: successCount,
+      failedEmails: failedEmails,
+    ));
   }
 
   Future<void> _onRemove(

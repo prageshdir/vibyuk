@@ -46,7 +46,7 @@ class VenueCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '\$${venue.pricePerHead.toStringAsFixed(0)}/head',
+                    '₹${venue.pricePerHead.toStringAsFixed(0)}/head',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.primary,
                       fontWeight: FontWeight.w600,

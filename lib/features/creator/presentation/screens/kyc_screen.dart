@@ -14,18 +14,12 @@ class KycScreen extends StatefulWidget {
 }
 
 class _KycScreenState extends State<KycScreen> {
-  KycDocumentType _docType = KycDocumentType.passport;
+  KycDocumentType _docType = KycDocumentType.aadhaarCard;
   String? _frontPath;
   String? _backPath;
   String? _selfiePath;
 
-  static const _docTypes = [
-    (label: 'Passport', value: KycDocumentType.passport),
-    (label: 'Driver\'s Licence', value: KycDocumentType.driversLicense),
-    (label: 'National ID', value: KycDocumentType.nationalId),
-  ];
-
-  bool get _backRequired => _docType != KycDocumentType.passport;
+  bool get _backRequired => _docType.requiresBackSide;
 
   bool get _canSubmit {
     if (_frontPath == null || _selfiePath == null) return false;
@@ -228,19 +222,24 @@ class _KycScreenState extends State<KycScreen> {
             style:
                 theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
         const SizedBox(height: 8),
-        SegmentedButton<KycDocumentType>(
-          segments: _docTypes
-              .map((t) => ButtonSegment(
-                    value: t.value,
-                    label: Text(t.label,
-                        style: const TextStyle(fontSize: 12)),
+        DropdownButtonFormField<KycDocumentType>(
+          value: _docType,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          ),
+          items: KycDocumentType.values
+              .map((t) => DropdownMenuItem(
+                    value: t,
+                    child: Text(t.label),
                   ))
               .toList(),
-          selected: {_docType},
-          onSelectionChanged: (s) => setState(() {
-            _docType = s.first;
-            _backPath = null;
-          }),
+          onChanged: (v) {
+            if (v != null) setState(() {
+              _docType = v;
+              _backPath = null;
+            });
+          },
         ),
         const SizedBox(height: 24),
 

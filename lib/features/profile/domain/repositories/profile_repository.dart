@@ -24,6 +24,7 @@ abstract interface class ProfileRepository {
     String? companySize,
     List<String>? serviceTypes,
     List<String>? skills,
+    List<String>? languagesSpoken,
     double? hourlyRateFrom,
     double? hourlyRateTo,
     String? availability,

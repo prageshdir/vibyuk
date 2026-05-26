@@ -190,7 +190,7 @@ class _NegotiationScreenState extends State<NegotiationScreen> {
                           decoration: InputDecoration(
                             labelText: 'Proposed Price',
                             prefixIcon: const Icon(
-                                Icons.currency_pound_rounded),
+                                Icons.currency_rupee_rounded),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12)),
                             isDense: true,

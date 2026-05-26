@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vibyuk/core/theme/app_colors.dart';
 import 'package:vibyuk/core/widgets/buttons/primary_button.dart';
@@ -31,7 +32,13 @@ class _TeamScreenState extends State<TeamScreen> {
             style: TextStyle(fontWeight: FontWeight.w700)),
         actions: [
           IconButton(
+            icon: const Icon(Icons.group_add_rounded),
+            tooltip: 'Bulk invite',
+            onPressed: () => _showBulkInviteDialog(context),
+          ),
+          IconButton(
             icon: const Icon(Icons.person_add_alt_1_rounded),
+            tooltip: 'Invite member',
             onPressed: () => _showInviteDialog(context),
           ),
         ],
@@ -43,6 +50,19 @@ class _TeamScreenState extends State<TeamScreen> {
               SnackBar(
                   content:
                       Text('Invite sent to ${state.member.email}')),
+            );
+          }
+          if (state is BulkInvitedState) {
+            final msg = state.failedEmails.isEmpty
+                ? '${state.successCount} invite(s) sent successfully'
+                : '${state.successCount} sent. Failed: ${state.failedEmails.join(', ')}';
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(msg),
+                backgroundColor: state.failedEmails.isEmpty
+                    ? Colors.green
+                    : AppColors.error,
+              ),
             );
           }
           if (state is MemberRemovedState) {
@@ -148,6 +168,91 @@ class _TeamScreenState extends State<TeamScreen> {
                   context.read<TeamBloc>().add(
                         InviteTeamMemberEvent(
                           email: emailCtrl.text.trim(),
+                          role: selectedRole,
+                        ),
+                      );
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showBulkInviteDialog(BuildContext context) {
+    final bulkEmailCtrl = TextEditingController();
+    TeamRole selectedRole = TeamRole.member;
+
+    showDialog(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setState) => AlertDialog(
+          title: const Text('Bulk invite'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Enter multiple email addresses, one per line or comma-separated.',
+                style: Theme.of(ctx).textTheme.bodySmall?.copyWith(
+                    color: AppColors.textSecondary),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: bulkEmailCtrl,
+                maxLines: 5,
+                keyboardType: TextInputType.multiline,
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny(RegExp(r'\t')),
+                ],
+                decoration: InputDecoration(
+                  hintText: 'alice@co.com\nbob@co.com',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  contentPadding: const EdgeInsets.all(12),
+                ),
+              ),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<TeamRole>(
+                value: selectedRole,
+                decoration: InputDecoration(
+                  labelText: 'Role for all',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 14),
+                ),
+                items: [TeamRole.admin, TeamRole.member, TeamRole.viewer]
+                    .map((r) => DropdownMenuItem(
+                          value: r,
+                          child: Text(r.label),
+                        ))
+                    .toList(),
+                onChanged: (v) {
+                  if (v != null) setState(() => selectedRole = v);
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Cancel'),
+            ),
+            PrimaryButton(
+              label: 'Send invites',
+              onPressed: () {
+                final raw = bulkEmailCtrl.text;
+                final emails = raw
+                    .split(RegExp(r'[\n,]+'))
+                    .map((e) => e.trim())
+                    .where((e) => e.contains('@'))
+                    .toList();
+                if (emails.isNotEmpty) {
+                  Navigator.pop(ctx);
+                  context.read<TeamBloc>().add(
+                        BulkInviteTeamMembersEvent(
+                          emails: emails,
                           role: selectedRole,
                         ),
                       );

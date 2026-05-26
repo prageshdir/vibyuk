@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:vibyuk/core/navigation/route_names.dart';
 import 'package:vibyuk/core/theme/app_colors.dart';
 import 'package:vibyuk/features/tourism/domain/entities/fam_trip_entity.dart';
 import 'package:vibyuk/features/tourism/domain/usecases/apply_for_fam_trip_usecase.dart';
@@ -147,6 +149,7 @@ class _FamTripScreenState extends State<FamTripScreen> {
                 final trip = state.trips[index];
                 return FamTripCard(
                   trip: trip,
+                  onTap: () => context.push(RouteNames.famTripDetailPath(trip.id)),
                   onApply: trip.isOpen
                       ? () => _showApplyDialog(context, trip)
                       : null,

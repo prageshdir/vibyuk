@@ -63,6 +63,7 @@ class CreatorInfoModel with _$CreatorInfoModel {
   const factory CreatorInfoModel({
     @JsonKey(name: 'service_types') @Default([]) List<String> serviceTypes,
     @Default([]) List<String> skills,
+    @JsonKey(name: 'languages_spoken') @Default([]) List<String> languagesSpoken,
     @JsonKey(name: 'hourly_rate_from') double? hourlyRateFrom,
     @JsonKey(name: 'hourly_rate_to') double? hourlyRateTo,
     @JsonKey(name: 'response_rate') double? responseRate,
@@ -75,6 +76,7 @@ class CreatorInfoModel with _$CreatorInfoModel {
   CreatorInfo toEntity() => CreatorInfo(
         serviceTypes: serviceTypes,
         skills: skills,
+        languagesSpoken: languagesSpoken,
         hourlyRateFrom: hourlyRateFrom,
         hourlyRateTo: hourlyRateTo,
         responseRate: responseRate,

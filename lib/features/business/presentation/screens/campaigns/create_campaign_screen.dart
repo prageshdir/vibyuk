@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:vibyuk/core/theme/app_colors.dart';
 import 'package:vibyuk/core/widgets/buttons/primary_button.dart';
 import 'package:vibyuk/core/widgets/inputs/app_text_field.dart';
+import 'package:vibyuk/features/business/domain/entities/campaign_entity.dart';
 import 'package:vibyuk/features/business/domain/usecases/campaign/create_campaign_use_case.dart';
 import 'package:vibyuk/features/business/presentation/blocs/campaign/campaign_bloc.dart';
 
@@ -22,6 +23,7 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
   // Step 1 - Basic info
   final _titleCtrl = TextEditingController();
   final _descCtrl = TextEditingController();
+  CampaignType _campaignType = CampaignType.standard;
 
   // Step 2 - Budget & dates
   final _budgetCtrl = TextEditingController();
@@ -82,6 +84,9 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
                     0 => _Step1(
                         titleCtrl: _titleCtrl,
                         descCtrl: _descCtrl,
+                        campaignType: _campaignType,
+                        onCampaignTypeChanged: (t) =>
+                            setState(() => _campaignType = t),
                       ),
                     1 => _Step2(
                         budgetCtrl: _budgetCtrl,
@@ -144,6 +149,7 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
                   ? null
                   : _descCtrl.text.trim(),
               budget: budget,
+              campaignType: _campaignType,
               startDate: _startDate!,
               endDate: _endDate,
               categories: _selectedCategories,
@@ -216,8 +222,15 @@ class _StepIndicator extends StatelessWidget {
 class _Step1 extends StatelessWidget {
   final TextEditingController titleCtrl;
   final TextEditingController descCtrl;
+  final CampaignType campaignType;
+  final ValueChanged<CampaignType> onCampaignTypeChanged;
 
-  const _Step1({required this.titleCtrl, required this.descCtrl});
+  const _Step1({
+    required this.titleCtrl,
+    required this.descCtrl,
+    required this.campaignType,
+    required this.onCampaignTypeChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -240,7 +253,97 @@ class _Step1 extends StatelessWidget {
           hint: 'Describe your campaign goals...',
           maxLines: 4,
         ),
+        const SizedBox(height: 20),
+        const _SectionTitle('Campaign type'),
+        const SizedBox(height: 8),
+        _CampaignTypeSelector(
+          selected: campaignType,
+          onChanged: onCampaignTypeChanged,
+        ),
       ],
+    );
+  }
+}
+
+class _CampaignTypeSelector extends StatelessWidget {
+  final CampaignType selected;
+  final ValueChanged<CampaignType> onChanged;
+
+  const _CampaignTypeSelector(
+      {required this.selected, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: CampaignType.values.map((type) {
+        final isSelected = selected == type;
+        final (icon, subtitle) = switch (type) {
+          CampaignType.standard => (
+              Icons.campaign_rounded,
+              'Open to all matching creators. Creators can apply to your campaign.',
+            ),
+          CampaignType.directBooking => (
+              Icons.person_search_rounded,
+              'Invite specific creators directly. Ideal for targeted collaborations.',
+            ),
+        };
+        return GestureDetector(
+          onTap: () => onChanged(type),
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: isSelected
+                    ? AppColors.primary
+                    : AppColors.outlineVariant,
+                width: isSelected ? 2 : 1,
+              ),
+              color: isSelected
+                  ? AppColors.primaryContainer.withOpacity(0.3)
+                  : Colors.transparent,
+            ),
+            child: Row(
+              children: [
+                Icon(icon,
+                    color: isSelected
+                        ? AppColors.primary
+                        : AppColors.textSecondary,
+                    size: 28),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        type.label,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: isSelected
+                              ? AppColors.primary
+                              : AppColors.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (isSelected)
+                  const Icon(Icons.check_circle_rounded,
+                      color: AppColors.primary, size: 20),
+              ],
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 }
@@ -277,7 +380,7 @@ class _Step2 extends StatelessWidget {
           hint: '0.00',
           keyboardType:
               const TextInputType.numberWithOptions(decimal: true),
-          prefixIcon: const Icon(Icons.currency_pound_rounded, size: 18),
+          prefixIcon: const Icon(Icons.currency_rupee_rounded, size: 18),
           validator: (v) {
             if (v == null || v.isEmpty) return 'Budget is required';
             if (double.tryParse(v) == null) return 'Enter a valid amount';

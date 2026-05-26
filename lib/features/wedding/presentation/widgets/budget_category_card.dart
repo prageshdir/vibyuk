@@ -42,7 +42,7 @@ class BudgetCategoryCard extends StatelessWidget {
           style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
         ),
         subtitle: Text(
-          'Est: \$${_totalEstimated.toStringAsFixed(0)} · Actual: \$${_totalActual.toStringAsFixed(0)}',
+          'Est: ₹${_totalEstimated.toStringAsFixed(0)} · Actual: ₹${_totalActual.toStringAsFixed(0)}',
           style: theme.textTheme.bodySmall?.copyWith(
             color: _isOverBudget ? theme.colorScheme.error : null,
           ),
@@ -115,14 +115,14 @@ class _BudgetItemTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '\$${item.actualAmount.toStringAsFixed(0)}',
+                '₹${item.actualAmount.toStringAsFixed(0)}',
                 style: theme.textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w600,
                   color: item.isOverBudget ? theme.colorScheme.error : null,
                 ),
               ),
               Text(
-                'est \$${item.estimatedAmount.toStringAsFixed(0)}',
+                'est ₹${item.estimatedAmount.toStringAsFixed(0)}',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                   fontSize: 10,

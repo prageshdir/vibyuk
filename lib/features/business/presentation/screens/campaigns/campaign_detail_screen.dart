@@ -162,12 +162,17 @@ class _StatusAndDates extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (bg, fg) = switch (campaign.status) {
-      CampaignStatus.active => (AppColors.successContainer, AppColors.success),
+      CampaignStatus.active ||
+      CampaignStatus.published ||
+      CampaignStatus.applications ||
+      CampaignStatus.inProgress =>
+        (AppColors.successContainer, AppColors.success),
       CampaignStatus.draft =>
         (AppColors.surfaceVariant, AppColors.textSecondary),
       CampaignStatus.paused =>
         (AppColors.warningContainer, AppColors.warning),
-      CampaignStatus.completed =>
+      CampaignStatus.completed ||
+      CampaignStatus.archived =>
         (AppColors.primaryContainer, AppColors.primary),
       CampaignStatus.cancelled =>
         (AppColors.errorContainer, AppColors.error),

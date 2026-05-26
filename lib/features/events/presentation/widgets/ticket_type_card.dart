@@ -106,7 +106,7 @@ class TicketTypeCard extends StatelessWidget {
                           ticketType.isFree
                               ? 'Free'
                               : NumberFormat.currency(
-                                  symbol: '${ticketType.currency} ',
+                                  symbol: '₹',
                                   decimalDigits: 2,
                                 ).format(ticketType.price),
                           style: textTheme.titleSmall?.copyWith(

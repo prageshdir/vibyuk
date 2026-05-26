@@ -64,7 +64,7 @@ class AiPricingSuggestion extends Equatable {
     required this.suggestedPrice,
     required this.minPrice,
     required this.maxPrice,
-    this.currency = 'GBP',
+    this.currency = 'INR',
     required this.confidence,
     required this.marketComparison,
     required this.factors,

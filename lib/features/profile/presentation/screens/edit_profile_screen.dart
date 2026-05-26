@@ -32,6 +32,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late TextEditingController _tiktokController;
   late TextEditingController _companyController;
   late TextEditingController _industryController;
+  final _languageCtrl = TextEditingController();
+  final _selectedLanguages = <String>[];
 
   ProfileEntity? _profile;
 
@@ -63,6 +65,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       _tiktokController.text = profile.socialLinks.tiktok ?? '';
       _companyController.text = profile.businessInfo?.companyName ?? '';
       _industryController.text = profile.businessInfo?.industry ?? '';
+      if (profile.creatorInfo != null &&
+          _selectedLanguages.isEmpty) {
+        _selectedLanguages
+          ..clear()
+          ..addAll(profile.creatorInfo!.languagesSpoken);
+      }
     }
   }
 
@@ -78,6 +86,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _tiktokController.dispose();
     _companyController.dispose();
     _industryController.dispose();
+    _languageCtrl.dispose();
     super.dispose();
   }
 
@@ -122,6 +131,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               industry: _industryController.text.trim().isEmpty
                   ? null
                   : _industryController.text.trim(),
+              languagesSpoken: _selectedLanguages.isNotEmpty
+                  ? List.unmodifiable(_selectedLanguages)
+                  : null,
             ),
           ),
         );
@@ -299,6 +311,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       textInputAction: TextInputAction.done,
                     ),
 
+                    if (profile?.isCreator == true) ...[
+                      const SizedBox(height: 32),
+                      _SectionLabel('Languages Spoken'),
+                      const SizedBox(height: 12),
+                      _LanguagesEditor(
+                        languages: _selectedLanguages,
+                        controller: _languageCtrl,
+                        onAdd: (lang) {
+                          final trimmed = lang.trim();
+                          if (trimmed.isNotEmpty &&
+                              !_selectedLanguages.contains(trimmed)) {
+                            setState(() {
+                              _selectedLanguages.add(trimmed);
+                              _languageCtrl.clear();
+                            });
+                          }
+                        },
+                        onRemove: (lang) =>
+                            setState(() => _selectedLanguages.remove(lang)),
+                      ),
+                    ],
+
                     if (profile?.isBusiness == true) ...[
                       const SizedBox(height: 32),
                       _SectionLabel('Company Info'),
@@ -348,6 +382,63 @@ class _SectionLabel extends StatelessWidget {
       style: Theme.of(context).textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w700,
           ),
+    );
+  }
+}
+
+class _LanguagesEditor extends StatelessWidget {
+  final List<String> languages;
+  final TextEditingController controller;
+  final ValueChanged<String> onAdd;
+  final ValueChanged<String> onRemove;
+
+  const _LanguagesEditor({
+    required this.languages,
+    required this.controller,
+    required this.onAdd,
+    required this.onRemove,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: AppTextField(
+                controller: controller,
+                label: 'Add language',
+                hint: 'e.g. English, Hindi',
+                textInputAction: TextInputAction.done,
+                onFieldSubmitted: onAdd,
+              ),
+            ),
+            const SizedBox(width: 8),
+            IconButton.filled(
+              icon: const Icon(Icons.add_rounded),
+              onPressed: () => onAdd(controller.text),
+              tooltip: 'Add',
+            ),
+          ],
+        ),
+        if (languages.isNotEmpty) ...[
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: languages
+                .map((l) => Chip(
+                      label: Text(l, style: const TextStyle(fontSize: 13)),
+                      deleteIcon:
+                          const Icon(Icons.close_rounded, size: 16),
+                      onDeleted: () => onRemove(l),
+                    ))
+                .toList(),
+          ),
+        ],
+      ],
     );
   }
 }

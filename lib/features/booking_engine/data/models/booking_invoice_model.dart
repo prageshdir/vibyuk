@@ -36,12 +36,19 @@ class BookingInvoiceModel {
     required this.invoiceNumber,
     required this.businessName,
     this.businessAddress,
+    this.businessGstin,
     required this.creatorName,
     this.creatorAddress,
+    this.creatorGstin,
+    this.placeOfSupply,
     required this.lineItems,
     required this.subtotal,
     required this.taxRate,
     required this.taxAmount,
+    this.cgst = 0.0,
+    this.sgst = 0.0,
+    this.igst = 0.0,
+    this.isInterState = false,
     required this.total,
     required this.currency,
     required this.status,
@@ -57,12 +64,19 @@ class BookingInvoiceModel {
   final String invoiceNumber;
   final String businessName;
   final String? businessAddress;
+  final String? businessGstin;
   final String creatorName;
   final String? creatorAddress;
+  final String? creatorGstin;
+  final String? placeOfSupply;
   final List<BookingInvoiceLineItemModel> lineItems;
   final double subtotal;
   final double taxRate;
   final double taxAmount;
+  final double cgst;
+  final double sgst;
+  final double igst;
+  final bool isInterState;
   final double total;
   final String currency;
   final InvoiceStatus status;
@@ -79,8 +93,11 @@ class BookingInvoiceModel {
         invoiceNumber: j['invoice_number'] as String,
         businessName: j['business_name'] as String,
         businessAddress: j['business_address'] as String?,
+        businessGstin: j['business_gstin'] as String?,
         creatorName: j['creator_name'] as String,
         creatorAddress: j['creator_address'] as String?,
+        creatorGstin: j['creator_gstin'] as String?,
+        placeOfSupply: j['place_of_supply'] as String?,
         lineItems: (j['line_items'] as List<dynamic>? ?? [])
             .map((e) =>
                 BookingInvoiceLineItemModel.fromJson(e as Map<String, dynamic>))
@@ -88,6 +105,10 @@ class BookingInvoiceModel {
         subtotal: (j['subtotal'] as num).toDouble(),
         taxRate: (j['tax_rate'] as num? ?? 0).toDouble(),
         taxAmount: (j['tax_amount'] as num? ?? 0).toDouble(),
+        cgst: (j['cgst'] as num? ?? 0).toDouble(),
+        sgst: (j['sgst'] as num? ?? 0).toDouble(),
+        igst: (j['igst'] as num? ?? 0).toDouble(),
+        isInterState: j['is_inter_state'] as bool? ?? false,
         total: (j['total'] as num).toDouble(),
         currency: j['currency'] as String,
         status: InvoiceStatus.values.firstWhere(
@@ -110,12 +131,19 @@ class BookingInvoiceModel {
         invoiceNumber: invoiceNumber,
         businessName: businessName,
         businessAddress: businessAddress,
+        businessGstin: businessGstin,
         creatorName: creatorName,
         creatorAddress: creatorAddress,
+        creatorGstin: creatorGstin,
+        placeOfSupply: placeOfSupply,
         lineItems: lineItems.map((e) => e.toEntity()).toList(),
         subtotal: subtotal,
         taxRate: taxRate,
         taxAmount: taxAmount,
+        cgst: cgst,
+        sgst: sgst,
+        igst: igst,
+        isInterState: isInterState,
         total: total,
         currency: currency,
         status: status,

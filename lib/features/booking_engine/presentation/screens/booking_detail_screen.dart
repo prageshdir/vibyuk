@@ -163,7 +163,7 @@ class _OverviewTab extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${booking.currency} ${booking.totalAmount.toStringAsFixed(2)}',
+                      '₹${booking.totalAmount.toStringAsFixed(2)}',
                       style: const TextStyle(
                           color: Colors.white,
                           fontSize: 24,

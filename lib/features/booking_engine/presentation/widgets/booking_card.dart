@@ -72,7 +72,7 @@ class BookingCard extends StatelessWidget {
               // Amount + date row
               Row(
                 children: [
-                  const Icon(Icons.currency_pound_rounded,
+                  const Icon(Icons.currency_rupee_rounded,
                       size: 14, color: Colors.grey),
                   const SizedBox(width: 4),
                   Text(

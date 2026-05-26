@@ -20,7 +20,7 @@ class TourismDestinationDto with _$TourismDestinationDto {
     @JsonKey(defaultValue: []) required List<String> highlights,
     @JsonKey(name: 'best_time_to_visit') String? bestTimeToVisit,
     @JsonKey(name: 'average_cost_per_day', defaultValue: 0.0) required double averageCostPerDay,
-    @Default('USD') String currency,
+    @Default('INR') String currency,
     @JsonKey(name: 'is_featured', defaultValue: false) required bool isFeatured,
     @JsonKey(defaultValue: []) required List<String> tags,
     @JsonKey(name: 'creator_count', defaultValue: 0) required int creatorCount,

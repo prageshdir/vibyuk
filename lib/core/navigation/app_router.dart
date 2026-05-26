@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:vibyuk/core/di/injection_container.dart';
 import 'package:vibyuk/core/navigation/guards/auth_guard.dart';
 import 'package:vibyuk/core/navigation/route_names.dart';
+import 'package:vibyuk/features/home/presentation/screens/home_screen.dart';
 // Auth
 import 'package:vibyuk/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/login_screen.dart';
@@ -12,6 +13,7 @@ import 'package:vibyuk/features/auth/presentation/screens/phone_otp_screen.dart'
 import 'package:vibyuk/features/auth/presentation/screens/register_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/role_selection_screen.dart';
+import 'package:vibyuk/features/auth/presentation/screens/onboarding_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/splash_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/verify_email_screen.dart';
 // Business
@@ -32,6 +34,7 @@ import 'package:vibyuk/features/business/presentation/screens/campaigns/campaign
 import 'package:vibyuk/features/business/presentation/screens/campaigns/create_campaign_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/creator_detail_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/discover_screen.dart';
+import 'package:vibyuk/features/business/presentation/screens/search_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/invoice_screen.dart' as biz_invoice;
 import 'package:vibyuk/features/business/presentation/screens/notification_center_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/payment_analytics_screen.dart';
@@ -60,7 +63,9 @@ import 'package:vibyuk/features/creator/presentation/screens/campaign_applicatio
 import 'package:vibyuk/features/creator/presentation/screens/campaign_applications/campaign_applications_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/creator_analytics_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/creator_dashboard_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/edit_creator_profile_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/creator_public_profile_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/bank_account_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/earnings_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/kyc_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/onboarding/creator_onboarding_screen.dart';
@@ -164,11 +169,14 @@ import 'package:vibyuk/features/tourism/presentation/screens/creator_collaborati
 import 'package:vibyuk/features/tourism/presentation/screens/destination_detail_screen.dart';
 import 'package:vibyuk/features/tourism/presentation/screens/destination_gallery_screen.dart';
 import 'package:vibyuk/features/tourism/presentation/screens/destination_list_screen.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/fam_trip_detail_screen.dart';
 import 'package:vibyuk/features/tourism/presentation/screens/fam_trip_screen.dart';
 import 'package:vibyuk/features/tourism/presentation/screens/tourism_analytics_screen.dart';
+import 'package:vibyuk/features/tourism/presentation/screens/tourism_hub_screen.dart';
 import 'package:vibyuk/features/wedding/presentation/blocs/wedding_dashboard/wedding_dashboard_bloc.dart';
 import 'package:vibyuk/features/wedding/presentation/blocs/wedding_marketplace/wedding_marketplace_bloc.dart';
 import 'package:vibyuk/features/wedding/presentation/blocs/vendor_detail/vendor_detail_bloc.dart';
+import 'package:vibyuk/features/wedding/presentation/blocs/venue_detail/venue_detail_bloc.dart';
 import 'package:vibyuk/features/wedding/presentation/blocs/package_builder/package_builder_bloc.dart';
 import 'package:vibyuk/features/wedding/presentation/blocs/budget_tracker/budget_tracker_bloc.dart';
 import 'package:vibyuk/features/wedding/presentation/blocs/wedding_timeline/wedding_timeline_bloc.dart';
@@ -176,6 +184,7 @@ import 'package:vibyuk/features/wedding/presentation/blocs/wedding_analytics/wed
 import 'package:vibyuk/features/wedding/presentation/screens/wedding_dashboard_screen.dart';
 import 'package:vibyuk/features/wedding/presentation/screens/wedding_marketplace_screen.dart';
 import 'package:vibyuk/features/wedding/presentation/screens/vendor_detail_screen.dart';
+import 'package:vibyuk/features/wedding/presentation/screens/venue_detail_screen.dart';
 import 'package:vibyuk/features/wedding/presentation/screens/venue_listing_screen.dart';
 import 'package:vibyuk/features/wedding/presentation/screens/package_builder_screen.dart';
 import 'package:vibyuk/features/wedding/presentation/screens/budget_tracker_screen.dart';
@@ -213,10 +222,13 @@ class AppRouter {
   final AuthGuard _authGuard;
   final NavigatorObserver? _routeObserver;
 
+  final navigatorKey = GlobalKey<NavigatorState>();
+
   late final GoRouter router = _buildRouter();
 
   GoRouter _buildRouter() {
     final router = GoRouter(
+    navigatorKey: navigatorKey,
     initialLocation: RouteNames.splash,
     debugLogDiagnostics: true,
     observers: [if (_routeObserver != null) _routeObserver!],
@@ -251,7 +263,7 @@ class AppRouter {
       GoRoute(
         path: RouteNames.onboarding,
         name: 'onboarding',
-        builder: (_, __) => const _PlaceholderScreen(title: 'Onboarding'),
+        builder: (_, __) => const OnboardingScreen(),
       ),
 
       // Auth routes
@@ -333,8 +345,7 @@ class AppRouter {
             GoRoute(
               path: RouteNames.home,
               name: 'home',
-              builder: (_, __) =>
-                  const _PlaceholderScreen(title: 'Home'),
+              builder: (_, __) => const HomeScreen(),
             ),
           ]),
           StatefulShellBranch(routes: [
@@ -471,7 +482,10 @@ class AppRouter {
       GoRoute(
         path: RouteNames.search,
         name: 'search',
-        builder: (_, __) => const _PlaceholderScreen(title: 'Search'),
+        builder: (_, __) => BlocProvider(
+          create: (_) => sl<DiscoveryBloc>(),
+          child: const SearchScreen(),
+        ),
       ),
       GoRoute(
         path: RouteNames.notifications,
@@ -607,7 +621,7 @@ class AppRouter {
         name: 'edit-creator-profile',
         builder: (context, _) => BlocProvider(
           create: (_) => sl<CreatorProfileBloc>(),
-          child: const _PlaceholderScreen(title: 'Edit Profile'),
+          child: const EditCreatorProfileScreen(),
         ),
       ),
 
@@ -763,6 +777,13 @@ class AppRouter {
           create: (_) => sl<KycBloc>()..add(const LoadKycStatusEvent()),
           child: const KycScreen(),
         ),
+      ),
+
+      // Creator — Bank Account
+      GoRoute(
+        path: RouteNames.creatorBankAccount,
+        name: 'creator-bank-account',
+        builder: (context, _) => const CreatorBankAccountScreen(),
       ),
 
       // Creator — Public Profile
@@ -970,6 +991,17 @@ class AppRouter {
               );
             },
           ),
+          GoRoute(
+            path: 'dashboard',
+            name: 'event-dashboard',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return BlocProvider(
+                create: (_) => sl<EventDashboardBloc>(),
+                child: EventDashboardScreen(eventId: id),
+              );
+            },
+          ),
         ],
       ),
 
@@ -1162,6 +1194,14 @@ class AppRouter {
         ),
       ),
       GoRoute(
+        path: '/wedding/venues/:id',
+        name: 'wedding-venue-detail',
+        builder: (context, state) => BlocProvider(
+          create: (_) => GetIt.instance<VenueDetailBloc>(),
+          child: VenueDetailScreen(venueId: state.pathParameters['id']!),
+        ),
+      ),
+      GoRoute(
         path: '/wedding/packages/build',
         name: 'wedding-package-builder',
         builder: (_, __) => BlocProvider(
@@ -1204,6 +1244,11 @@ class AppRouter {
       ),
 
       // ── Tourism Promotion ────────────────────────────────────────────────────
+      GoRoute(
+        path: RouteNames.tourism,
+        name: 'tourism-hub',
+        builder: (_, __) => const TourismHubScreen(),
+      ),
       GoRoute(
         path: RouteNames.tourismDestinations,
         name: 'tourism-destinations',
@@ -1269,6 +1314,16 @@ class AppRouter {
             ),
           );
         },
+      ),
+      GoRoute(
+        path: RouteNames.famTripDetail,
+        name: 'fam-trip-detail',
+        builder: (context, state) => BlocProvider(
+          create: (_) => GetIt.instance<FamTripBloc>(),
+          child: FamTripDetailScreen(
+            tripId: state.pathParameters['id']!,
+          ),
+        ),
       ),
       GoRoute(
         path: RouteNames.tourismCollaborations,

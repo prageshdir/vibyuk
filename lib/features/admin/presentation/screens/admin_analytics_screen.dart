@@ -243,8 +243,8 @@ class _AnalyticsContent extends StatelessWidget {
             children: [
               AdminStatCard(
                 label: 'Total Revenue',
-                value: '\$${_fmt(analytics.totalRevenue.toInt())}',
-                icon: Icons.attach_money_rounded,
+                value: '₹${_fmt(analytics.totalRevenue.toInt())}',
+                icon: Icons.currency_rupee_rounded,
                 color: const Color(0xFF4CAF50),
               ),
               AdminStatCard(
@@ -261,7 +261,7 @@ class _AnalyticsContent extends StatelessWidget {
               ),
               AdminStatCard(
                 label: 'Avg Booking',
-                value: '\$${analytics.averageBookingValue.toStringAsFixed(0)}',
+                value: '₹${analytics.averageBookingValue.toStringAsFixed(0)}',
                 icon: Icons.receipt_rounded,
                 color: AppColors.electricViolet,
               ),
@@ -343,8 +343,8 @@ class _AnalyticsContent extends StatelessWidget {
   }
 
   String _formatValue(double v, String? unit) {
-    if (unit == '\$' || unit == 'USD') {
-      return '\$${_fmt(v.toInt())}';
+    if (unit == '₹' || unit == 'INR') {
+      return '₹${_fmt(v.toInt())}';
     }
     if (unit == '%') return '${v.toStringAsFixed(1)}%';
     return _fmt(v.toInt());

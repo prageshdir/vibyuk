@@ -96,7 +96,7 @@ class _DashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currencyFormat =
-        NumberFormat.currency(symbol: '\$', decimalDigits: 2);
+        NumberFormat.currency(symbol: '₹', decimalDigits: 2);
 
     return Scaffold(
       body: RefreshIndicator(
@@ -149,7 +149,7 @@ class _DashboardView extends StatelessWidget {
                         _StatCard(
                           title: 'Revenue',
                           value: currencyFormat.format(analytics.totalRevenue),
-                          icon: Icons.attach_money,
+                          icon: Icons.currency_rupee_rounded,
                           color: Colors.green,
                         ),
                         _StatCard(

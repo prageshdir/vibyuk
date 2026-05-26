@@ -269,7 +269,7 @@ class _SummaryLine extends StatelessWidget {
             ),
           ),
           Text(
-            '\$${value.toStringAsFixed(0)}',
+            '₹${value.toStringAsFixed(0)}',
             style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: highlight ? FontWeight.bold : FontWeight.normal,
               color: color,

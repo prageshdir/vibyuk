@@ -66,7 +66,7 @@ class MilestoneCard extends StatelessWidget {
             const SizedBox(height: 10),
             Row(
               children: [
-                const Icon(Icons.currency_pound_rounded,
+                const Icon(Icons.currency_rupee_rounded,
                     size: 13, color: Colors.grey),
                 const SizedBox(width: 2),
                 Text(

@@ -16,7 +16,7 @@ class TicketOrderLineDto with _$TicketOrderLineDto {
     @Default('standard') String tier,
     @Default(1) int quantity,
     @JsonKey(name: 'unit_price') @Default(0.0) double unitPrice,
-    @Default('USD') String currency,
+    @Default('INR') String currency,
   }) = _TicketOrderLineDto;
 
   factory TicketOrderLineDto.fromJson(Map<String, dynamic> json) =>
@@ -42,7 +42,7 @@ class TicketPurchaseDto with _$TicketPurchaseDto {
     @Default(0.0) double subtotal,
     @JsonKey(name: 'service_fee') @Default(0.0) double serviceFee,
     @Default(0.0) double total,
-    @Default('USD') String currency,
+    @Default('INR') String currency,
     @Default('pending') String status,
     @JsonKey(name: 'payment_intent_id') String? paymentIntentId,
     @Default([]) List<TicketDto> tickets,

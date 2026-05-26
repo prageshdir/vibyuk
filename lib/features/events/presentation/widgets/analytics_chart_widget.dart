@@ -96,7 +96,7 @@ class _AnalyticsChartWidgetState extends State<AnalyticsChartWidget> {
           touchTooltipData: LineTouchTooltipData(
             getTooltipItems: (spots) => spots
                 .map((s) => LineTooltipItem(
-                      '\$${s.y.toStringAsFixed(0)}',
+                      '₹${s.y.toStringAsFixed(0)}',
                       const TextStyle(color: Colors.white),
                     ))
                 .toList(),
@@ -170,7 +170,7 @@ class _AnalyticsChartWidgetState extends State<AnalyticsChartWidget> {
   }
 
   Widget _buildSummaryRow(BuildContext context) {
-    final revenue = NumberFormat.currency(symbol: '\$', decimalDigits: 0)
+    final revenue = NumberFormat.currency(symbol: '₹', decimalDigits: 0)
         .format(widget.analytics.totalRevenue);
     final occupancy =
         '${(widget.analytics.occupancyRate * 100).toStringAsFixed(0)}%';

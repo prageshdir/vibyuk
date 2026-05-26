@@ -20,6 +20,7 @@ class UpdateCreatorProfileUseCase
         website: params.website,
         categories: params.categories,
         skills: params.skills,
+        languagesSpoken: params.languagesSpoken,
         socialLinks: params.socialLinks,
       );
 }
@@ -31,6 +32,7 @@ class UpdateCreatorProfileParams extends Equatable {
   final String? website;
   final List<String>? categories;
   final List<String>? skills;
+  final List<String>? languagesSpoken;
   final List<SocialLinkEntity>? socialLinks;
 
   const UpdateCreatorProfileParams({
@@ -40,10 +42,11 @@ class UpdateCreatorProfileParams extends Equatable {
     this.website,
     this.categories,
     this.skills,
+    this.languagesSpoken,
     this.socialLinks,
   });
 
   @override
   List<Object?> get props =>
-      [displayName, bio, location, website, categories, skills, socialLinks];
+      [displayName, bio, location, website, categories, skills, languagesSpoken, socialLinks];
 }

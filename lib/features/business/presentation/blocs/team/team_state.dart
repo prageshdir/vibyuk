@@ -48,6 +48,17 @@ class MemberRoleUpdatedState extends TeamState {
   List<Object?> get props => [member];
 }
 
+class BulkInvitedState extends TeamState {
+  const BulkInvitedState({
+    required this.successCount,
+    required this.failedEmails,
+  });
+  final int successCount;
+  final List<String> failedEmails;
+  @override
+  List<Object?> get props => [successCount, failedEmails];
+}
+
 class TeamErrorState extends TeamState {
   const TeamErrorState({required this.failure});
   final Failure failure;

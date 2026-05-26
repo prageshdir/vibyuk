@@ -186,7 +186,7 @@ class _PurchaseSummaryBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formatted = NumberFormat.currency(symbol: '\$', decimalDigits: 2)
+    final formatted = NumberFormat.currency(symbol: '₹', decimalDigits: 2)
         .format(totalAmount);
 
     return Container(

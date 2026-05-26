@@ -15,7 +15,7 @@ class TicketTypeDto with _$TicketTypeDto {
     String? description,
     @Default('standard') String tier,
     @Default(0.0) double price,
-    @Default('USD') String currency,
+    @Default('INR') String currency,
     @JsonKey(name: 'total_quantity') @Default(0) int totalQuantity,
     @JsonKey(name: 'sold_quantity') @Default(0) int soldQuantity,
     @JsonKey(name: 'sale_start_date') DateTime? saleStartDate,

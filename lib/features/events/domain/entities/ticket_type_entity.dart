@@ -25,7 +25,7 @@ class TicketTypeEntity extends Equatable {
     this.description,
     this.tier = TicketTier.standard,
     required this.price,
-    this.currency = 'USD',
+    this.currency = 'INR',
     required this.totalQuantity,
     this.soldQuantity = 0,
     this.saleStartDate,

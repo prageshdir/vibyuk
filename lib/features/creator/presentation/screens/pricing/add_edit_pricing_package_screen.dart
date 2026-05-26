@@ -176,7 +176,7 @@ class _AddEditPricingPackageScreenState
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         prefixIcon: const Icon(
-                            Icons.currency_pound_rounded,
+                            Icons.currency_rupee_rounded,
                             size: 18),
                         validator: (v) =>
                             (v == null || v.trim().isEmpty)

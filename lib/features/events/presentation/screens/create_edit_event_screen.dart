@@ -473,7 +473,7 @@ class _Step2Tickets extends StatelessWidget {
                   title: Text(e.value.name),
                   subtitle: Text(e.value.isFree
                       ? 'Free • ${e.value.quantity} seats'
-                      : '\$${e.value.price.toStringAsFixed(2)} • ${e.value.quantity} seats'),
+                      : '₹${e.value.price.toStringAsFixed(2)} • ${e.value.quantity} seats'),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete_outline),
                     onPressed: () => context.read<EventFormBloc>().add(

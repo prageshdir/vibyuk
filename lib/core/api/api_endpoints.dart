@@ -163,8 +163,9 @@ abstract final class ApiEndpoints {
   // Creator — Reviews
   static const String creatorReviewsMe = '/creator/me/reviews';
 
-  // Creator — KYC
+  // Creator — KYC & Bank Account
   static const String creatorKyc = '/creator/me/kyc';
+  static const String creatorBankAccount = '/creator/me/bank-account';
 
   // Booking Engine — Bookings
   static const String bookingEngineBookings = '/booking-engine/bookings';
@@ -287,6 +288,15 @@ abstract final class ApiEndpoints {
   static String adminReportHandle(String id) => '/admin/reports/$id/handle';
   static const String adminAnnouncements = '/admin/announcements';
   static const String adminAnnouncementSend = '/admin/announcements/send';
+  static const String adminFeeConfig = '/admin/fee-config';
+  static const String adminPayouts = '/admin/payouts';
+  static String adminPayout(String id) => '/admin/payouts/$id';
+  static String adminPayoutApprove(String id) => '/admin/payouts/$id/approve';
+  static String adminPayoutReject(String id) => '/admin/payouts/$id/reject';
+  static const String adminCommissionLedger = '/admin/commissions';
+  static const String adminSuspendUser = '/admin/users/suspend';
+  static String adminUserSuspend(String id) => '/admin/users/$id/suspend';
+  static String adminUserUnsuspend(String id) => '/admin/users/$id/unsuspend';
   // Tourism
   static const String tourismDestinations = '/tourism/destinations';
   static String tourismDestination(String id) => '/tourism/destinations/$id';

@@ -106,10 +106,15 @@ class CampaignBanner extends StatelessWidget {
 
   Widget _buildStatusBadge(BuildContext context) {
     final (label, color) = switch (campaign.status) {
-      CampaignStatus.active => ('ACTIVE', AppColors.success),
+      CampaignStatus.active ||
+      CampaignStatus.published ||
+      CampaignStatus.applications ||
+      CampaignStatus.inProgress =>
+        ('ACTIVE', AppColors.success),
       CampaignStatus.draft => ('DRAFT', AppColors.outline),
-      CampaignStatus.completed => ('COMPLETED', AppColors.textSecondary),
+      CampaignStatus.completed || CampaignStatus.archived => ('COMPLETED', AppColors.textSecondary),
       CampaignStatus.paused => ('PAUSED', AppColors.warning),
+      CampaignStatus.cancelled => ('CANCELLED', AppColors.error),
     };
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),

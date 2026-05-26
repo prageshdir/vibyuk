@@ -229,7 +229,7 @@ class _QuickActionsGrid extends StatelessWidget {
           label: 'Campaigns',
           route: RouteNames.creatorApplications),
       _ActionTile(
-          icon: Icons.currency_pound_rounded,
+          icon: Icons.currency_rupee_rounded,
           label: 'Earnings',
           route: RouteNames.creatorEarnings),
       _ActionTile(
@@ -240,6 +240,10 @@ class _QuickActionsGrid extends StatelessWidget {
           icon: Icons.verified_user_outlined,
           label: 'KYC',
           route: RouteNames.creatorKyc),
+      _ActionTile(
+          icon: Icons.account_balance_outlined,
+          label: 'Bank A/C',
+          route: RouteNames.creatorBankAccount),
     ];
 
     return GridView.builder(

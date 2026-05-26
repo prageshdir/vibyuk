@@ -46,6 +46,8 @@ class CampaignCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
+                  _CampaignTypePill(campaignType: campaign.campaignType),
+                  const SizedBox(width: 6),
                   _StatusBadge(status: campaign.status),
                   if (onMenuTap != null)
                     IconButton(
@@ -73,7 +75,7 @@ class CampaignCard extends StatelessWidget {
               Row(
                 children: [
                   _MetaItem(
-                    icon: Icons.attach_money_rounded,
+                    icon: Icons.currency_rupee_rounded,
                     label: campaign.budgetDisplay,
                   ),
                   const SizedBox(width: 16),
@@ -110,6 +112,31 @@ class CampaignCard extends StatelessWidget {
   }
 }
 
+class _CampaignTypePill extends StatelessWidget {
+  final CampaignType campaignType;
+  const _CampaignTypePill({required this.campaignType});
+
+  @override
+  Widget build(BuildContext context) {
+    if (campaignType == CampaignType.standard) return const SizedBox.shrink();
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+      decoration: BoxDecoration(
+        color: AppColors.primaryContainer,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        campaignType.label,
+        style: const TextStyle(
+          color: AppColors.primary,
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
+}
+
 class _StatusBadge extends StatelessWidget {
   final CampaignStatus status;
   const _StatusBadge({required this.status});
@@ -117,10 +144,16 @@ class _StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (bg, fg) = switch (status) {
-      CampaignStatus.active => (AppColors.successContainer, AppColors.success),
+      CampaignStatus.active ||
+      CampaignStatus.published ||
+      CampaignStatus.applications ||
+      CampaignStatus.inProgress =>
+        (AppColors.successContainer, AppColors.success),
       CampaignStatus.draft => (AppColors.surfaceVariant, AppColors.textSecondary),
       CampaignStatus.paused => (AppColors.warningContainer, AppColors.warning),
-      CampaignStatus.completed => (AppColors.primaryContainer, AppColors.primary),
+      CampaignStatus.completed ||
+      CampaignStatus.archived =>
+        (AppColors.primaryContainer, AppColors.primary),
       CampaignStatus.cancelled => (AppColors.errorContainer, AppColors.error),
     };
     return Container(

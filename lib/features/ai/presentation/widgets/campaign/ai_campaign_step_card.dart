@@ -148,7 +148,7 @@ class AiCampaignStepCard extends StatelessWidget {
                     Row(
                       children: [
                         Icon(
-                          Icons.attach_money_rounded,
+                          Icons.currency_rupee_rounded,
                           size: 13,
                           color: AppColors.textSecondary,
                         ),

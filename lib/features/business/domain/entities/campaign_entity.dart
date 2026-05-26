@@ -15,6 +15,7 @@ extension CampaignTypeX on CampaignType {
 
 enum CampaignStatus {
   draft,
+  active,
   published,
   applications,
   inProgress,
@@ -27,6 +28,7 @@ enum CampaignStatus {
 extension CampaignStatusX on CampaignStatus {
   String get label => switch (this) {
         CampaignStatus.draft => 'Draft',
+        CampaignStatus.active => 'Active',
         CampaignStatus.published => 'Published',
         CampaignStatus.applications => 'Accepting Applications',
         CampaignStatus.inProgress => 'In Progress',
@@ -37,6 +39,7 @@ extension CampaignStatusX on CampaignStatus {
       };
 
   bool get isActive =>
+      this == CampaignStatus.active ||
       this == CampaignStatus.published ||
       this == CampaignStatus.applications ||
       this == CampaignStatus.inProgress;

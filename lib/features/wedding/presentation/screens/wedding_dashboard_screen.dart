@@ -290,11 +290,11 @@ class _BudgetOverview extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '\$${analytics.budgetUsed.toStringAsFixed(0)} used',
+                  '₹${analytics.budgetUsed.toStringAsFixed(0)} used',
                   style: theme.textTheme.bodySmall,
                 ),
                 Text(
-                  '\$${analytics.budgetRemaining.toStringAsFixed(0)} left',
+                  '₹${analytics.budgetRemaining.toStringAsFixed(0)} left',
                   style: theme.textTheme.bodySmall?.copyWith(color: color),
                 ),
               ],

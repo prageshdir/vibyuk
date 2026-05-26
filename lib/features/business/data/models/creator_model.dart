@@ -12,6 +12,7 @@ class CreatorModel {
     this.categories = const [],
     this.serviceTypes = const [],
     this.skills = const [],
+    this.languagesSpoken = const [],
     this.hourlyRateFrom,
     this.hourlyRateTo,
     this.rating = 0.0,
@@ -36,6 +37,7 @@ class CreatorModel {
   final List<String> categories;
   final List<String> serviceTypes;
   final List<String> skills;
+  final List<String> languagesSpoken;
   final double? hourlyRateFrom;
   final double? hourlyRateTo;
   final double rating;
@@ -60,6 +62,7 @@ class CreatorModel {
         categories: (json['categories'] as List?)?.cast<String>() ?? [],
         serviceTypes: (json['service_types'] as List?)?.cast<String>() ?? [],
         skills: (json['skills'] as List?)?.cast<String>() ?? [],
+        languagesSpoken: (json['languages_spoken'] as List?)?.cast<String>() ?? [],
         hourlyRateFrom: (json['hourly_rate_from'] as num?)?.toDouble(),
         hourlyRateTo: (json['hourly_rate_to'] as num?)?.toDouble(),
         rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
@@ -85,6 +88,7 @@ class CreatorModel {
         categories: categories,
         serviceTypes: serviceTypes,
         skills: skills,
+        languagesSpoken: languagesSpoken,
         hourlyRateFrom: hourlyRateFrom,
         hourlyRateTo: hourlyRateTo,
         rating: rating,

@@ -31,7 +31,7 @@ class WeddingVendorEntity extends Equatable {
   final bool isVerified;
   final bool isAvailable;
 
-  String get priceRange => '\$${minPrice.toStringAsFixed(0)} – \$${maxPrice.toStringAsFixed(0)}';
+  String get priceRange => '₹${minPrice.toStringAsFixed(0)} – ₹${maxPrice.toStringAsFixed(0)}';
 
   @override
   List<Object?> get props => [

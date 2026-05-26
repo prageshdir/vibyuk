@@ -55,7 +55,7 @@ class TourismDestinationEntity extends Equatable {
   String get fullLocation => '$name, $country';
 
   String get formattedCost =>
-      '${currency} ${averageCostPerDay.toStringAsFixed(0)}/day';
+      '₹${averageCostPerDay.toStringAsFixed(0)}/day';
 
   DestinationCategory get categoryEnum {
     try {

@@ -28,6 +28,7 @@ class UpdateProfileUseCase implements UseCase<ProfileEntity, UpdateProfileParams
       companySize: params.companySize,
       serviceTypes: params.serviceTypes,
       skills: params.skills,
+      languagesSpoken: params.languagesSpoken,
       hourlyRateFrom: params.hourlyRateFrom,
       hourlyRateTo: params.hourlyRateTo,
       availability: params.availability,
@@ -51,6 +52,7 @@ class UpdateProfileParams extends Equatable {
   final String? companySize;
   final List<String>? serviceTypes;
   final List<String>? skills;
+  final List<String>? languagesSpoken;
   final double? hourlyRateFrom;
   final double? hourlyRateTo;
   final String? availability;
@@ -71,6 +73,7 @@ class UpdateProfileParams extends Equatable {
     this.companySize,
     this.serviceTypes,
     this.skills,
+    this.languagesSpoken,
     this.hourlyRateFrom,
     this.hourlyRateTo,
     this.availability,
@@ -81,6 +84,6 @@ class UpdateProfileParams extends Equatable {
         firstName, lastName, bio, location, website,
         instagram, twitter, tiktok, youtube, linkedin,
         companyName, industry, companySize,
-        serviceTypes, skills, hourlyRateFrom, hourlyRateTo, availability,
+        serviceTypes, skills, languagesSpoken, hourlyRateFrom, hourlyRateTo, availability,
       ];
 }

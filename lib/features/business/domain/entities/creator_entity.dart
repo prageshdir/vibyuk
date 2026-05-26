@@ -12,6 +12,7 @@ class CreatorEntity extends Equatable {
     this.categories = const [],
     this.serviceTypes = const [],
     this.skills = const [],
+    this.languagesSpoken = const [],
     this.hourlyRateFrom,
     this.hourlyRateTo,
     this.rating = 0.0,
@@ -36,6 +37,7 @@ class CreatorEntity extends Equatable {
   final List<String> categories;
   final List<String> serviceTypes;
   final List<String> skills;
+  final List<String> languagesSpoken;
   final double? hourlyRateFrom;
   final double? hourlyRateTo;
   final double rating;
@@ -74,6 +76,7 @@ class CreatorEntity extends Equatable {
         categories: categories,
         serviceTypes: serviceTypes,
         skills: skills,
+        languagesSpoken: languagesSpoken,
         hourlyRateFrom: hourlyRateFrom,
         hourlyRateTo: hourlyRateTo,
         rating: rating,
@@ -91,8 +94,8 @@ class CreatorEntity extends Equatable {
   @override
   List<Object?> get props => [
         id, userId, displayName, bio, location, avatarUrl, coverImageUrl,
-        categories, serviceTypes, skills, hourlyRateFrom, hourlyRateTo,
-        rating, reviewsCount, totalBookings, isVerified, isSaved,
+        categories, serviceTypes, skills, languagesSpoken, hourlyRateFrom,
+        hourlyRateTo, rating, reviewsCount, totalBookings, isVerified, isSaved,
         followersCount, availability, instagram, twitter, tiktok,
       ];
 }
