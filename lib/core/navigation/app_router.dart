@@ -46,6 +46,7 @@ import 'package:vibyuk/features/business/presentation/screens/team_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/transaction_history_screen.dart';
 // Creator
 import 'package:vibyuk/features/creator/domain/entities/pricing_package_entity.dart';
+import 'package:vibyuk/features/creator/presentation/blocs/bank_account/bank_account_bloc.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/availability/availability_bloc.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/booking_requests/booking_requests_bloc.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/campaign_applications/campaign_applications_bloc.dart';
@@ -919,7 +920,11 @@ class AppRouter {
       GoRoute(
         path: RouteNames.creatorBankAccount,
         name: 'creator-bank-account',
-        builder: (context, _) => const CreatorBankAccountScreen(),
+        builder: (context, _) => BlocProvider(
+          create: (_) => GetIt.instance<BankAccountBloc>()
+            ..add(const LoadBankAccountEvent()),
+          child: const CreatorBankAccountScreen(),
+        ),
       ),
 
       // Creator — Public Profile

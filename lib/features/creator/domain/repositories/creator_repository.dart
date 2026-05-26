@@ -7,6 +7,7 @@ import 'package:vibyuk/features/creator/domain/entities/campaign_application_ent
 import 'package:vibyuk/features/creator/domain/entities/creator_analytics_entity.dart';
 import 'package:vibyuk/features/creator/domain/entities/creator_earnings_entity.dart';
 import 'package:vibyuk/features/creator/domain/entities/creator_profile_entity.dart';
+import 'package:vibyuk/features/creator/domain/entities/bank_account_entity.dart';
 import 'package:vibyuk/features/creator/domain/entities/kyc_entity.dart';
 import 'package:vibyuk/features/creator/domain/entities/portfolio_item_entity.dart';
 import 'package:vibyuk/features/creator/domain/entities/pricing_package_entity.dart';
@@ -146,6 +147,15 @@ abstract class CreatorRepository {
   Future<Either<Failure, ReviewEntity>> respondToReview({
     required String reviewId,
     required String response,
+  });
+
+  // ── Bank Account ──────────────────────────────────────────────────────────
+  Future<Either<Failure, BankAccountEntity?>> getBankAccount();
+  Future<Either<Failure, BankAccountEntity>> saveBankAccount({
+    required String accountHolderName,
+    required String accountNumber,
+    required String ifscCode,
+    required String bankName,
   });
 
   // ── KYC ───────────────────────────────────────────────────────────────────

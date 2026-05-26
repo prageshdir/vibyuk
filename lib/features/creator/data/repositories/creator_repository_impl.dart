@@ -10,6 +10,7 @@ import 'package:vibyuk/features/creator/data/models/campaign_application_model.d
 import 'package:vibyuk/features/creator/data/models/creator_analytics_model.dart';
 import 'package:vibyuk/features/creator/data/models/creator_earnings_model.dart';
 import 'package:vibyuk/features/creator/data/models/creator_profile_model.dart';
+import 'package:vibyuk/features/creator/data/models/bank_account_model.dart';
 import 'package:vibyuk/features/creator/data/models/kyc_model.dart';
 import 'package:vibyuk/features/creator/data/models/portfolio_item_model.dart';
 import 'package:vibyuk/features/creator/data/models/pricing_package_model.dart';
@@ -20,6 +21,7 @@ import 'package:vibyuk/features/creator/domain/entities/campaign_application_ent
 import 'package:vibyuk/features/creator/domain/entities/creator_analytics_entity.dart';
 import 'package:vibyuk/features/creator/domain/entities/creator_earnings_entity.dart';
 import 'package:vibyuk/features/creator/domain/entities/creator_profile_entity.dart';
+import 'package:vibyuk/features/creator/domain/entities/bank_account_entity.dart';
 import 'package:vibyuk/features/creator/domain/entities/kyc_entity.dart';
 import 'package:vibyuk/features/creator/domain/entities/portfolio_item_entity.dart';
 import 'package:vibyuk/features/creator/domain/entities/pricing_package_entity.dart';
@@ -437,6 +439,33 @@ class CreatorRepositoryImpl extends BaseRepository implements CreatorRepository 
         final data =
             await _remote.respondToReview(reviewId: reviewId, response: response);
         return ReviewModel.fromJson(data).toEntity();
+      });
+
+  // ── Bank Account ───────────────────────────────────────────────────────────
+
+  @override
+  Future<Either<Failure, BankAccountEntity?>> getBankAccount() =>
+      safeCall(() async {
+        final data = await _remote.getBankAccount();
+        if (data == null) return null;
+        return BankAccountModel.fromJson(data).toEntity();
+      });
+
+  @override
+  Future<Either<Failure, BankAccountEntity>> saveBankAccount({
+    required String accountHolderName,
+    required String accountNumber,
+    required String ifscCode,
+    required String bankName,
+  }) =>
+      safeCall(() async {
+        final data = await _remote.saveBankAccount({
+          'account_holder_name': accountHolderName,
+          'account_number': accountNumber,
+          'ifsc_code': ifscCode.toUpperCase(),
+          'bank_name': bankName,
+        });
+        return BankAccountModel.fromJson(data).toEntity();
       });
 
   // ── KYC ────────────────────────────────────────────────────────────────────
