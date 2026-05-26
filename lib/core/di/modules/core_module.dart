@@ -6,6 +6,7 @@ import 'package:vibyuk/core/auth/token_manager.dart';
 import 'package:vibyuk/core/config/flavor_config.dart';
 import 'package:vibyuk/core/navigation/app_router.dart';
 import 'package:vibyuk/core/navigation/guards/auth_guard.dart';
+import 'package:vibyuk/core/observers/analytics_route_observer.dart';
 import 'package:vibyuk/core/notifications/fcm_service.dart';
 import 'package:vibyuk/core/notifications/notification_handler.dart';
 import 'package:vibyuk/core/theme/theme_bloc.dart';
@@ -36,7 +37,7 @@ void registerCoreModule(GetIt sl) {
     () => AuthGuard(sl<TokenManager>()),
   );
   sl.registerLazySingleton<AppRouter>(
-    () => AppRouter(sl<AuthGuard>()),
+    () => AppRouter(sl<AuthGuard>(), sl<AnalyticsRouteObserver>()),
   );
 
   // Notifications

@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:vibyuk/core/api/interceptors/auth_interceptor.dart';
+import 'package:vibyuk/core/api/interceptors/cache_interceptor.dart';
 import 'package:vibyuk/core/api/interceptors/connectivity_interceptor.dart';
 import 'package:vibyuk/core/api/interceptors/error_interceptor.dart';
 import 'package:vibyuk/core/api/interceptors/logging_interceptor.dart';
+import 'package:vibyuk/core/api/interceptors/retry_interceptor.dart';
+import 'package:vibyuk/core/cache/cache_manager.dart';
 import 'package:vibyuk/core/config/flavor_config.dart';
 
 class ApiClient {
@@ -11,6 +14,7 @@ class ApiClient {
   static Dio create({
     required AuthInterceptor authInterceptor,
     required ConnectivityInterceptor connectivityInterceptor,
+    required CacheManager cacheManager,
   }) {
     final config = FlavorConfig.instance;
     final dio = Dio(
@@ -28,10 +32,16 @@ class ApiClient {
     );
 
     dio.interceptors.addAll([
-      connectivityInterceptor, // First: reject immediately if offline
-      authInterceptor,         // Second: attach token
-      ErrorInterceptor(),      // Third: normalize errors
-      LoggingInterceptor(),    // Last: log everything
+      connectivityInterceptor,                      // 1: reject immediately if offline
+      authInterceptor,                              // 2: attach token
+      CacheInterceptor(cacheManager),               // 3: serve/store GET cache
+      ErrorInterceptor(),                           // 4: normalize errors
+      RetryInterceptor(                             // 5: retry on transient failures
+        dio,
+        maxRetries: config.maxRetries,
+        initialDelay: const Duration(milliseconds: 500),
+      ),
+      LoggingInterceptor(),                         // 6: log everything
     ]);
 
     return dio;

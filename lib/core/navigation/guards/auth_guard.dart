@@ -8,15 +8,19 @@ class AuthGuard {
 
   final TokenManager _tokenManager;
 
-  // Returns null if the user may proceed, otherwise returns the redirect path.
+  // Returns null to allow navigation, or a redirect path.
   Future<String?> redirect(BuildContext context, GoRouterState state) async {
     final hasSession = await _tokenManager.hasValidSession();
-    final isAuthRoute = _isAuthRoute(state.matchedLocation);
+    final location = state.matchedLocation;
+    final isAuthRoute = _isAuthRoute(location);
+    final isPublicRoute = _isPublicRoute(location);
 
-    if (!hasSession && !isAuthRoute) {
-      return '${RouteNames.login}?redirect=${Uri.encodeComponent(state.matchedLocation)}';
+    // Unauthenticated user trying to access a protected route
+    if (!hasSession && !isAuthRoute && !isPublicRoute) {
+      return '${RouteNames.login}?redirect=${Uri.encodeComponent(location)}';
     }
 
+    // Authenticated user landing on auth routes → send home
     if (hasSession && isAuthRoute) {
       return RouteNames.home;
     }
@@ -27,6 +31,11 @@ class AuthGuard {
   bool _isAuthRoute(String path) {
     return path.startsWith('/auth') ||
         path == RouteNames.splash ||
+        path == RouteNames.onboarding;
+  }
+
+  bool _isPublicRoute(String path) {
+    return path == RouteNames.splash ||
         path == RouteNames.onboarding;
   }
 }
