@@ -43,7 +43,7 @@ class _CreatorDashboardScreenState extends State<CreatorDashboardScreen> {
                           Image.network(profile.coverImageUrl!,
                               fit: BoxFit.cover)
                         else
-                          Container(color: AppColors.primary.withOpacity(0.3)),
+                          Container(color: AppColors.primary.withValues(alpha: 0.3)),
                         const DecoratedBox(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -171,7 +171,7 @@ class _OnboardingBanner extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [AppColors.primary, AppColors.primary.withOpacity(0.7)],
+          colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.7)],
         ),
         borderRadius: BorderRadius.circular(16),
       ),
@@ -188,7 +188,7 @@ class _OnboardingBanner extends StatelessWidget {
                         color: Colors.white, fontWeight: FontWeight.w700)),
                 Text('Finish setup to start receiving bookings',
                     style: TextStyle(
-                        color: Colors.white.withOpacity(0.85), fontSize: 12)),
+                        color: Colors.white.withValues(alpha: 0.85), fontSize: 12)),
               ],
             ),
           ),
