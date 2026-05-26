@@ -14,12 +14,14 @@ class ChatScreen extends StatelessWidget {
     required this.otherUserId,
     required this.otherUserName,
     this.otherUserAvatarUrl,
+    this.bookingId,
   });
 
   final String conversationId;
   final String otherUserId;
   final String otherUserName;
   final String? otherUserAvatarUrl;
+  final String? bookingId;
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +34,55 @@ class ChatScreen extends StatelessWidget {
       child: _ChatView(
         otherUserName: otherUserName,
         otherUserAvatarUrl: otherUserAvatarUrl,
+        bookingId: bookingId,
       ),
     );
   }
 }
 
 class _ChatView extends StatefulWidget {
-  const _ChatView({required this.otherUserName, this.otherUserAvatarUrl});
+  const _ChatView({
+    required this.otherUserName,
+    this.otherUserAvatarUrl,
+    this.bookingId,
+  });
   final String otherUserName;
   final String? otherUserAvatarUrl;
+  final String? bookingId;
 
   @override
   State<_ChatView> createState() => _ChatViewState();
+}
+
+class _BookingContextBanner extends StatelessWidget {
+  const _BookingContextBanner({required this.bookingId});
+  final String bookingId;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      color: theme.colorScheme.primaryContainer.withAlpha(128),
+      child: Row(
+        children: [
+          Icon(Icons.lock_outline,
+              size: 14, color: theme.colorScheme.onPrimaryContainer),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              'This conversation is part of booking $bookingId. '
+              'Only booking parties can message here.',
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: theme.colorScheme.onPrimaryContainer,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _ChatViewState extends State<_ChatView> {
@@ -152,6 +191,7 @@ class _ChatViewState extends State<_ChatView> {
       ),
       body: Column(
         children: [
+          if (widget.bookingId != null) _BookingContextBanner(bookingId: widget.bookingId!),
           Expanded(
             child: BlocBuilder<ChatBloc, ChatState>(
               builder: (context, state) {

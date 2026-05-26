@@ -434,7 +434,10 @@ class AppRouter {
                       create: (_) => sl<ChatBloc>(),
                       child: ChatScreen(
                         conversationId: id,
-                        conversation: conversation,
+                        otherUserId: conversation.otherUserId,
+                        otherUserName: conversation.otherUserName,
+                        otherUserAvatarUrl: conversation.otherUserAvatarUrl,
+                        bookingId: conversation.bookingId,
                       ),
                     );
                   },
