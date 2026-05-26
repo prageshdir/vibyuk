@@ -96,7 +96,7 @@ class _AnalyticsChartWidgetState extends State<AnalyticsChartWidget> {
           touchTooltipData: LineTouchTooltipData(
             getTooltipItems: (spots) => spots
                 .map((s) => LineTooltipItem(
-                      '\$${s.y.toStringAsFixed(0)}',
+                      '₹${s.y.toStringAsFixed(0)}',
                       const TextStyle(color: Colors.white),
                     ))
                 .toList(),

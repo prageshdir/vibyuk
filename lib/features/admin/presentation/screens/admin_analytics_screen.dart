@@ -243,7 +243,7 @@ class _AnalyticsContent extends StatelessWidget {
             children: [
               AdminStatCard(
                 label: 'Total Revenue',
-                value: '\$${_fmt(analytics.totalRevenue.toInt())}',
+                value: '₹${_fmt(analytics.totalRevenue.toInt())}',
                 icon: Icons.currency_rupee_rounded,
                 color: const Color(0xFF4CAF50),
               ),
@@ -261,7 +261,7 @@ class _AnalyticsContent extends StatelessWidget {
               ),
               AdminStatCard(
                 label: 'Avg Booking',
-                value: '\$${analytics.averageBookingValue.toStringAsFixed(0)}',
+                value: '₹${analytics.averageBookingValue.toStringAsFixed(0)}',
                 icon: Icons.receipt_rounded,
                 color: AppColors.electricViolet,
               ),

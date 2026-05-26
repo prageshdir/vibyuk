@@ -240,6 +240,10 @@ class _QuickActionsGrid extends StatelessWidget {
           icon: Icons.verified_user_outlined,
           label: 'KYC',
           route: RouteNames.creatorKyc),
+      _ActionTile(
+          icon: Icons.account_balance_outlined,
+          label: 'Bank A/C',
+          route: RouteNames.creatorBankAccount),
     ];
 
     return GridView.builder(

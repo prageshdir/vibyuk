@@ -298,7 +298,7 @@ class _BottomBar extends StatelessWidget {
         ? 'Free'
         : event.minTicketPrice == 0
             ? 'Free'
-            : 'From \$${event.minTicketPrice!.toStringAsFixed(2)}';
+            : 'From ₹${event.minTicketPrice!.toStringAsFixed(2)}';
 
     return SafeArea(
       child: Padding(

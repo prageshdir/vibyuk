@@ -96,7 +96,7 @@ class _WeddingAnalyticsScreenState extends State<WeddingAnalyticsScreen> {
                           _MetricRow(label: 'Days Until Wedding', value: '${analytics.daysUntilWedding}'),
                           _MetricRow(
                             label: 'Budget Remaining',
-                            value: '\$${analytics.budgetRemaining.toStringAsFixed(0)}',
+                            value: '₹${analytics.budgetRemaining.toStringAsFixed(0)}',
                             highlight: analytics.budgetRemaining < 0,
                           ),
                           _MetricRow(label: 'Vendors Booked', value: '${analytics.vendorsBooked}'),

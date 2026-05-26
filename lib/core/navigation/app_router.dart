@@ -61,6 +61,7 @@ import 'package:vibyuk/features/creator/presentation/screens/campaign_applicatio
 import 'package:vibyuk/features/creator/presentation/screens/creator_analytics_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/creator_dashboard_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/creator_public_profile_screen.dart';
+import 'package:vibyuk/features/creator/presentation/screens/bank_account_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/earnings_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/kyc_screen.dart';
 import 'package:vibyuk/features/creator/presentation/screens/onboarding/creator_onboarding_screen.dart';
@@ -763,6 +764,13 @@ class AppRouter {
           create: (_) => sl<KycBloc>()..add(const LoadKycStatusEvent()),
           child: const KycScreen(),
         ),
+      ),
+
+      // Creator — Bank Account
+      GoRoute(
+        path: RouteNames.creatorBankAccount,
+        name: 'creator-bank-account',
+        builder: (context, _) => const CreatorBankAccountScreen(),
       ),
 
       // Creator — Public Profile

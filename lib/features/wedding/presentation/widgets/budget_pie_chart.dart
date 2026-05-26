@@ -93,7 +93,7 @@ class _BudgetPieChartState extends State<BudgetPieChart> {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  '${_formatCategory(e.key)}: \$${e.value.toStringAsFixed(0)}',
+                  '${_formatCategory(e.key)}: ₹${e.value.toStringAsFixed(0)}',
                   style: theme.textTheme.bodySmall,
                 ),
               ],
