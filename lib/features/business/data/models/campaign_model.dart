@@ -40,6 +40,7 @@ class CampaignModel {
     this.description,
     required this.budget,
     required this.status,
+    this.campaignType = 'standard',
     required this.startDate,
     this.endDate,
     this.categories = const [],
@@ -55,6 +56,7 @@ class CampaignModel {
   final String? description;
   final double budget;
   final String status;
+  final String campaignType;
   final DateTime startDate;
   final DateTime? endDate;
   final List<String> categories;
@@ -70,6 +72,7 @@ class CampaignModel {
         description: json['description'] as String?,
         budget: (json['budget'] as num).toDouble(),
         status: json['status'] as String? ?? 'draft',
+        campaignType: json['campaign_type'] as String? ?? 'standard',
         startDate: DateTime.parse(json['start_date'] as String),
         endDate: json['end_date'] != null
             ? DateTime.parse(json['end_date'] as String)
@@ -95,6 +98,10 @@ class CampaignModel {
         status: CampaignStatus.values.firstWhere(
           (s) => s.name == status,
           orElse: () => CampaignStatus.draft,
+        ),
+        campaignType: CampaignType.values.firstWhere(
+          (t) => t.apiValue == campaignType,
+          orElse: () => CampaignType.standard,
         ),
         startDate: startDate,
         endDate: endDate,

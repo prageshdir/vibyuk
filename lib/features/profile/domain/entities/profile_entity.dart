@@ -61,6 +61,7 @@ class ProfileStats extends Equatable {
 class CreatorInfo extends Equatable {
   final List<String> serviceTypes;
   final List<String> skills;
+  final List<String> languagesSpoken;
   final double? hourlyRateFrom;
   final double? hourlyRateTo;
   final double? responseRate;
@@ -69,6 +70,7 @@ class CreatorInfo extends Equatable {
   const CreatorInfo({
     this.serviceTypes = const [],
     this.skills = const [],
+    this.languagesSpoken = const [],
     this.hourlyRateFrom,
     this.hourlyRateTo,
     this.responseRate,
@@ -88,6 +90,7 @@ class CreatorInfo extends Equatable {
   List<Object?> get props => [
         serviceTypes,
         skills,
+        languagesSpoken,
         hourlyRateFrom,
         hourlyRateTo,
         responseRate,

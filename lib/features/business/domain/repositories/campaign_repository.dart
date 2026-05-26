@@ -16,6 +16,7 @@ abstract interface class CampaignRepository {
     required String title,
     String? description,
     required double budget,
+    CampaignType campaignType = CampaignType.standard,
     required DateTime startDate,
     DateTime? endDate,
     required List<String> categories,

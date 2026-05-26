@@ -35,3 +35,14 @@ class UpdateTeamMemberRoleEvent extends TeamEvent {
   @override
   List<Object?> get props => [memberId, role];
 }
+
+class BulkInviteTeamMembersEvent extends TeamEvent {
+  const BulkInviteTeamMembersEvent({
+    required this.emails,
+    required this.role,
+  });
+  final List<String> emails;
+  final TeamRole role;
+  @override
+  List<Object?> get props => [emails, role];
+}

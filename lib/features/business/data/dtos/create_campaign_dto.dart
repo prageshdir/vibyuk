@@ -1,3 +1,4 @@
+import 'package:vibyuk/features/business/domain/entities/campaign_entity.dart';
 import 'package:vibyuk/features/business/domain/usecases/campaign/create_campaign_use_case.dart';
 
 class CreateCampaignDto {
@@ -5,6 +6,7 @@ class CreateCampaignDto {
     required this.title,
     this.description,
     required this.budget,
+    this.campaignType = CampaignType.standard,
     required this.startDate,
     this.endDate,
     required this.categories,
@@ -14,6 +16,7 @@ class CreateCampaignDto {
   final String title;
   final String? description;
   final double budget;
+  final CampaignType campaignType;
   final DateTime startDate;
   final DateTime? endDate;
   final List<String> categories;
@@ -24,6 +27,7 @@ class CreateCampaignDto {
         title: params.title,
         description: params.description,
         budget: params.budget,
+        campaignType: params.campaignType,
         startDate: params.startDate,
         endDate: params.endDate,
         categories: params.categories,
@@ -34,6 +38,7 @@ class CreateCampaignDto {
         'title': title,
         'description': description,
         'budget': budget,
+        'campaign_type': campaignType.apiValue,
         'start_date': startDate.toIso8601String(),
         if (endDate != null) 'end_date': endDate!.toIso8601String(),
         'categories': categories,

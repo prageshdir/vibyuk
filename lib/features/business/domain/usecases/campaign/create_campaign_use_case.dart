@@ -15,6 +15,7 @@ class CreateCampaignUseCase implements UseCase<CampaignEntity, CreateCampaignPar
       title: params.title,
       description: params.description,
       budget: params.budget,
+      campaignType: params.campaignType,
       startDate: params.startDate,
       endDate: params.endDate,
       categories: params.categories,
@@ -28,6 +29,7 @@ class CreateCampaignParams extends Equatable {
     required this.title,
     this.description,
     required this.budget,
+    this.campaignType = CampaignType.standard,
     required this.startDate,
     this.endDate,
     required this.categories,
@@ -37,12 +39,13 @@ class CreateCampaignParams extends Equatable {
   final String title;
   final String? description;
   final double budget;
+  final CampaignType campaignType;
   final DateTime startDate;
   final DateTime? endDate;
   final List<String> categories;
   final int targetCreatorCount;
 
   @override
-  List<Object?> get props => [title, description, budget, startDate, endDate,
-        categories, targetCreatorCount];
+  List<Object?> get props => [title, description, budget, campaignType,
+        startDate, endDate, categories, targetCreatorCount];
 }

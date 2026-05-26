@@ -61,6 +61,7 @@ class ProfileRepositoryImpl extends BaseRepository implements ProfileRepository 
     String? companySize,
     List<String>? serviceTypes,
     List<String>? skills,
+    List<String>? languagesSpoken,
     double? hourlyRateFrom,
     double? hourlyRateTo,
     String? availability,
@@ -68,7 +69,7 @@ class ProfileRepositoryImpl extends BaseRepository implements ProfileRepository 
     return safeCall(
       () async {
         final socialLinks = _buildSocialLinks(instagram, twitter, tiktok, youtube, linkedin);
-        final creatorInfo = _buildCreatorInfo(serviceTypes, skills, hourlyRateFrom, hourlyRateTo, availability);
+        final creatorInfo = _buildCreatorInfo(serviceTypes, skills, languagesSpoken, hourlyRateFrom, hourlyRateTo, availability);
         final businessInfo = _buildBusinessInfo(companyName, industry, companySize);
 
         final dto = UpdateProfileDto(
@@ -197,12 +198,15 @@ class ProfileRepositoryImpl extends BaseRepository implements ProfileRepository 
 
   Map<String, dynamic>? _buildCreatorInfo(
     List<String>? serviceTypes, List<String>? skills,
+    List<String>? languagesSpoken,
     double? rateFrom, double? rateTo, String? availability,
   ) {
-    if ([serviceTypes, skills, rateFrom, rateTo, availability].every((v) => v == null)) return null;
+    if ([serviceTypes, skills, languagesSpoken, rateFrom, rateTo, availability]
+        .every((v) => v == null)) return null;
     return {
       if (serviceTypes != null) 'service_types': serviceTypes,
       if (skills != null) 'skills': skills,
+      if (languagesSpoken != null) 'languages_spoken': languagesSpoken,
       if (rateFrom != null) 'hourly_rate_from': rateFrom,
       if (rateTo != null) 'hourly_rate_to': rateTo,
       if (availability != null) 'availability': availability,

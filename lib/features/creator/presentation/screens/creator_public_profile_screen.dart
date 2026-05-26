@@ -201,6 +201,28 @@ class _ProfileView extends StatelessWidget {
                 const SizedBox(height: 20),
               ],
 
+              // Languages spoken
+              if (profile.languagesSpoken.isNotEmpty) ...[
+                Text('Languages',
+                    style: theme.textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w700)),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: profile.languagesSpoken
+                      .map((l) => Chip(
+                            avatar: const Icon(Icons.language_rounded, size: 14),
+                            label: Text(l, style: const TextStyle(fontSize: 12)),
+                            padding: EdgeInsets.zero,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                          ))
+                      .toList(),
+                ),
+                const SizedBox(height: 20),
+              ],
+
               // Social links
               if (profile.socialLinks.isNotEmpty) ...[
                 Text('Social',
