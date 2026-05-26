@@ -56,7 +56,7 @@ class _BusinessSearchBarState extends State<BusinessSearchBar> {
             height: 48,
             decoration: BoxDecoration(
               color: theme.colorScheme.surfaceContainerHighest
-                  .withOpacity(0.5),
+                  .withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: AppColors.outlineVariant),
             ),

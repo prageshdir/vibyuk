@@ -58,7 +58,7 @@ class _EarningsScreenState extends State<EarningsScreen> {
                       gradient: LinearGradient(
                         colors: [
                           AppColors.primary,
-                          AppColors.primary.withOpacity(0.7)
+                          AppColors.primary.withValues(alpha: 0.7)
                         ],
                       ),
                       borderRadius: BorderRadius.circular(20),
@@ -256,7 +256,7 @@ class _PayoutTile extends StatelessWidget {
     };
     return ListTile(
       leading: CircleAvatar(
-        backgroundColor: statusColor.withOpacity(0.12),
+        backgroundColor: statusColor.withValues(alpha: 0.12),
         child: Icon(Icons.currency_rupee_rounded, color: statusColor),
       ),
       title: Text(
@@ -284,7 +284,7 @@ class _PayoutTile extends StatelessWidget {
       trailing: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
-          color: statusColor.withOpacity(0.12),
+          color: statusColor.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(payout.status.name,

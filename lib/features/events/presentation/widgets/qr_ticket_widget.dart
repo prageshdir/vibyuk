@@ -22,7 +22,7 @@ class QrTicketWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.12),
+            color: Colors.black.withValues(alpha: 0.12),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -110,7 +110,7 @@ class _TicketHeader extends StatelessWidget {
           else
             _GradientBackground(),
           // Dark scrim for legibility
-          Container(color: Colors.black.withOpacity(0.45)),
+          Container(color: Colors.black.withValues(alpha: 0.45)),
           Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
@@ -322,9 +322,9 @@ class _StatusChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.4)),
+        border: Border.all(color: color.withValues(alpha: 0.4)),
       ),
       child: Text(
         status.name.toUpperCase(),
@@ -364,7 +364,7 @@ class _BannerPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = color.withOpacity(0.85);
+    final paint = Paint()..color = color.withValues(alpha: 0.85);
     const bannerHeight = 40.0;
     final center = size.height / 2;
 

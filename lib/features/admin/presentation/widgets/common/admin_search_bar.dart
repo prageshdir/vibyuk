@@ -34,10 +34,10 @@ class _AdminSearchBarState extends State<AdminSearchBar> {
     return Container(
       height: 48,
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.08),
+          color: theme.colorScheme.outline.withValues(alpha: 0.08),
         ),
       ),
       child: Row(
@@ -46,7 +46,7 @@ class _AdminSearchBarState extends State<AdminSearchBar> {
           Icon(
             Icons.search_rounded,
             size: 20,
-            color: theme.colorScheme.onSurface.withOpacity(0.4),
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -57,7 +57,7 @@ class _AdminSearchBarState extends State<AdminSearchBar> {
               decoration: InputDecoration(
                 hintText: widget.hint,
                 hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurface.withOpacity(0.35),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.35),
                 ),
                 border: InputBorder.none,
                 isDense: true,
@@ -74,7 +74,7 @@ class _AdminSearchBarState extends State<AdminSearchBar> {
               child: Icon(
                 Icons.close_rounded,
                 size: 18,
-                color: theme.colorScheme.onSurface.withOpacity(0.4),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
               ),
             ),
           if (widget.onFilterTap != null) ...[
@@ -87,7 +87,7 @@ class _AdminSearchBarState extends State<AdminSearchBar> {
                 margin: const EdgeInsets.only(right: 6),
                 decoration: BoxDecoration(
                   color: widget.hasActiveFilter
-                      ? const Color(0xFF7B2FFF).withOpacity(0.12)
+                      ? const Color(0xFF7B2FFF).withValues(alpha: 0.12)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -99,7 +99,7 @@ class _AdminSearchBarState extends State<AdminSearchBar> {
                       size: 20,
                       color: widget.hasActiveFilter
                           ? const Color(0xFF7B2FFF)
-                          : theme.colorScheme.onSurface.withOpacity(0.5),
+                          : theme.colorScheme.onSurface.withValues(alpha: 0.5),
                     ),
                     if (widget.hasActiveFilter)
                       Positioned(

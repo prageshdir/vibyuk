@@ -30,14 +30,14 @@ class PlanCard extends StatelessWidget {
           color: isCurrentPlan
               ? theme.colorScheme.primary
               : isHighlighted
-                  ? theme.colorScheme.primary.withOpacity(0.4)
-                  : theme.colorScheme.outline.withOpacity(0.2),
+                  ? theme.colorScheme.primary.withValues(alpha: 0.4)
+                  : theme.colorScheme.outline.withValues(alpha: 0.2),
           width: isCurrentPlan ? 2 : 1,
         ),
         boxShadow: isHighlighted
             ? [
                 BoxShadow(
-                  color: theme.colorScheme.primary.withOpacity(0.12),
+                  color: theme.colorScheme.primary.withValues(alpha: 0.12),
                   blurRadius: 16,
                   offset: const Offset(0, 4),
                 ),
@@ -102,12 +102,12 @@ class _PlanHeader extends StatelessWidget {
                 ? LinearGradient(
                     colors: [
                       theme.colorScheme.primary,
-                      theme.colorScheme.primary.withOpacity(0.8),
+                      theme.colorScheme.primary.withValues(alpha: 0.8),
                     ],
                   )
                 : null,
         color: !isElite && !isHighlighted
-            ? theme.colorScheme.surfaceVariant.withOpacity(0.4)
+            ? theme.colorScheme.surfaceVariant.withValues(alpha: 0.4)
             : null,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
       ),
@@ -122,7 +122,7 @@ class _PlanHeader extends StatelessWidget {
                     margin: const EdgeInsets.only(bottom: 6),
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.25),
+                      color: Colors.white.withValues(alpha: 0.25),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
@@ -149,7 +149,7 @@ class _PlanHeader extends StatelessWidget {
                   plan.formattedPrice,
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: isHighlighted || isElite
-                        ? Colors.white.withOpacity(0.9)
+                        ? Colors.white.withValues(alpha: 0.9)
                         : theme.colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w500,
                   ),
@@ -161,9 +161,9 @@ class _PlanHeader extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.white.withOpacity(0.5)),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.5)),
               ),
               child: Text(
                 'Current',

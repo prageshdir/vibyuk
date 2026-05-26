@@ -54,7 +54,7 @@ class _AdminBarChartState extends State<AdminBarChart>
           progress: _anim.value,
           unit: widget.unit,
           textStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.45),
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45),
               ),
         ),
       ),
@@ -105,13 +105,13 @@ class _BarChartPainter extends CustomPainter {
         const Radius.circular(6),
       );
 
-      glowPaint.color = color.withOpacity(0.15);
+      glowPaint.color = color.withValues(alpha: 0.15);
       canvas.drawRRect(rect, glowPaint);
 
       barPaint.shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [color, color.withOpacity(0.6)],
+        colors: [color, color.withValues(alpha: 0.6)],
       ).createShader(Rect.fromLTWH(left, top, barW, barH));
       canvas.drawRRect(rect, barPaint);
 
@@ -229,7 +229,7 @@ class _LineChartPainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [color.withOpacity(0.25), color.withOpacity(0)],
+        colors: [color.withValues(alpha: 0.25), color.withValues(alpha: 0)],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
       ..style = PaintingStyle.fill;
 
@@ -245,7 +245,7 @@ class _LineChartPainter extends CustomPainter {
       pts[cutoff],
       6,
       Paint()
-        ..color = color.withOpacity(0.25)
+        ..color = color.withValues(alpha: 0.25)
         ..style = PaintingStyle.fill,
     );
   }

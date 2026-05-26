@@ -69,7 +69,7 @@ class NegotiationMessageBubble extends StatelessWidget {
                     Text(
                       msg.senderName,
                       style: TextStyle(
-                          color: textColor.withOpacity(0.7),
+                          color: textColor.withValues(alpha: 0.7),
                           fontSize: 11,
                           fontWeight: FontWeight.w600),
                     ),
@@ -78,7 +78,7 @@ class NegotiationMessageBubble extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(Icons.sell_outlined,
-                            size: 14, color: textColor.withOpacity(0.7)),
+                            size: 14, color: textColor.withValues(alpha: 0.7)),
                         const SizedBox(width: 4),
                         Text(
                           '${msg.currency ?? ''} ${msg.offeredPrice!.toStringAsFixed(2)}',
@@ -94,7 +94,7 @@ class NegotiationMessageBubble extends StatelessWidget {
                           ? 'Initial offer'
                           : 'Counter-offer',
                       style: TextStyle(
-                          color: textColor.withOpacity(0.7), fontSize: 11),
+                          color: textColor.withValues(alpha: 0.7), fontSize: 11),
                     ),
                   ],
                   if (msg.message != null && msg.message!.isNotEmpty)
@@ -104,7 +104,7 @@ class NegotiationMessageBubble extends StatelessWidget {
                   Text(
                     _formatTime(msg.createdAt),
                     style: TextStyle(
-                        color: textColor.withOpacity(0.6), fontSize: 10),
+                        color: textColor.withValues(alpha: 0.6), fontSize: 10),
                   ),
                 ],
               ),
@@ -139,9 +139,9 @@ class _SystemBubble extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: color.withOpacity(0.3)),
+            border: Border.all(color: color.withValues(alpha: 0.3)),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,

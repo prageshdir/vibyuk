@@ -289,7 +289,7 @@ class _KpiCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
         color: Theme.of(context).cardColor,
-        border: Border.all(color: color.withOpacity(0.12)),
+        border: Border.all(color: color.withValues(alpha: 0.12)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -355,7 +355,7 @@ class _ChartCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Theme.of(context).cardColor,
-        border: Border.all(color: AppColors.outline.withOpacity(0.12)),
+        border: Border.all(color: AppColors.outline.withValues(alpha: 0.12)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -388,7 +388,7 @@ class _GaugesRow extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Theme.of(context).cardColor,
-        border: Border.all(color: AppColors.outline.withOpacity(0.12)),
+        border: Border.all(color: AppColors.outline.withValues(alpha: 0.12)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -455,7 +455,7 @@ class _CategoryBreakdown extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Theme.of(context).cardColor,
-        border: Border.all(color: AppColors.outline.withOpacity(0.12)),
+        border: Border.all(color: AppColors.outline.withValues(alpha: 0.12)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -495,7 +495,7 @@ class _CategoryBreakdown extends StatelessWidget {
                       child: LinearProgressIndicator(
                         value: cat.percentage / 100,
                         minHeight: 6,
-                        backgroundColor: color.withOpacity(0.1),
+                        backgroundColor: color.withValues(alpha: 0.1),
                         valueColor: AlwaysStoppedAnimation(color),
                       ),
                     ),
@@ -533,7 +533,7 @@ class _TopCreatorsSection extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Theme.of(context).cardColor,
-        border: Border.all(color: AppColors.outline.withOpacity(0.12)),
+        border: Border.all(color: AppColors.outline.withValues(alpha: 0.12)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

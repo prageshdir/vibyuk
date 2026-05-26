@@ -40,7 +40,7 @@ class KycUploadTile extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(12),
           color: _hasFile
-              ? Colors.green.withOpacity(0.05)
+              ? Colors.green.withValues(alpha: 0.05)
               : theme.colorScheme.surface,
         ),
         child: Row(
@@ -57,7 +57,7 @@ class KycUploadTile extends StatelessWidget {
                             _PlaceholderIcon(icon: icon))
                     : _hasFile && filePath != null
                         ? Container(
-                            color: Colors.green.withOpacity(0.1),
+                            color: Colors.green.withValues(alpha: 0.1),
                             child: const Icon(Icons.check_circle_outline_rounded,
                                 color: Colors.green, size: 30),
                           )

@@ -27,12 +27,12 @@ class AdminReportCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isUrgent
-                ? const Color(0xFFFF5C6B).withOpacity(0.3)
-                : theme.colorScheme.outline.withOpacity(0.08),
+                ? const Color(0xFFFF5C6B).withValues(alpha: 0.3)
+                : theme.colorScheme.outline.withValues(alpha: 0.08),
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -60,7 +60,7 @@ class AdminReportCard extends StatelessWidget {
                       Text(
                         'by ${report.reportedByUserName}',
                         style: theme.textTheme.labelSmall?.copyWith(
-                          color: theme.colorScheme.onSurface.withOpacity(0.45),
+                          color: theme.colorScheme.onSurface.withValues(alpha: 0.45),
                         ),
                       ),
                     ],
@@ -73,7 +73,7 @@ class AdminReportCard extends StatelessWidget {
             Text(
               report.description,
               style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.6),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
               ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -90,7 +90,7 @@ class AdminReportCard extends StatelessWidget {
                       vertical: 3,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFFB020).withOpacity(0.1),
+                      color: const Color(0xFFFFB020).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
@@ -110,7 +110,7 @@ class AdminReportCard extends StatelessWidget {
                       vertical: 3,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFF5C6B).withOpacity(0.1),
+                      color: const Color(0xFFFF5C6B).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: const Text(
@@ -127,7 +127,7 @@ class AdminReportCard extends StatelessWidget {
                 Text(
                   '${report.daysPending}d ago',
                   style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.onSurface.withOpacity(0.35),
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.35),
                   ),
                 ),
               ],
@@ -173,7 +173,7 @@ class _CategoryIcon extends StatelessWidget {
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Icon(icon, color: color, size: 20),
@@ -207,7 +207,7 @@ class _CategoryBadge extends StatelessWidget {
         style: TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.w600,
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
         ),
       ),
     );

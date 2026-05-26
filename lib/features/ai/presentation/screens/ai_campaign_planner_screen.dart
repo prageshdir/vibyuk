@@ -172,8 +172,8 @@ class _CampaignListCard extends StatelessWidget {
           color: Theme.of(context).cardColor,
           border: Border.all(
             color: isSelected
-                ? AppColors.primary.withOpacity(0.5)
-                : AppColors.outline.withOpacity(0.15),
+                ? AppColors.primary.withValues(alpha: 0.5)
+                : AppColors.outline.withValues(alpha: 0.15),
           ),
         ),
         padding: const EdgeInsets.all(14),
@@ -195,7 +195,7 @@ class _CampaignListCard extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: statusColor.withOpacity(0.1),
+                    color: statusColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -223,7 +223,7 @@ class _CampaignListCard extends StatelessWidget {
               child: LinearProgressIndicator(
                 value: campaign.progressPercent,
                 minHeight: 4,
-                backgroundColor: AppColors.primary.withOpacity(0.1),
+                backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                 valueColor: AlwaysStoppedAnimation(AppColors.primary),
               ),
             ),
@@ -275,7 +275,7 @@ class _CampaignDetailSheet extends StatelessWidget {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppColors.outline.withOpacity(0.3),
+                color: AppColors.outline.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -310,13 +310,13 @@ class _CampaignDetailSheet extends StatelessWidget {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            AppColors.primary.withOpacity(0.06),
-                            AppColors.tertiary.withOpacity(0.04),
+                            AppColors.primary.withValues(alpha: 0.06),
+                            AppColors.tertiary.withValues(alpha: 0.04),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(
-                          color: AppColors.primary.withOpacity(0.15),
+                          color: AppColors.primary.withValues(alpha: 0.15),
                         ),
                       ),
                       child: Row(
@@ -623,7 +623,7 @@ class _DatePickerField extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
         decoration: BoxDecoration(
-          border: Border.all(color: AppColors.outline.withOpacity(0.4)),
+          border: Border.all(color: AppColors.outline.withValues(alpha: 0.4)),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(

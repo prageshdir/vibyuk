@@ -64,7 +64,7 @@ class _BookingsBarChartState extends State<BookingsBarChart> {
             backDrawRodData: BackgroundBarChartRodData(
               show: true,
               toY: maxY * 1.1,
-              color: AppColors.outlineVariant.withOpacity(0.3),
+              color: AppColors.outlineVariant.withValues(alpha: 0.3),
             ),
           ),
         ],

@@ -110,7 +110,7 @@ class _GaugePainter extends CustomPainter {
 
     // Background track
     final bgPaint = Paint()
-      ..color = color.withOpacity(0.12)
+      ..color = color.withValues(alpha: 0.12)
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.08
       ..strokeCap = StrokeCap.round;
@@ -128,7 +128,7 @@ class _GaugePainter extends CustomPainter {
         startAngle: startAngle,
         endAngle: startAngle + sweepAngle,
         colors: [
-          color.withOpacity(0.7),
+          color.withValues(alpha: 0.7),
           color,
         ],
         transform: GradientRotation(startAngle),
@@ -151,7 +151,7 @@ class _GaugePainter extends CustomPainter {
       final dotX = center.dx + radius * math.cos(endAngle);
       final dotY = center.dy + radius * math.sin(endAngle);
       final glowPaint = Paint()
-        ..color = color.withOpacity(0.5)
+        ..color = color.withValues(alpha: 0.5)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6);
       canvas.drawCircle(Offset(dotX, dotY), size.width * 0.06, glowPaint);
       final dotPaint = Paint()..color = color;

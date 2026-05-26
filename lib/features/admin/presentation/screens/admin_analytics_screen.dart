@@ -97,7 +97,7 @@ class _PeriodSelector extends StatelessWidget {
                       : Theme.of(context)
                           .colorScheme
                           .onSurface
-                          .withOpacity(0.7),
+                          .withValues(alpha: 0.7),
                 ),
               ),
             ),
@@ -363,7 +363,7 @@ class _ChartCard extends StatelessWidget {
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withOpacity(0.08),
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.08),
         ),
       ),
       child: child,

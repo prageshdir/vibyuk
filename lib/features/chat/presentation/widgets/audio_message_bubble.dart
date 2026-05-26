@@ -75,7 +75,7 @@ class _AudioMessageBubbleState extends State<AudioMessageBubble> {
     final sliderActive = isMe ? Colors.white : AppColors.primary;
     final sliderInactive = isMe
         ? Colors.white38
-        : AppColors.primary.withOpacity(0.3);
+        : AppColors.primary.withValues(alpha: 0.3);
     final totalSecs =
         widget.message.durationSeconds ?? _duration.inSeconds;
 
@@ -117,7 +117,7 @@ class _AudioMessageBubbleState extends State<AudioMessageBubble> {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: fgColor.withOpacity(0.15),
+                  color: fgColor.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(

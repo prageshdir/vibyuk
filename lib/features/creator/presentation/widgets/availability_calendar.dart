@@ -174,9 +174,9 @@ class AvailabilityCalendar extends StatelessWidget {
   Color _dayColor(DayAvailability status, bool isPast) {
     if (isPast) return Colors.transparent;
     return switch (status) {
-      DayAvailability.available => Colors.green.withOpacity(0.2),
-      DayAvailability.busy => Colors.orange.withOpacity(0.2),
-      DayAvailability.unavailable => Colors.red.withOpacity(0.2),
+      DayAvailability.available => Colors.green.withValues(alpha: 0.2),
+      DayAvailability.busy => Colors.orange.withValues(alpha: 0.2),
+      DayAvailability.unavailable => Colors.red.withValues(alpha: 0.2),
     };
   }
 

@@ -38,7 +38,7 @@ class CreatorEarningsChart extends StatelessWidget {
             show: true,
             drawVerticalLine: false,
             getDrawingHorizontalLine: (v) => FlLine(
-              color: Colors.grey.withOpacity(0.15),
+              color: Colors.grey.withValues(alpha: 0.15),
               strokeWidth: 1,
             ),
           ),
@@ -84,7 +84,7 @@ class CreatorEarningsChart extends StatelessWidget {
               barWidth: 2.5,
               belowBarData: BarAreaData(
                 show: true,
-                color: AppColors.primary.withOpacity(0.1),
+                color: AppColors.primary.withValues(alpha: 0.1),
               ),
               dotData: FlDotData(
                 show: true,

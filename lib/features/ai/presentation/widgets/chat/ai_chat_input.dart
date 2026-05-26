@@ -51,7 +51,7 @@ class _AiChatInputState extends State<AiChatInput> {
         color: Theme.of(context).scaffoldBackgroundColor,
         border: Border(
           top: BorderSide(
-            color: AppColors.outline.withOpacity(0.15),
+            color: AppColors.outline.withValues(alpha: 0.15),
           ),
         ),
       ),
@@ -67,7 +67,7 @@ class _AiChatInputState extends State<AiChatInput> {
                       : AppColors.surfaceVariant,
                   border: Border.all(
                     color: _hasText
-                        ? AppColors.primary.withOpacity(0.4)
+                        ? AppColors.primary.withValues(alpha: 0.4)
                         : Colors.transparent,
                   ),
                 ),
@@ -121,11 +121,11 @@ class _AiChatInputState extends State<AiChatInput> {
                         : null,
                     color: _hasText && widget.isEnabled
                         ? null
-                        : AppColors.outline.withOpacity(0.2),
+                        : AppColors.outline.withValues(alpha: 0.2),
                     boxShadow: _hasText && widget.isEnabled
                         ? [
                             BoxShadow(
-                              color: AppColors.primary.withOpacity(0.35),
+                              color: AppColors.primary.withValues(alpha: 0.35),
                               blurRadius: 12,
                               offset: const Offset(0, 4),
                             ),

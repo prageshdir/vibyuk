@@ -212,7 +212,7 @@ class _Chip extends StatelessWidget {
             fontWeight: FontWeight.w600,
             color: selected
                 ? Colors.white
-                : Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
           ),
         ),
       ),

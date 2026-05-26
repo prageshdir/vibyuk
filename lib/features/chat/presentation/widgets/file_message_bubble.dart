@@ -41,7 +41,7 @@ class FileMessageBubble extends StatelessWidget {
               height: 40,
               decoration: BoxDecoration(
                 color: (isMe ? Colors.white : AppColors.primary)
-                    .withOpacity(0.15),
+                    .withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(

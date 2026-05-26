@@ -63,11 +63,11 @@ class _ProgressBar extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.primary.withOpacity(0.08),
-            AppColors.tertiary.withOpacity(0.05),
+            AppColors.primary.withValues(alpha: 0.08),
+            AppColors.tertiary.withValues(alpha: 0.05),
           ],
         ),
-        border: Border.all(color: AppColors.primary.withOpacity(0.12)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.12)),
       ),
       child: Column(
         children: [
@@ -96,7 +96,7 @@ class _ProgressBar extends StatelessWidget {
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 8,
-              backgroundColor: AppColors.primary.withOpacity(0.1),
+              backgroundColor: AppColors.primary.withValues(alpha: 0.1),
               valueColor: AlwaysStoppedAnimation(
                 progress >= 1.0 ? AppColors.success : AppColors.primary,
               ),

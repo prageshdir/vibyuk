@@ -29,10 +29,10 @@ class BookingConfirmationScreen extends StatelessWidget {
                 width: 100,
                 height: 100,
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
+                  color: Colors.green.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                   border: Border.all(
-                      color: Colors.green.withOpacity(0.3), width: 2),
+                      color: Colors.green.withValues(alpha: 0.3), width: 2),
                 ),
                 child: const Icon(Icons.check_rounded,
                     size: 56, color: Colors.green),
@@ -61,13 +61,13 @@ class BookingConfirmationScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      AppColors.primary.withOpacity(0.08),
-                      AppColors.primary.withOpacity(0.03),
+                      AppColors.primary.withValues(alpha: 0.08),
+                      AppColors.primary.withValues(alpha: 0.03),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                      color: AppColors.primary.withOpacity(0.15)),
+                      color: AppColors.primary.withValues(alpha: 0.15)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,7 +77,7 @@ class BookingConfirmationScreen extends StatelessWidget {
                         CircleAvatar(
                           radius: 22,
                           backgroundColor:
-                              AppColors.primary.withOpacity(0.2),
+                              AppColors.primary.withValues(alpha: 0.2),
                           backgroundImage: booking.businessLogoUrl != null
                               ? NetworkImage(booking.businessLogoUrl!)
                               : null,

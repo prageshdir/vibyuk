@@ -120,7 +120,7 @@ class _GatewayTile extends StatelessWidget {
           child: Row(
             children: [
               CircleAvatar(
-                backgroundColor: iconColor.withOpacity(0.12),
+                backgroundColor: iconColor.withValues(alpha: 0.12),
                 child: Icon(icon, color: iconColor),
               ),
               const SizedBox(width: 16),

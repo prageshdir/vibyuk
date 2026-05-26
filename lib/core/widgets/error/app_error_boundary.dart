@@ -142,7 +142,7 @@ class _DefaultErrorFallback extends StatelessWidget {
               Text(
                 'An unexpected error occurred. Our team has been notified.',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurface.withOpacity(0.6),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
                 textAlign: TextAlign.center,
               ),

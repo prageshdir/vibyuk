@@ -292,7 +292,7 @@ class _ViewsLineChart extends StatelessWidget {
               barWidth: 2,
               belowBarData: BarAreaData(
                   show: true,
-                  color: AppColors.primary.withOpacity(0.08)),
+                  color: AppColors.primary.withValues(alpha: 0.08)),
               dotData: const FlDotData(show: false),
             ),
           ],

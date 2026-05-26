@@ -54,7 +54,7 @@ class _AdminHeaderState extends State<AdminHeader>
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color(0xFF7B2FFF).withOpacity(0.85),
+                const Color(0xFF7B2FFF).withValues(alpha: 0.85),
                 const Color(0xFF5A1FBF),
               ],
             ),
@@ -69,7 +69,7 @@ class _AdminHeaderState extends State<AdminHeader>
                   height: 120,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.white.withOpacity(0.04),
+                    color: Colors.white.withValues(alpha: 0.04),
                   ),
                 ),
               ),
@@ -96,7 +96,7 @@ class _AdminHeaderState extends State<AdminHeader>
                               Text(
                                 widget.subtitle!,
                                 style: TextStyle(
-                                  color: Colors.white.withOpacity(0.65),
+                                  color: Colors.white.withValues(alpha: 0.65),
                                   fontSize: 13,
                                   fontWeight: FontWeight.w400,
                                 ),

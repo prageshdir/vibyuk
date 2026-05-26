@@ -81,7 +81,7 @@ class AiChatBubble extends StatelessWidget {
                         color: (message.isFromUser
                                 ? AppColors.primary
                                 : Colors.black)
-                            .withOpacity(0.08),
+                            .withValues(alpha: 0.08),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -160,7 +160,7 @@ class _AiAvatar extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.3),
+            color: AppColors.primary.withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -199,14 +199,14 @@ class _FailedContent extends StatelessWidget {
               Icon(
                 Icons.refresh_rounded,
                 size: 13,
-                color: Colors.white.withOpacity(0.8),
+                color: Colors.white.withValues(alpha: 0.8),
               ),
               const SizedBox(width: 4),
               Text(
                 'Retry',
                 style: TextStyle(
                   fontSize: 11,
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white.withValues(alpha: 0.8),
                   decoration: TextDecoration.underline,
                 ),
               ),

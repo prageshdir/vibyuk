@@ -60,6 +60,10 @@ abstract interface class CreatorRemoteDataSource {
     required String response,
   });
 
+  // Bank Account
+  Future<Map<String, dynamic>?> getBankAccount();
+  Future<Map<String, dynamic>> saveBankAccount(Map<String, dynamic> body);
+
   // KYC
   Future<Map<String, dynamic>> getKycStatus();
   Future<Map<String, dynamic>> submitKyc(FormData formData);
@@ -295,6 +299,20 @@ class CreatorRemoteDataSourceImpl implements CreatorRemoteDataSource {
       '${ApiEndpoints.creatorReviewsMe}/$reviewId/respond',
       data: {'response': response},
     );
+    return _data(r);
+  }
+
+  @override
+  Future<Map<String, dynamic>?> getBankAccount() async {
+    final r = await _dio.get('/creator/bank-account');
+    final data = r.data as Map<String, dynamic>?;
+    return data?['data'] as Map<String, dynamic>?;
+  }
+
+  @override
+  Future<Map<String, dynamic>> saveBankAccount(
+      Map<String, dynamic> body) async {
+    final r = await _dio.post('/creator/bank-account', data: body);
     return _data(r);
   }
 

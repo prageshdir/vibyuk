@@ -27,7 +27,7 @@ class ConversationTile extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 26,
-                  backgroundColor: AppColors.primary.withOpacity(0.15),
+                  backgroundColor: AppColors.primary.withValues(alpha: 0.15),
                   backgroundImage: conversation.otherUserAvatarUrl != null
                       ? NetworkImage(conversation.otherUserAvatarUrl!)
                       : null,

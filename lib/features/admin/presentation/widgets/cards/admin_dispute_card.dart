@@ -27,13 +27,13 @@ class AdminDisputeCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isUrgent
-                ? const Color(0xFFFF5C6B).withOpacity(0.3)
-                : theme.colorScheme.outline.withOpacity(0.08),
+                ? const Color(0xFFFF5C6B).withValues(alpha: 0.3)
+                : theme.colorScheme.outline.withValues(alpha: 0.08),
             width: isUrgent ? 1.5 : 1,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -61,7 +61,7 @@ class AdminDisputeCard extends StatelessWidget {
                       Text(
                         '#${dispute.id.substring(0, 8).toUpperCase()}',
                         style: theme.textTheme.labelSmall?.copyWith(
-                          color: theme.colorScheme.onSurface.withOpacity(0.4),
+                          color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
                         ),
                       ),
                     ],
@@ -83,7 +83,7 @@ class AdminDisputeCard extends StatelessWidget {
                   child: Icon(
                     Icons.arrow_forward_rounded,
                     size: 14,
-                    color: theme.colorScheme.onSurface.withOpacity(0.3),
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
                   ),
                 ),
                 _PartyChip(
@@ -99,7 +99,7 @@ class AdminDisputeCard extends StatelessWidget {
                       vertical: 3,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFF5C6B).withOpacity(0.12),
+                      color: const Color(0xFFFF5C6B).withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Row(
@@ -131,13 +131,13 @@ class AdminDisputeCard extends StatelessWidget {
                 Icon(
                   Icons.schedule_rounded,
                   size: 12,
-                  color: theme.colorScheme.onSurface.withOpacity(0.35),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.35),
                 ),
                 const SizedBox(width: 4),
                 Text(
                   '${dispute.daysSinceOpened}d open',
                   style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.onSurface.withOpacity(0.45),
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.45),
                   ),
                 ),
                 if (dispute.assignedModeratorName != null) ...[
@@ -145,13 +145,13 @@ class AdminDisputeCard extends StatelessWidget {
                   Icon(
                     Icons.person_outline_rounded,
                     size: 12,
-                    color: const Color(0xFF7B2FFF).withOpacity(0.7),
+                    color: const Color(0xFF7B2FFF).withValues(alpha: 0.7),
                   ),
                   const SizedBox(width: 4),
                   Text(
                     dispute.assignedModeratorName!,
                     style: theme.textTheme.labelSmall?.copyWith(
-                      color: const Color(0xFF7B2FFF).withOpacity(0.8),
+                      color: const Color(0xFF7B2FFF).withValues(alpha: 0.8),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -160,7 +160,7 @@ class AdminDisputeCard extends StatelessWidget {
                 Text(
                   _typeName(dispute.type),
                   style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.onSurface.withOpacity(0.4),
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
                   ),
                 ),
               ],
@@ -209,7 +209,7 @@ class _TypeIcon extends StatelessWidget {
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Icon(icon, color: color, size: 20),
@@ -245,8 +245,8 @@ class _PartyChip extends StatelessWidget {
           style: TextStyle(
             fontSize: 10,
             color: isComplainant
-                ? const Color(0xFFFF5C6B).withOpacity(0.7)
-                : const Color(0xFF7B2FFF).withOpacity(0.7),
+                ? const Color(0xFFFF5C6B).withValues(alpha: 0.7)
+                : const Color(0xFF7B2FFF).withValues(alpha: 0.7),
           ),
         ),
       ],

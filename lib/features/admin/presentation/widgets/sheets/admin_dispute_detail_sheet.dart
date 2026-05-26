@@ -79,7 +79,7 @@ class _AdminDisputeDetailSheetState extends State<AdminDisputeDetailSheet>
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: theme.colorScheme.outline.withOpacity(0.3),
+              color: theme.colorScheme.outline.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -105,7 +105,7 @@ class _AdminDisputeDetailSheetState extends State<AdminDisputeDetailSheet>
                 Text(
                   '#${widget.dispute.id.substring(0, 8).toUpperCase()} · ${widget.dispute.daysSinceOpened}d open',
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurface.withOpacity(0.45),
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.45),
                   ),
                 ),
               ],
@@ -265,7 +265,7 @@ class _MessagesTab extends StatelessWidget {
                   child: Text(
                     'No messages yet',
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurface.withOpacity(0.4),
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
                     ),
                   ),
                 )
@@ -279,12 +279,12 @@ class _MessagesTab extends StatelessWidget {
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: msg.isInternal
-                            ? const Color(0xFF7B2FFF).withOpacity(0.06)
+                            ? const Color(0xFF7B2FFF).withValues(alpha: 0.06)
                             : theme.colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(12),
                         border: msg.isInternal
                             ? Border.all(
-                                color: const Color(0xFF7B2FFF).withOpacity(0.15),
+                                color: const Color(0xFF7B2FFF).withValues(alpha: 0.15),
                               )
                             : null,
                       ),
@@ -308,7 +308,7 @@ class _MessagesTab extends StatelessWidget {
                                   ),
                                   decoration: BoxDecoration(
                                     color: const Color(0xFF7B2FFF)
-                                        .withOpacity(0.12),
+                                        .withValues(alpha: 0.12),
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: const Text(
@@ -392,7 +392,7 @@ class _ResolveTab extends StatelessWidget {
         Text(
           'Resolution',
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
                 fontWeight: FontWeight.w600,
               ),
         ),
@@ -406,10 +406,10 @@ class _ResolveTab extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 8),
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: sel ? color.withOpacity(0.08) : Colors.transparent,
+                color: sel ? color.withValues(alpha: 0.08) : Colors.transparent,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: sel ? color : Theme.of(context).colorScheme.outline.withOpacity(0.15),
+                  color: sel ? color : Theme.of(context).colorScheme.outline.withValues(alpha: 0.15),
                 ),
               ),
               child: Row(
@@ -497,7 +497,7 @@ class _Section extends StatelessWidget {
         Text(
           title,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
                 fontWeight: FontWeight.w600,
               ),
         ),
@@ -521,7 +521,7 @@ class _PartyRow extends StatelessWidget {
         Text(
           '$label:',
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
               ),
         ),
         const SizedBox(width: 8),
@@ -535,7 +535,7 @@ class _PartyRow extends StatelessWidget {
         Text(
           '($role)',
           style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
               ),
         ),
       ],

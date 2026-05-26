@@ -85,7 +85,7 @@ class SkeletonAdminCard extends StatelessWidget {
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withOpacity(0.08),
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.08),
         ),
       ),
       child: Column(
@@ -139,7 +139,7 @@ class SkeletonAiCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFF7B2FFF).withOpacity(0.08)),
+        border: Border.all(color: const Color(0xFF7B2FFF).withValues(alpha: 0.08)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,7 +190,7 @@ class SkeletonStatCard extends StatelessWidget {
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withOpacity(0.08),
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.08),
         ),
       ),
       child: Column(
@@ -227,7 +227,7 @@ class SkeletonChart extends StatelessWidget {
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withOpacity(0.08),
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.08),
         ),
       ),
       child: Column(

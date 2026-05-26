@@ -27,7 +27,7 @@ class TransactionCard extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       leading: CircleAvatar(
-        backgroundColor: _iconColor.withOpacity(0.12),
+        backgroundColor: _iconColor.withValues(alpha: 0.12),
         child: Icon(_icon, color: _iconColor, size: 20),
       ),
       title: Text(

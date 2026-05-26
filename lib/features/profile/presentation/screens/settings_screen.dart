@@ -165,7 +165,7 @@ class SettingsScreen extends StatelessWidget {
               child: Text(
                 'VIBYUK v1.0.0',
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant.withOpacity(0.5),
+                  color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
                 ),
               ),
             ),

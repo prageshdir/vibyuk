@@ -46,6 +46,7 @@ import 'package:vibyuk/features/business/presentation/screens/team_screen.dart';
 import 'package:vibyuk/features/business/presentation/screens/transaction_history_screen.dart';
 // Creator
 import 'package:vibyuk/features/creator/domain/entities/pricing_package_entity.dart';
+import 'package:vibyuk/features/creator/presentation/blocs/bank_account/bank_account_bloc.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/availability/availability_bloc.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/booking_requests/booking_requests_bloc.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/campaign_applications/campaign_applications_bloc.dart';
@@ -200,6 +201,8 @@ import 'package:vibyuk/features/auth/presentation/screens/two_factor_setup_scree
 import 'package:vibyuk/features/auth/presentation/screens/two_factor_verify_screen.dart';
 import 'package:vibyuk/features/auth/presentation/screens/account_suspended_screen.dart';
 import 'package:vibyuk/features/auth/domain/entities/user_entity.dart' as auth_entities;
+import 'package:vibyuk/core/widgets/loaders/app_loader.dart';
+import 'package:vibyuk/features/events/domain/usecases/get_ticket_detail_usecase.dart';
 
 class _PlaceholderScreen extends StatelessWidget {
   final String title;
@@ -211,6 +214,140 @@ class _PlaceholderScreen extends StatelessWidget {
       appBar: AppBar(title: Text(title)),
       body: Center(
         child: Text(title, style: Theme.of(context).textTheme.headlineMedium),
+      ),
+    );
+  }
+}
+
+// Loads an event by ID then renders TicketPurchaseScreen — handles deep links.
+class _TicketPurchaseLoader extends StatefulWidget {
+  final String eventId;
+  const _TicketPurchaseLoader({required this.eventId});
+  @override
+  State<_TicketPurchaseLoader> createState() => _TicketPurchaseLoaderState();
+}
+
+class _TicketPurchaseLoaderState extends State<_TicketPurchaseLoader> {
+  late final EventDetailBloc _bloc;
+  @override
+  void initState() {
+    super.initState();
+    _bloc = GetIt.instance<EventDetailBloc>()
+      ..add(EventDetailLoadRequested(eventId: widget.eventId));
+  }
+  @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider.value(
+      value: _bloc,
+      child: BlocBuilder<EventDetailBloc, EventDetailState>(
+        builder: (context, state) {
+          if (state is EventDetailLoaded) {
+            return BlocProvider(
+              create: (_) => GetIt.instance<TicketPurchaseBloc>(),
+              child: TicketPurchaseScreen(event: state.event),
+            );
+          }
+          if (state is EventDetailError) {
+            return Scaffold(
+              appBar: AppBar(title: const Text('Purchase Tickets')),
+              body: Center(child: Text(state.failure.message)),
+            );
+          }
+          return const Scaffold(body: Center(child: AppLoader()));
+        },
+      ),
+    );
+  }
+}
+
+// Loads a ticket by ID then renders TicketDetailScreen — handles deep links.
+class _TicketDetailLoader extends StatefulWidget {
+  final String ticketId;
+  const _TicketDetailLoader({required this.ticketId});
+  @override
+  State<_TicketDetailLoader> createState() => _TicketDetailLoaderState();
+}
+
+class _TicketDetailLoaderState extends State<_TicketDetailLoader> {
+  TicketEntity? _ticket;
+  String? _error;
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    final useCase = GetIt.instance<GetTicketDetailUseCase>();
+    final result = await useCase(TicketIdParams(widget.ticketId));
+    if (!mounted) return;
+    result.fold(
+      (failure) => setState(() { _error = failure.message; _loading = false; }),
+      (ticket) => setState(() { _ticket = ticket; _loading = false; }),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_loading) return const Scaffold(body: Center(child: AppLoader()));
+    if (_error != null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Ticket')),
+        body: Center(child: Text(_error!)),
+      );
+    }
+    return TicketDetailScreen(ticket: _ticket!);
+  }
+}
+
+// Loads a destination by ID then renders DestinationGalleryScreen — handles deep links.
+class _DestinationGalleryLoader extends StatefulWidget {
+  final String destinationId;
+  const _DestinationGalleryLoader({required this.destinationId});
+  @override
+  State<_DestinationGalleryLoader> createState() =>
+      _DestinationGalleryLoaderState();
+}
+
+class _DestinationGalleryLoaderState
+    extends State<_DestinationGalleryLoader> {
+  late final DestinationDetailBloc _bloc;
+  @override
+  void initState() {
+    super.initState();
+    _bloc = GetIt.instance<DestinationDetailBloc>()
+      ..add(DestinationDetailLoaded(destinationId: widget.destinationId));
+  }
+  @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider.value(
+      value: _bloc,
+      child: BlocBuilder<DestinationDetailBloc, DestinationDetailState>(
+        builder: (context, state) {
+          if (state.status == DestinationDetailStatus.loaded &&
+              state.destination != null) {
+            return DestinationGalleryScreen(destination: state.destination!);
+          }
+          if (state.status == DestinationDetailStatus.error) {
+            return Scaffold(
+              appBar: AppBar(title: const Text('Gallery')),
+              body: Center(child: Text(state.errorMessage ?? 'Error loading gallery')),
+            );
+          }
+          return const Scaffold(body: Center(child: AppLoader()));
+        },
       ),
     );
   }
@@ -783,7 +920,11 @@ class AppRouter {
       GoRoute(
         path: RouteNames.creatorBankAccount,
         name: 'creator-bank-account',
-        builder: (context, _) => const CreatorBankAccountScreen(),
+        builder: (context, _) => BlocProvider(
+          create: (_) => GetIt.instance<BankAccountBloc>()
+            ..add(const LoadBankAccountEvent()),
+          child: const CreatorBankAccountScreen(),
+        ),
       ),
 
       // Creator — Public Profile
@@ -898,13 +1039,14 @@ class AppRouter {
             name: 'purchase-tickets',
             builder: (context, state) {
               final event = state.extra as EventEntity?;
-              if (event == null) {
-                return const _PlaceholderScreen(title: 'Purchase Tickets');
+              if (event != null) {
+                return BlocProvider(
+                  create: (_) => GetIt.instance<TicketPurchaseBloc>(),
+                  child: TicketPurchaseScreen(event: event),
+                );
               }
-              return BlocProvider(
-                create: (_) => GetIt.instance<TicketPurchaseBloc>(),
-                child: TicketPurchaseScreen(event: event),
-              );
+              return _TicketPurchaseLoader(
+                  eventId: state.pathParameters['id']!);
             },
           ),
           GoRoute(
@@ -1076,10 +1218,9 @@ class AppRouter {
         name: 'ticket-detail',
         builder: (context, state) {
           final ticket = state.extra as TicketEntity?;
-          if (ticket == null) {
-            return const _PlaceholderScreen(title: 'Ticket');
-          }
-          return TicketDetailScreen(ticket: ticket);
+          if (ticket != null) return TicketDetailScreen(ticket: ticket);
+          return _TicketDetailLoader(
+              ticketId: state.pathParameters['id']!);
         },
       ),
 
@@ -1271,10 +1412,11 @@ class AppRouter {
             name: 'tourism-destination-gallery',
             builder: (context, state) {
               final destination = state.extra as TourismDestinationEntity?;
-              if (destination == null) {
-                return const _PlaceholderScreen(title: 'Gallery');
+              if (destination != null) {
+                return DestinationGalleryScreen(destination: destination);
               }
-              return DestinationGalleryScreen(destination: destination);
+              return _DestinationGalleryLoader(
+                  destinationId: state.pathParameters['id']!);
             },
           ),
         ],

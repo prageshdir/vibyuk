@@ -14,6 +14,8 @@ import 'package:vibyuk/features/creator/domain/usecases/bookings/respond_to_book
 import 'package:vibyuk/features/creator/domain/usecases/campaigns/apply_to_campaign_use_case.dart';
 import 'package:vibyuk/features/creator/domain/usecases/campaigns/get_applications_use_case.dart';
 import 'package:vibyuk/features/creator/domain/usecases/campaigns/withdraw_application_use_case.dart';
+import 'package:vibyuk/features/creator/domain/usecases/bank_account/get_bank_account_use_case.dart';
+import 'package:vibyuk/features/creator/domain/usecases/bank_account/save_bank_account_use_case.dart';
 import 'package:vibyuk/features/creator/domain/usecases/earnings/get_creator_earnings_use_case.dart';
 import 'package:vibyuk/features/creator/domain/usecases/earnings/request_payout_use_case.dart';
 import 'package:vibyuk/features/creator/domain/usecases/kyc/get_kyc_status_use_case.dart';
@@ -39,6 +41,7 @@ import 'package:vibyuk/features/creator/presentation/blocs/booking_requests/book
 import 'package:vibyuk/features/creator/presentation/blocs/campaign_applications/campaign_applications_bloc.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/creator_analytics/creator_analytics_bloc.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/creator_profile/creator_profile_bloc.dart';
+import 'package:vibyuk/features/creator/presentation/blocs/bank_account/bank_account_bloc.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/earnings/earnings_bloc.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/kyc/kyc_bloc.dart';
 import 'package:vibyuk/features/creator/presentation/blocs/portfolio/portfolio_bloc.dart';
@@ -101,6 +104,10 @@ void registerCreatorModule(GetIt sl) {
   // ── Use Cases — Reviews ───────────────────────────────────────────────────
   sl.registerLazySingleton(() => GetReviewsUseCase(sl()));
   sl.registerLazySingleton(() => RespondToReviewUseCase(sl()));
+
+  // ── Use Cases — Bank Account ─────────────────────────────────────────────
+  sl.registerLazySingleton(() => GetBankAccountUseCase(sl()));
+  sl.registerLazySingleton(() => SaveBankAccountUseCase(sl()));
 
   // ── Use Cases — KYC ──────────────────────────────────────────────────────
   sl.registerLazySingleton(() => GetKycStatusUseCase(sl()));
@@ -166,5 +173,10 @@ void registerCreatorModule(GetIt sl) {
   sl.registerFactory(() => KycBloc(
         getKycStatus: sl(),
         submitKyc: sl(),
+      ));
+
+  sl.registerFactory(() => BankAccountBloc(
+        getBankAccount: sl(),
+        saveBankAccount: sl(),
       ));
 }

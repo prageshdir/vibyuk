@@ -193,8 +193,8 @@ class _LineChartPainter extends CustomPainter {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            lineColor.withOpacity(0.3),
-            lineColor.withOpacity(0.0),
+            lineColor.withValues(alpha: 0.3),
+            lineColor.withValues(alpha: 0.0),
           ],
         ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
       canvas.drawPath(fillPath, fillPaint);
@@ -236,7 +236,7 @@ class _LineChartPainter extends CustomPainter {
     for (int i = 0; i < visibleOffsets.length; i++) {
       final isHovered = hoveredIndex == i;
       final dotPaint = Paint()
-        ..color = isHovered ? lineColor : lineColor.withOpacity(0.6)
+        ..color = isHovered ? lineColor : lineColor.withValues(alpha: 0.6)
         ..style = PaintingStyle.fill;
       canvas.drawCircle(
         visibleOffsets[i],
@@ -245,14 +245,14 @@ class _LineChartPainter extends CustomPainter {
       );
       if (isHovered) {
         final ringPaint = Paint()
-          ..color = lineColor.withOpacity(0.25)
+          ..color = lineColor.withValues(alpha: 0.25)
           ..style = PaintingStyle.stroke
           ..strokeWidth = 3;
         canvas.drawCircle(visibleOffsets[i], 10, ringPaint);
 
         // Vertical dashed line
         final dashPaint = Paint()
-          ..color = lineColor.withOpacity(0.3)
+          ..color = lineColor.withValues(alpha: 0.3)
           ..strokeWidth = 1
           ..style = PaintingStyle.stroke;
         double dy = 0;

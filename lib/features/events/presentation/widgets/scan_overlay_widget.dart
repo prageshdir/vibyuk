@@ -75,9 +75,9 @@ class _ScanOverlayWidgetState extends State<ScanOverlayWidget>
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Colors.greenAccent.withOpacity(0),
+                            Colors.greenAccent.withValues(alpha: 0),
                             Colors.greenAccent,
-                            Colors.greenAccent.withOpacity(0),
+                            Colors.greenAccent.withValues(alpha: 0),
                           ],
                         ),
                       ),
