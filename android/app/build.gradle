@@ -1,0 +1,161 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
+    id "com.google.firebase.crashlytics"
+    id "com.google.firebase.firebase-perf"
+}
+
+// Read signing config from key.properties (never committed to source control)
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.withInputStream { keystoreProperties.load(it) }
+}
+
+android {
+    namespace "com.vibyuk.app"
+    compileSdk 34
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+    }
+
+    defaultConfig {
+        applicationId "com.vibyuk.app"
+        minSdk 21
+        targetSdk 34
+        versionCode flutter.versionCode
+        versionName flutter.versionName
+
+        // Enable multidex for large apps
+        multiDexEnabled true
+
+        // Retain only used languages to reduce APK size
+        resConfigs "en", "es"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            if (keystorePropertiesFile.exists()) {
+                keyAlias       keystoreProperties["keyAlias"]
+                keyPassword    keystoreProperties["keyPassword"]
+                storeFile      file(keystoreProperties["storeFile"])
+                storePassword  keystoreProperties["storePassword"]
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+            debuggable true
+            signingConfig signingConfigs.debug
+            manifestPlaceholders["appLabel"] = "VIBYUK Debug"
+            manifestPlaceholders["usesCleartextTraffic"] = "true"
+        }
+
+        profile {
+            applicationIdSuffix ".profile"
+            versionNameSuffix "-profile"
+            initWith debug
+            signingConfig signingConfigs.debug
+            manifestPlaceholders["appLabel"] = "VIBYUK Profile"
+            manifestPlaceholders["usesCleartextTraffic"] = "true"
+        }
+
+        release {
+            signingConfig signingConfigs.release
+            manifestPlaceholders["appLabel"] = "@string/app_name"
+            manifestPlaceholders["usesCleartextTraffic"] = "false"
+
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"),
+                          "proguard-rules.pro"
+
+            // Upload mapping file to Firebase Crashlytics automatically
+            firebaseCrashlytics {
+                mappingFileUploadEnabled true
+            }
+        }
+    }
+
+    flavorDimensions "env"
+
+    productFlavors {
+        dev {
+            dimension "env"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+            resValue "string", "app_name", "VIBYUK Dev"
+        }
+        staging {
+            dimension "env"
+            applicationIdSuffix ".staging"
+            versionNameSuffix "-staging"
+            resValue "string", "app_name", "VIBYUK Staging"
+        }
+        production {
+            dimension "env"
+            resValue "string", "app_name", "VIBYUK"
+        }
+    }
+
+    // Reduce APK size in release: strip unused native libs
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging false
+        }
+        resources {
+            excludes += [
+                "META-INF/DEPENDENCIES",
+                "META-INF/LICENSE",
+                "META-INF/LICENSE.txt",
+                "META-INF/license.txt",
+                "META-INF/NOTICE",
+                "META-INF/NOTICE.txt",
+                "META-INF/notice.txt",
+                "META-INF/ASL2.0",
+                "META-INF/*.kotlin_module"
+            ]
+        }
+    }
+
+    // Lint config
+    lint {
+        disable "InvalidPackage"
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+flutter {
+    source "../.."
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0"
+    implementation "androidx.multidex:multidex:2.0.1"
+
+    // For biometric authentication
+    implementation "androidx.biometric:biometric:1.1.0"
+
+    // Test
+    testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test.ext:junit:1.1.5"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+}

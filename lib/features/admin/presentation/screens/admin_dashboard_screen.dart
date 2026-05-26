@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:vibyuk/core/navigation/route_names.dart';
 import 'package:vibyuk/core/theme/app_colors.dart';
 
+
+
 class AdminDashboardScreen extends StatelessWidget {
   const AdminDashboardScreen({super.key});
 
@@ -83,6 +85,27 @@ class AdminDashboardScreen extends StatelessWidget {
                       icon: Icons.flag_rounded,
                       color: const Color(0xFFFF8C42),
                       onTap: () => context.push(RouteNames.adminReports),
+                    ),
+                    _QuickAccessCard(
+                      title: 'Announcements',
+                      subtitle: 'Send bulk notifications',
+                      icon: Icons.campaign_rounded,
+                      color: const Color(0xFF1B998B),
+                      onTap: () => context.push(RouteNames.adminAnnouncements),
+                    ),
+                    _QuickAccessCard(
+                      title: 'Fee Config',
+                      subtitle: 'Platform commission rates',
+                      icon: Icons.percent_rounded,
+                      color: const Color(0xFF8338EC),
+                      onTap: () => context.push(RouteNames.adminFeeConfig),
+                    ),
+                    _QuickAccessCard(
+                      title: 'Financial',
+                      subtitle: 'Payouts & commission ledger',
+                      icon: Icons.account_balance_wallet_rounded,
+                      color: const Color(0xFF06D6A0),
+                      onTap: () => context.push(RouteNames.adminFinancial),
                     ),
                   ],
                 ),

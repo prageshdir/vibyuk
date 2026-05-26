@@ -97,7 +97,7 @@ class AdminDispute extends Equatable {
     required this.seller,
     required this.bookingAmount,
     this.refundAmount,
-    this.currency = 'GBP',
+    this.currency = 'INR',
     this.assignedModeratorId,
     this.assignedModeratorName,
     required this.evidence,

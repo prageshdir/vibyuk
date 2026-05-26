@@ -269,7 +269,7 @@ class _FilterSheetState extends State<_FilterSheet> {
             max: 20000,
             divisions: 39,
             activeColor: AppColors.primary,
-            label: '£${_maxBudget.toStringAsFixed(0)}',
+            label: '₹${_maxBudget.toStringAsFixed(0)}',
             onChanged: (v) => setState(() => _maxBudget = v),
           ),
           const SizedBox(height: 8),

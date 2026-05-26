@@ -1,0 +1,26 @@
+import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
+import 'package:vibyuk/core/base/use_case.dart';
+import 'package:vibyuk/core/error/failures.dart';
+import 'package:vibyuk/features/business/domain/entities/analytics_entity.dart';
+import 'package:vibyuk/features/business/domain/repositories/analytics_repository.dart';
+
+class GetAnalyticsDashboardUseCase
+    implements UseCase<AnalyticsDashboardEntity, GetAnalyticsDashboardParams> {
+  GetAnalyticsDashboardUseCase(this._repository);
+  final AnalyticsRepository _repository;
+
+  @override
+  Future<Either<Failure, AnalyticsDashboardEntity>> call(
+      GetAnalyticsDashboardParams params) {
+    return _repository.getAnalyticsDashboard(period: params.period);
+  }
+}
+
+class GetAnalyticsDashboardParams extends Equatable {
+  const GetAnalyticsDashboardParams({this.period = '30d'});
+  final String period;
+
+  @override
+  List<Object?> get props => [period];
+}

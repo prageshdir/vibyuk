@@ -15,7 +15,7 @@ class AiAnalyticsChart extends StatefulWidget {
     required this.dataPoints,
     this.lineColor = AppColors.primary,
     this.label = 'Revenue',
-    this.unit = '£',
+    this.unit = '₹',
     this.height = 180,
   });
 

@@ -92,7 +92,7 @@ class AiCampaign extends Equatable {
     required this.objective,
     required this.targetAudience,
     required this.budget,
-    this.currency = 'GBP',
+    this.currency = 'INR',
     required this.startDate,
     required this.endDate,
     required this.steps,

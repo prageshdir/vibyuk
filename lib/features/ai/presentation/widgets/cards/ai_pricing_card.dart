@@ -105,7 +105,7 @@ class AiPricingCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  '£${suggestion.suggestedPrice.toStringAsFixed(0)}',
+                  '₹${suggestion.suggestedPrice.toStringAsFixed(0)}',
                   style: const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w800,
@@ -267,11 +267,11 @@ class _PriceRangeBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '£${min.toStringAsFixed(0)} min',
+              '₹${min.toStringAsFixed(0)} min',
               style: const TextStyle(fontSize: 10, color: AppColors.textSecondary),
             ),
             Text(
-              '£${max.toStringAsFixed(0)} max',
+              '₹${max.toStringAsFixed(0)} max',
               style: const TextStyle(fontSize: 10, color: AppColors.textSecondary),
             ),
           ],

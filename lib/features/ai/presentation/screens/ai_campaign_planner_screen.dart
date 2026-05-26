@@ -232,7 +232,7 @@ class _CampaignListCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  '£${campaign.budget.toStringAsFixed(0)} budget',
+                  '₹${campaign.budget.toStringAsFixed(0)} budget',
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
@@ -448,7 +448,7 @@ class _CreateCampaignTabState extends State<_CreateCampaignTab> {
               Row(
                 children: [
                   Text(
-                    'Budget: £${_budget.toStringAsFixed(0)}',
+                    'Budget: ₹${_budget.toStringAsFixed(0)}',
                     style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
                 ],
@@ -459,7 +459,7 @@ class _CreateCampaignTabState extends State<_CreateCampaignTab> {
                 max: 50000,
                 divisions: 99,
                 activeColor: AppColors.primary,
-                label: '£${_budget.toStringAsFixed(0)}',
+                label: '₹${_budget.toStringAsFixed(0)}',
                 onChanged: (v) => setState(() => _budget = v),
               ),
               const SizedBox(height: 8),

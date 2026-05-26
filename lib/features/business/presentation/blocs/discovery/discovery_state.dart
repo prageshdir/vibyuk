@@ -1,0 +1,96 @@
+part of 'discovery_bloc.dart';
+
+sealed class DiscoveryState extends Equatable {
+  const DiscoveryState();
+}
+
+class DiscoveryInitialState extends DiscoveryState {
+  const DiscoveryInitialState({
+    this.featuredCreators = const [],
+    this.trendingCreators = const [],
+    this.recentSearches = const [],
+  });
+  final List<CreatorEntity> featuredCreators;
+  final List<CreatorEntity> trendingCreators;
+  final List<String> recentSearches;
+  @override
+  List<Object?> get props => [featuredCreators, trendingCreators, recentSearches];
+}
+
+class DiscoveryLoadingState extends DiscoveryState {
+  const DiscoveryLoadingState();
+  @override
+  List<Object?> get props => [];
+}
+
+class DiscoveryLoadedState extends DiscoveryState {
+  const DiscoveryLoadedState({
+    required this.creators,
+    required this.query,
+    required this.filters,
+    required this.currentPage,
+    required this.hasMore,
+    this.isLoadingMore = false,
+    this.totalItems = 0,
+    this.selectedForComparison = const [],
+  });
+
+  final List<CreatorEntity> creators;
+  final String query;
+  final SearchFiltersEntity filters;
+  final int currentPage;
+  final bool hasMore;
+  final bool isLoadingMore;
+  final int totalItems;
+  final List<String> selectedForComparison;
+
+  bool isSelectedForComparison(String creatorId) =>
+      selectedForComparison.contains(creatorId);
+  bool get canAddToComparison => selectedForComparison.length < 3;
+
+  DiscoveryLoadedState copyWith({
+    List<CreatorEntity>? creators,
+    bool? hasMore,
+    int? currentPage,
+    bool? isLoadingMore,
+    int? totalItems,
+    List<String>? selectedForComparison,
+  }) =>
+      DiscoveryLoadedState(
+        creators: creators ?? this.creators,
+        query: query,
+        filters: filters,
+        currentPage: currentPage ?? this.currentPage,
+        hasMore: hasMore ?? this.hasMore,
+        isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+        totalItems: totalItems ?? this.totalItems,
+        selectedForComparison:
+            selectedForComparison ?? this.selectedForComparison,
+      );
+
+  @override
+  List<Object?> get props => [
+        creators, query, filters, currentPage, hasMore, isLoadingMore,
+        totalItems, selectedForComparison,
+      ];
+}
+
+class SavedCreatorsLoadedState extends DiscoveryState {
+  const SavedCreatorsLoadedState({
+    required this.creators,
+    required this.hasMore,
+    required this.currentPage,
+  });
+  final List<CreatorEntity> creators;
+  final bool hasMore;
+  final int currentPage;
+  @override
+  List<Object?> get props => [creators, hasMore, currentPage];
+}
+
+class DiscoveryErrorState extends DiscoveryState {
+  const DiscoveryErrorState({required this.failure});
+  final Failure failure;
+  @override
+  List<Object?> get props => [failure];
+}

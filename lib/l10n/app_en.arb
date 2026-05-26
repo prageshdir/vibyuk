@@ -120,5 +120,67 @@
   "bookingCancelConfirmMessage": "Are you sure you want to cancel this booking?",
   "bookingConfirmation": "Booking Confirmed!",
   "bookingEmpty": "No bookings yet",
-  "bookingEmptySubtitle": "Discover creators and book your first session."
+  "bookingEmptySubtitle": "Discover creators and book your first session.",
+
+  "adminDashboardTitle": "Admin Dashboard",
+  "adminModerationTitle": "User Moderation",
+  "adminDisputesTitle": "Dispute Review",
+  "adminVerificationsTitle": "Verification Review",
+  "adminAnalyticsTitle": "Analytics",
+  "adminReportsTitle": "Platform Reports",
+
+  "adminSuspendUser": "Suspend User",
+  "adminBanUser": "Ban User",
+  "adminWarnUser": "Warn User",
+  "adminVerifyUser": "Verify User",
+  "adminRevokeVerification": "Revoke Verification",
+  "adminResetFlags": "Reset Flags",
+  "adminSuspensionDuration": "Suspension Duration",
+  "adminModerationNote": "Moderation Note (optional)",
+  "adminActionApplied": "Action applied successfully",
+
+  "adminApprove": "Approve",
+  "adminReject": "Reject",
+  "adminRequestMoreInfo": "Request More Info",
+  "adminResolve": "Resolve",
+  "adminEscalate": "Escalate",
+  "adminAssignToMe": "Assign to Me",
+
+  "adminDisputeStatusOpen": "Open",
+  "adminDisputeStatusInReview": "In Review",
+  "adminDisputeStatusResolved": "Resolved",
+  "adminDisputeStatusClosed": "Closed",
+  "adminDisputeStatusEscalated": "Escalated",
+
+  "adminVerificationStatusPending": "Pending",
+  "adminVerificationStatusInReview": "In Review",
+  "adminVerificationStatusApproved": "Approved",
+  "adminVerificationStatusRejected": "Rejected",
+
+  "adminSearchUsers": "Search users…",
+  "adminSearchDisputes": "Search disputes…",
+  "adminSearchReports": "Search reports…",
+
+  "adminPeriodLast7Days": "Last 7 Days",
+  "adminPeriodLast30Days": "Last 30 Days",
+  "adminPeriodLast90Days": "Last 90 Days",
+  "adminPeriodLastYear": "Last Year",
+
+  "a11yLoading": "Loading content, please wait",
+  "a11yRefresh": "Pull down to refresh",
+  "a11yLoadMore": "Loading more items",
+  "a11yEmptyList": "No items to display",
+  "a11yErrorRetry": "Error loading content. Tap to retry.",
+  "a11yCloseSheet": "Close bottom sheet",
+  "a11yMenuButton": "Open menu",
+  "a11ySearchButton": "Open search",
+  "a11yFilterButton": "Filter results",
+  "a11yAvatar": "{name}'s profile picture",
+  "@a11yAvatar": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "a11yStatusBadge": "Status: {status}",
+  "@a11yStatusBadge": {
+    "placeholders": { "status": { "type": "String" } }
+  }
 }

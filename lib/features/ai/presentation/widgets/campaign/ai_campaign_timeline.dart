@@ -113,7 +113,7 @@ class _ProgressBar extends StatelessWidget {
               ),
               _StatChip(
                 label: 'Budget',
-                value: '£${campaign.budget.toStringAsFixed(0)}',
+                value: '₹${campaign.budget.toStringAsFixed(0)}',
                 color: AppColors.primary,
               ),
               _StatChip(

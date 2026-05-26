@@ -153,7 +153,7 @@ class AiCampaignStepCard extends StatelessWidget {
                           color: AppColors.textSecondary,
                         ),
                         Text(
-                          '£${step.estimatedCost.toStringAsFixed(0)}',
+                          '₹${step.estimatedCost.toStringAsFixed(0)}',
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,

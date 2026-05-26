@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+    <!-- ─── App Identity ───────────────────────────────────────────── -->
+    <key>CFBundleName</key>
+    <string>VIBYUK</string>
+    <key>CFBundleDisplayName</key>
+    <string>VIBYUK</string>
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleVersion</key>
+    <string>$(FLUTTER_BUILD_NUMBER)</string>
+    <key>CFBundleShortVersionString</key>
+    <string>$(FLUTTER_BUILD_NAME)</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleSignature</key>
+    <string>????</string>
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+
+    <!-- ─── Minimum OS ──────────────────────────────────────────────── -->
+    <key>MinimumOSVersion</key>
+    <string>13.0</string>
+
+    <!-- ─── UI ─────────────────────────────────────────────────────── -->
+    <key>UIMainStoryboardFile</key>
+    <string>Main</string>
+    <key>UILaunchStoryboardName</key>
+    <string>LaunchScreen</string>
+    <key>UIStatusBarStyle</key>
+    <string>UIStatusBarStyleDefault</string>
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+    <false/>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+    </array>
+    <key>UISupportedInterfaceOrientations~ipad</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationPortraitUpsideDown</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+
+    <!-- ─── Privacy Usage Descriptions (required by App Store) ─────── -->
+    <key>NSCameraUsageDescription</key>
+    <string>VIBYUK needs camera access to scan event QR codes and upload photos.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>VIBYUK needs photo library access to upload your profile picture and portfolio images.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>VIBYUK needs permission to save photos to your library.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>VIBYUK needs microphone access to record voice messages in chat.</string>
+    <key>NSFaceIDUsageDescription</key>
+    <string>VIBYUK uses Face ID to provide quick and secure sign-in.</string>
+    <key>NSContactsUsageDescription</key>
+    <string>VIBYUK can suggest creators you know from your contacts.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>VIBYUK uses your location to show creators and events near you.</string>
+
+    <!-- ─── Deep links / Universal Links ───────────────────────────── -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <!-- Custom scheme: vibyuk:// -->
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLName</key>
+            <string>com.vibyuk.app</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>vibyuk</string>
+            </array>
+        </dict>
+        <!-- Google Sign-In reverse client ID (replace with actual value) -->
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLName</key>
+            <string>google-signin</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.googleusercontent.apps.YOUR_CLIENT_ID</string>
+            </array>
+        </dict>
+    </array>
+
+    <!-- ─── Associated Domains (Universal Links) ───────────────────── -->
+    <!-- Enable in Xcode: Signing & Capabilities → Associated Domains   -->
+    <!-- applinks:vibyuk.com                                             -->
+    <!-- applinks:www.vibyuk.com                                         -->
+
+    <!-- ─── Background Modes ───────────────────────────────────────── -->
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
+        <string>audio</string>
+    </array>
+
+    <!-- ─── Firebase ───────────────────────────────────────────────── -->
+    <key>FirebaseAppDelegateProxyEnabled</key>
+    <false/>
+
+    <!-- ─── ATS (App Transport Security) ──────────────────────────── -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <false/>
+        <key>NSExceptionDomains</key>
+        <dict>
+            <!-- Allow localhost for dev tools only -->
+            <key>localhost</key>
+            <dict>
+                <key>NSAllowsLocalNetworking</key>
+                <true/>
+            </dict>
+        </dict>
+    </dict>
+
+    <!-- ─── Accessibility ──────────────────────────────────────────── -->
+    <key>UIAccessibilityRequestManagedBySystem</key>
+    <true/>
+
+    <!-- ─── Misc ───────────────────────────────────────────────────── -->
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+
+</dict>
+</plist>
